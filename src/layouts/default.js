@@ -23,7 +23,7 @@ class DefaultLayout extends Component {
     }
 
     render(){
-        const { classes, route } = this.props;
+        const { classes, routes, route } = this.props;
         const Component = this.props.component;
 
         return(
@@ -33,8 +33,8 @@ class DefaultLayout extends Component {
                         logo={logo} 
                         image={image}
                         open={this.props.openSidebar}    
-                        
                         handleSideBar = {this.props.handleOpenSidebar}
+                        routes = {routes}
                 />
 
                 <div className={classes.wrapper} ref="mainPanel">

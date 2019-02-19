@@ -66,6 +66,7 @@ handleValidateLogin=()=>{
                         render={ (route) => <DefaultLayout 
                                                 component={component} 
                                                 route={route} 
+                                                routes={defaultRoute}
                                                 handleOpenSidebar = {this.handleOpenSidebar}
                                                 openSidebar = {this.state.openSidebar}                                                                                                                                                                    
                                             />

@@ -6,11 +6,13 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect  } from "react-router-dom";
 
 //routes 
-import defaultRoute from "routes/defaults";
+import defaultRoute from "routes/default";
 
 //layouts
-import DefaultLayout from "layouts/defaults";
+import DefaultLayout from "layouts/default";
 
+
+const hist = createBrowserHistory();
 
 class App extends Component {
   constructor(props) {
@@ -23,9 +25,7 @@ class App extends Component {
   }   
 
  /*animate sidebar*/
-  handleOpenSidebar=()=>{
-    
-      
+  handleOpenSidebar=()=>{      
       let openSidebar = false;
 
       if(this.state.openSidebar === true){
@@ -65,7 +65,9 @@ handleValidateLogin=()=>{
                         key={key}
                         render={ (route) => <DefaultLayout 
                                                 component={component} 
-                                                route={route}                                                                                                                                                                    
+                                                route={route} 
+                                                handleOpenSidebar = {this.handleOpenSidebar}
+                                                openSidebar = {this.state.openSidebar}                                                                                                                                                                    
                                             />
                         }
                     />

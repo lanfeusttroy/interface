@@ -11,10 +11,10 @@ import defaultLayoutStyle from "assets/layouts/defaultLayoutStyle.js"
 
 //components
 import Sidebar from "components/sidebar";
-
+import Header from "components/header/header";
 
 //pictures
-import image from "assets/img/sidebar-1.jpg";
+import image from "assets/img/sidebar-3.jpg";
 import logo from "assets/img/reactlogo.png";
 
 class DefaultLayout extends Component { 
@@ -38,6 +38,7 @@ class DefaultLayout extends Component {
                 />
 
                 <div className={classes.wrapper} ref="mainPanel">
+                     <Header />
                     <div className={classes.content}>
                         <div className={classes.container}>
                             <Component route={route}/>

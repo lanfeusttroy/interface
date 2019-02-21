@@ -11,18 +11,15 @@ import defaultLayoutStyle from "assets/layouts/defaultLayoutStyle.js"
 
 
 //components
-import Sidebar from "components/sidebar";
+import Sidebar from "components/sidebar/sidebar";
 import Header from "components/header/header";
 
 //pictures
-import image from "assets/img/sidebar-3.jpg";
 import logo from "assets/img/reactlogo.png";
 
 
-const background = [
-    {name:'sidebar-1', src: require("assets/img/sidebar-1.jpg"), alt:'sidebar-1'},
-    {name:'sidebar-3', src: require("assets/img/sidebar-3.jpg"), alt:'sidebar-3'},    
-];
+//ressources
+import ressourcesBackground  from "components/sidebar/ressourcesBackground";
 
 class DefaultLayout extends Component { 
     constructor(props){
@@ -34,10 +31,8 @@ class DefaultLayout extends Component {
         
     }
 
-    handleChangeBackgroundSidebar = (name) =>{
-        
-        this.setState({selected: name});
-        
+    handleChangeBackgroundSidebar = (name) =>{        
+        this.setState({selected: name});        
     }
 
     render(){
@@ -51,7 +46,7 @@ class DefaultLayout extends Component {
                 <Sidebar 
                         logoText={"Lanfeust"}
                         logo={logo} 
-                        image={_.find(background,{name: this.state.selected}).src}
+                        image={_.find(ressourcesBackground,{name: this.state.selected}).src}
                         open={this.props.openSidebar}    
                         handleSideBar = {this.props.handleOpenSidebar}
                         routes = {routes}
@@ -63,7 +58,7 @@ class DefaultLayout extends Component {
                         <div className={classes.container}>
                             <Component 
                                 route={route} 
-                                images={background}
+                                images={ressourcesBackground}
                                 selectedBackground={this.state.selected}
                                 handleChangeBackgroundSidebar = {this.handleChangeBackgroundSidebar}
                             />

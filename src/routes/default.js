@@ -16,7 +16,7 @@ export default {
         component: Profile,
         path: '/profile',
         sidebarName: "Profile",        
-        icon: "profile",
+        icon: "home",
         protected: false
     }
 };

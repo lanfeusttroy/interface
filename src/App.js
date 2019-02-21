@@ -13,6 +13,10 @@ import defaultRoute from "routes/default";
 //layouts
 import DefaultLayout from "layouts/default";
 
+//pages
+import NotFound from 'pages/notFound';
+
+
 
 const hist = createBrowserHistory();
 
@@ -58,26 +62,26 @@ handleValidateLogin=()=>{
     return (
       <Router history={hist}>
         <Switch>
-        { _.map(defaultRoute, (route, key) => {
-            const { component, path } = route;
-                return (
-                    <Route
-                        exact
-                        path={path}
-                        key={key}
-                        render={ (route) => <DefaultLayout 
-                                                component={component} 
-                                                route={route} 
-                                                routes={defaultRoute}
-                                                handleOpenSidebar = {this.handleOpenSidebar}
-                                                openSidebar = {this.state.openSidebar}                                                                                                                                                                    
-                                            />
-                        }
-                    />
-                )
-            }) 
-        }
-
+          { _.map(defaultRoute, (route, key) => {
+              const { component, path } = route;
+                  return (
+                      <Route
+                          exact
+                          path={path}
+                          key={key}
+                          render={ (route) => <DefaultLayout 
+                                                  component={component} 
+                                                  route={route} 
+                                                  routes={defaultRoute}
+                                                  handleOpenSidebar = {this.handleOpenSidebar}
+                                                  openSidebar = {this.state.openSidebar}                                                                                                                                                                    
+                                              />
+                          }
+                      />
+                  )
+              }) 
+          }
+          <Route component={ NotFound } />
         </Switch>
       </Router>
     );

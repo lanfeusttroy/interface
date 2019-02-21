@@ -1,20 +1,46 @@
 //components/sidebar.js
 
 import React from "react";
+import { NavLink } from "react-router-dom";
 import _ from 'lodash';
 import classNames from "classnames";
 
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-
 import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Icon from "@material-ui/core/Icon";
 
 import sidebarStyle from "assets/components/sidebarStyle";
 
 class Sidebar extends React.Component {
     constructor(props){
         super(props);
+    }
+
+    createLink(route){
+        const { classes } = this.props;
+
+        return(
+            <ListItem button className={classes.itemLinks}>
+              <ListItemIcon className={classes.itemIcon}>
+                {typeof route.icon === "string" ? (
+                  <Icon>{route.icon}</Icon>
+                ) : (
+                  <route.icon />
+                )}
+              </ListItemIcon>
+              <ListItemText
+                primary={route.sidebarName}
+                className={classes.itemText + ' ' + classes.whiteFont}
+                disableTypography={true}
+              />
+            </ListItem>
+        )
     }
 
     render(){
@@ -52,7 +78,7 @@ class Sidebar extends React.Component {
                     </div>
                 </div>
                 <div className={classes.sidebarWrapper}>
-                                     
+                      { _.map(this.props.routes, route => this.createLink(route)) }               
                 </div>
                 <div
                     className={classes.background}

@@ -7,33 +7,19 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 
 
-
-/*
-import sidebar3 from "assets/img/sidebar-3.jpg";
-import sidebar4 from "assets/img/sidebar-4.jpg";
-import sidebar1 from "assets/img/sidebar-1.jpg";
-*/
-/*
-const background = [
-    {name:'sidebar-1', src: require("assets/img/sidebar-1.jpg"), alt:'sidebar-1'},
-    {name:'sidebar-3', src: require("assets/img/sidebar-3.jpg"), alt:'sidebar-3'},
-    
-];
-*/
-
 const styles = {
     img: {
-      width: "10%",
+      width: "100px",
       height:"auto",
       borderRadius: "10px",
       border: "3px solid #fff",
       cursor: "pointer"
     },
     selected:{
-      width: "10%",
+      width: "100px",
       height:"auto",
       borderRadius: "10px",
-      border: "3px solid #123456",
+      border: "3px solid #3399ff",
       cursor: "pointer"
     }
   };

@@ -14,7 +14,8 @@ import {
     dangerCardHeader,
     infoCardHeader,
     primaryCardHeader,
-    roseCardHeader
+    roseCardHeader,
+    blueCardHeader
   } from "assets/default";
 
 
@@ -128,6 +129,12 @@ const cardHeaderStyle = {
       color: "#FFFFFF",
       "&:not($cardHeaderIcon)": {
         ...roseCardHeader
+      }
+    },
+    blueCardHeader: {
+      color: "#FFFFFF",
+      "&:not($cardHeaderIcon)": {
+        ...blueCardHeader
       }
     }
   };

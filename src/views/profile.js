@@ -3,6 +3,7 @@ import React from "react";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 
 //components
@@ -10,8 +11,13 @@ import Card from "components/card/card";
 import CardHeader from "components/card/cardHeader";
 import CardBody from "components/card/cardBody";
 import CardFooter from "components/card/cardFooter";
+import CardAvatar from "components/card/cardAvatar";
+import CustomButton from "components/customButton";
 
 import SidebarBackground  from "components/sidebarBackground";
+
+
+import avatar from "assets/img/faces/inconnu.jpg";
 
 const styles = {
     cardCategoryWhite: {
@@ -44,24 +50,103 @@ class Profile extends React.Component {
                 <Grid container className={classes.root} spacing={16}>
                     <Grid item xs={8}>
                         <Card>
-                            <CardHeader color="primary">
+                            <CardHeader color="rose">
                                 <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
                                 <p className={classes.cardCategoryWhite}>Complete your profile</p>
                             </CardHeader>
                             <CardBody>
-                                <SidebarBackground 
-                                    images = {this.props.images}
-                                    handleChange = {this.props.handleChangeBackgroundSidebar}
-                                    selected = {this.props.selectedBackground}
-                                />
+                                <Grid container className={classes.root} spacing={16}>
+                                    <Grid item xs={3}>
+                                        <SidebarBackground 
+                                            images = {this.props.images}
+                                            handleChange = {this.props.handleChangeBackgroundSidebar}
+                                            selected = {this.props.selectedBackground}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={9}>
+                                         <form className={classes.container} noValidate autoComplete="off">
+                                            <Grid container className={classes.root} spacing={16}>
+                                                <Grid item xs>                                                    
+                                                    <TextField                                                        
+                                                        label="Nom"
+                                                        className={classes.textField}                
+                                                        fullWidth
+                                                        required
+                                                        margin="normal"
+                                                    />                                                
+                                                </Grid>
+                                                <Grid item xs>                                                    
+                                                    <TextField                                                        
+                                                        label="Prénom"
+                                                        className={classes.textField}                
+                                                        fullWidth
+                                                        required
+                                                        margin="normal"
+                                                    />                                                
+                                                </Grid>
+                                                <Grid item xs>                                                    
+                                                    <TextField                                                        
+                                                        label="Username"
+                                                        className={classes.textField}                
+                                                        fullWidth
+                                                        required
+                                                        margin="normal"
+                                                    />                                                
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container className={classes.root} spacing={16}>
+                                                <Grid item xs={8}>                                                    
+                                                    <TextField                                                        
+                                                        label="Email"
+                                                        className={classes.textField}                
+                                                        fullWidth
+                                                        required
+                                                        margin="normal"
+                                                    />                                                
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container className={classes.root} spacing={16}>
+                                                <Grid item xs={12}>                                                    
+                                                    <TextField                                                        
+                                                        label="Présentation"
+                                                        className={classes.textField}                
+                                                        fullWidth
+                                                        multiline
+                                                        rows="4"
+                                                        margin="normal"
+                                                    />                                                
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container className={classes.root} spacing={16}>
+                                                <Grid item xs={12} >
+                                                    <CustomButton color="blue"  className={classes.title}>
+                                                        Update
+                                                    </CustomButton>
+                                                </Grid>
+                                            </Grid>
+                                        </form>
+                                    </Grid>
+                                </Grid>
                             </CardBody>
-                            <CardFooter>
-
-                            </CardFooter>
-
                         </Card>
                     </Grid>
-
+                    <Grid item xs={4}>
+                    <Card profile>
+                        <CardAvatar profile>
+                        
+                            <img src={avatar} alt="..." />
+                        
+                        </CardAvatar>
+                        <CardBody profile>
+                        <h6 className={classes.cardCategory}>SERVICE INFORMATIQUE</h6>
+                        <h4 className={classes.cardTitle}>Lanfeust</h4>
+                        <p className={classes.description}>
+                            Exemple de présentation du poste ou de la fonction au sein de l'entreprise.
+                        </p>
+                        
+                        </CardBody>
+                    </Card>
+                    </Grid>
                 </Grid>
             </div>
         )

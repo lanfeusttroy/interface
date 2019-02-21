@@ -1,6 +1,7 @@
 //layouts/default
 
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -17,21 +18,40 @@ import Header from "components/header/header";
 import image from "assets/img/sidebar-3.jpg";
 import logo from "assets/img/reactlogo.png";
 
+
+const background = [
+    {name:'sidebar-1', src: require("assets/img/sidebar-1.jpg"), alt:'sidebar-1'},
+    {name:'sidebar-3', src: require("assets/img/sidebar-3.jpg"), alt:'sidebar-3'},    
+];
+
 class DefaultLayout extends Component { 
     constructor(props){
-        super(props);
+        super(props);       
+
+        this.state = {
+            selected:"sidebar-1",            
+        }        
+        
+    }
+
+    handleChangeBackgroundSidebar = (name) =>{
+        
+        this.setState({selected: name});
+        
     }
 
     render(){
+        
+
         const { classes, routes, route } = this.props;
         const Component = this.props.component;
-
+        
         return(
             <div  className={classes.root}>  
                 <Sidebar 
                         logoText={"Lanfeust"}
                         logo={logo} 
-                        image={image}
+                        image={_.find(background,{name: this.state.selected}).src}
                         open={this.props.openSidebar}    
                         handleSideBar = {this.props.handleOpenSidebar}
                         routes = {routes}
@@ -41,7 +61,12 @@ class DefaultLayout extends Component {
                      <Header />
                     <div className={classes.content}>
                         <div className={classes.container}>
-                            <Component route={route}/>
+                            <Component 
+                                route={route} 
+                                images={background}
+                                selectedBackground={this.state.selected}
+                                handleChangeBackgroundSidebar = {this.handleChangeBackgroundSidebar}
+                            />
                         </div>
                     </div>
                 </div>

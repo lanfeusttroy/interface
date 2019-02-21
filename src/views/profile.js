@@ -11,6 +11,8 @@ import CardHeader from "components/card/cardHeader";
 import CardBody from "components/card/cardBody";
 import CardFooter from "components/card/cardFooter";
 
+import SidebarBackground  from "components/sidebarBackground";
+
 const styles = {
     cardCategoryWhite: {
       color: "rgba(255,255,255,.62)",
@@ -31,6 +33,9 @@ const styles = {
   };
 
 class Profile extends React.Component {
+    constructor(props){
+        super(props);
+    }
 
     render(){
         const {classes} = this.props;
@@ -44,10 +49,14 @@ class Profile extends React.Component {
                                 <p className={classes.cardCategoryWhite}>Complete your profile</p>
                             </CardHeader>
                             <CardBody>
-
+                                <SidebarBackground 
+                                    images = {this.props.images}
+                                    handleChange = {this.props.handleChangeBackgroundSidebar}
+                                    selected = {this.props.selectedBackground}
+                                />
                             </CardBody>
                             <CardFooter>
-                                
+
                             </CardFooter>
 
                         </Card>

@@ -23,6 +23,10 @@ const cardStyle = {
       marginTop: "30px",
       textAlign: "center"
     },
+    cardNavire: {
+      marginTop: "30px",
+      textAlign: "center"
+    },
     cardChart: {
       "& p": {
         marginTop: "0px",

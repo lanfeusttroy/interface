@@ -15,6 +15,7 @@ const Card = ({ ...props }) => {
         children,
         plain,
         profile,
+        navire,
         chart,
         ...rest
       } = props;
@@ -23,6 +24,7 @@ const Card = ({ ...props }) => {
         [classes.card]: true,
         [classes.cardPlain]: plain,
         [classes.cardProfile]: profile,
+        [classes.cardNavire]: navire,
         [classes.cardChart]: chart,
         [className]: className !== undefined
     });

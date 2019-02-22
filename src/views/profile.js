@@ -50,7 +50,7 @@ class Profile extends React.Component {
                 <Grid container className={classes.root} spacing={16}>
                     <Grid item xs={8}>
                         <Card>
-                            <CardHeader color="rose">
+                            <CardHeader color="blue">
                                 <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
                                 <p className={classes.cardCategoryWhite}>Complete your profile</p>
                             </CardHeader>
@@ -131,21 +131,21 @@ class Profile extends React.Component {
                         </Card>
                     </Grid>
                     <Grid item xs={4}>
-                    <Card profile>
-                        <CardAvatar profile>
-                        
-                            <img src={avatar} alt="..." />
-                        
-                        </CardAvatar>
-                        <CardBody profile>
-                        <h6 className={classes.cardCategory}>SERVICE INFORMATIQUE</h6>
-                        <h4 className={classes.cardTitle}>Lanfeust</h4>
-                        <p className={classes.description}>
-                            Exemple de présentation du poste ou de la fonction au sein de l'entreprise.
-                        </p>
-                        
-                        </CardBody>
-                    </Card>
+                        <Card profile>
+                            <CardAvatar profile>
+                            
+                                <img src={avatar} alt="..." />
+                            
+                            </CardAvatar>
+                            <CardBody profile>
+                            <h6 className={classes.cardCategory}>SERVICE INFORMATIQUE</h6>
+                            <h4 className={classes.cardTitle}>Lanfeust</h4>
+                            <p className={classes.description}>
+                                Exemple de présentation du poste ou de la fonction au sein de l'entreprise.
+                            </p>
+                            
+                            </CardBody>
+                        </Card>
                     </Grid>
                 </Grid>
             </div>

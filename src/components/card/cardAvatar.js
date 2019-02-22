@@ -9,10 +9,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import cardAvatarStyle from "assets/components/cardAvatarStyle.js";
 
 function CardAvatar({ ...props }) {
-    const { classes, children, className, plain, profile, ...rest } = props;
+    const { classes, children, className, plain, profile, navire, ...rest } = props;
+    
     const cardAvatarClasses = classNames({
       [classes.cardAvatar]: true,
       [classes.cardAvatarProfile]: profile,
+      [classes.cardAvatarNavire]: navire,
       [classes.cardAvatarPlain]: plain,
       [className]: className !== undefined
     });

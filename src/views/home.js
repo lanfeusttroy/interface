@@ -14,6 +14,7 @@ import CardFooter from "components/card/cardFooter";
 import CardAvatar from "components/card/cardAvatar";
 import TableCustom from "components/tables/tableCustom";
 import Slide from "components/media/slide";
+import TableInfinite from "components/tables/infinite/tableInfinite";
 
 import navire from "assets/img/test.jpg";
 
@@ -104,7 +105,22 @@ class Home extends React.Component {
                             </CardBody>
                         </Card>     
                     </Grid>
-                </Grid>           
+                </Grid>
+                <Grid container className={classes.root} spacing={16}>
+                    <Grid item xs={12}>
+                        <Card>
+                            <CardHeader color="blue">
+                                <h4 className={classes.cardTitleWhite}>Table</h4>
+                                <p className={classes.cardCategoryWhite}>Exemple de table infinie</p>
+                            </CardHeader>
+                            <CardBody>
+                                <TableInfinite
+                                    tableHeaderColor="danger"                                                                   
+                                />                                
+                            </CardBody>
+                        </Card>
+                    </Grid>
+                </Grid>         
             </div>
         )
     }

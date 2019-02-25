@@ -19,25 +19,6 @@ import tableCustomStyle from "assets/components/tableCustomStyle";
 import "components/tables/infinite/tableInfinite.css";
 
 
-//format json
-const tableHead = [
-    {
-        row: 'ID',
-        filter:true
-    }, 
-    {
-        row: 'Country',
-        filter:true
-    },    
-    {
-        row: 'City',
-        filter:false
-    },
-    {
-        row: 'Salary',
-        filter:false
-    },    
-];
 
 
 const listFilterValue = [
@@ -65,8 +46,21 @@ class TableInfinite extends React.Component{
         }
     }
 
-    handleOrder = (filterKey, order) =>{
-        console.log("filter");
+    handleOrder = (filterKey) =>{
+        
+        let tri = 'ASC';
+		
+		if(this.state.order.champ === filterKey){
+			if(this.state.order.tri === "ASC"){
+				tri = "DESC";
+			}		
+        }
+        
+        this.setState({           
+            order: {champ: filterKey, tri: tri},           
+        })
+
+       
     }
 
     handleChangeFilter = (champ, filter, filterValue) =>{
@@ -95,7 +89,7 @@ class TableInfinite extends React.Component{
                     <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
                         <TableRow>
                         {
-                            tableHead.map((champ, key) => {  
+                            this.props.tableHead.map((champ, key) => {  
                                     return(
                                         <TableCell>
                                             {
@@ -120,6 +114,21 @@ class TableInfinite extends React.Component{
                         }
                         </TableRow>
                     </TableHead>
+                    <TableBody>
+                        {this.props.tableData.map((prop, key) => {
+                            return (
+                            <TableRow key={key}>
+                                {prop.map((prop, key) => {
+                                return (
+                                    <TableCell className={classes.tableCell} key={key}>
+                                    {prop}
+                                    </TableCell>
+                                );
+                                })}
+                            </TableRow>
+                            );
+                        })}
+                    </TableBody>
                 </Table>
 
             </div>

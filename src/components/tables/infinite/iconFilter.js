@@ -4,7 +4,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
+import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Popover from '@material-ui/core/Popover';
@@ -23,8 +23,10 @@ const styles = theme => ({
 		width:300
 	},
     iconButton:{
-        padding:"0px",
-        marginLeft:"20px"
+        padding:"0px"        
+    },
+    icon:{
+        lineHeight:"1.75"
     }
   });
 
@@ -58,7 +60,7 @@ class IconFilter extends React.Component{
         
     } 
 
-    
+   
 
     
     handleChangeFilterValue=(event)=> {
@@ -78,22 +80,29 @@ class IconFilter extends React.Component{
                 {
                     this.props.champ === this.props.order.champ && [
                         this.props.order.tri === "ASC" ? (
-                            <IconButton aria-label="Search" className={classes.iconButton}>
-                                <Icon>keyboard_arrow_down</Icon>
-                            </IconButton>
+                            <Icon className={classes.icon}>keyboard_arrow_down</Icon>
+                           
                         ):(
-                            <IconButton aria-label="Search" className={classes.iconButton}>
-                                <Icon>keyboard_arrow_up</Icon>
-                            </IconButton>
+                            <Icon className={classes.icon}>keyboard_arrow_up</Icon>
+                            
                         )
                     ]
                 }
                
-                {this.props.champ}
+                <Button onClick = {()=>this.props.handleOrder(this.props.champ)}>
+                    {this.props.champ}
+                </Button>
+                
               
                 
                 <IconButton aria-label="Search" className={classes.iconButton} onClick={this.handleOpen}>
-                    <Icon>search</Icon>
+                    {
+                        this.state.filterValue !== '' ?(
+                            <Icon color="primary">search</Icon>
+                        ):(
+                            <Icon>search</Icon>
+                        )
+                    }                    
                 </IconButton>
 
                 <Popover 

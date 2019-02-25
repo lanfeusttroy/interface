@@ -2,6 +2,11 @@ import React from "react";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,9 +14,21 @@ import Icon from '@material-ui/core/Icon';
 
 const styles = theme => ({
     typography: {
-      margin: theme.spacing.unit * 2,
+      margin: theme.spacing.unit * 2
     },
+    paper: {
+		margin: 10,
+		padding:5,
+		height:90,
+		width:300
+	},
+    iconButton:{
+        padding:"0px",
+        marginLeft:"20px"
+    }
   });
+
+
 
 class IconFilter extends React.Component{
     constructor(props){
@@ -20,10 +37,14 @@ class IconFilter extends React.Component{
         this.state = {	
             open:false, //gestion du popup
             anchorEl: null,
-			actif:""
-        }
-        
-        this.filter = ""; //contient la valeur du filtre
+            filterValue:'',	
+            filter:'Contient' 
+
+        }      
+    }
+
+    componentWillMount() {
+        this.setState({filter:this.props.defaultFilter});		
     }
 
     handleOpen=(event)=>{        
@@ -31,16 +52,47 @@ class IconFilter extends React.Component{
 	}
 	
 	handleClose=()=>{			
-		this.setState({open:false, anchorEl: null});
-	}
+        this.setState({open:false, anchorEl: null});      
+        
+        this.props.handleChangeFilter(this.props.champ, this.state.filter, this.state.filterValue);
+        
+    } 
+
+    
+
+    
+    handleChangeFilterValue=(event)=> {
+        this.setState({filterValue: event.target.value});
+
+    }
+
+    handleChangeFilter=(event)=>{
+        this.setState({filter: event.target.value});
+    }
 
 
     render(){
         const {classes} = this.props;
         return(
             <div>
+                {
+                    this.props.champ === this.props.order.champ && [
+                        this.props.order.tri === "ASC" ? (
+                            <IconButton aria-label="Search" className={classes.iconButton}>
+                                <Icon>keyboard_arrow_down</Icon>
+                            </IconButton>
+                        ):(
+                            <IconButton aria-label="Search" className={classes.iconButton}>
+                                <Icon>keyboard_arrow_up</Icon>
+                            </IconButton>
+                        )
+                    ]
+                }
+               
                 {this.props.champ}
-                <IconButton aria-label="Serach" onClick={this.handleOpen}>
+              
+                
+                <IconButton aria-label="Search" className={classes.iconButton} onClick={this.handleOpen}>
                     <Icon>search</Icon>
                 </IconButton>
 
@@ -57,7 +109,38 @@ class IconFilter extends React.Component{
                         horizontal: 'left',
                     }}
                     >
-                    <Typography className={classes.typography}>The content of the Popover.</Typography>
+                    <Paper className={classes.paper} >
+                        <Grid container spacing={8} alignItems="flex-end">
+                            <Grid item xs={6}>
+                                <TextField   
+                                    select                                                     
+                                    label="Filtre"
+                                    className={classes.textField}                
+                                    fullWidth                                    
+                                    margin="normal"
+                                    value={this.state.filter}
+							        onChange={this.handleChangeFilter}	                                
+                                >
+                                {this.props.listFilter.map(option => (
+									<MenuItem key={option.value} value={option.value}>
+									{option.value}
+									</MenuItem>
+								))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField                                                        
+                                    label="Value"
+                                    className={classes.textField}                
+                                    fullWidth
+                                    value= {this.state.filterValue}
+                                    margin="normal"
+                                    onChange={this.handleChangeFilterValue}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Paper>              
+                    
                 </Popover>
             </div>
         )

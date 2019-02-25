@@ -24,13 +24,16 @@
 	float: left;
 }
 
+/*
 .table-fixed thead th{
 	border: 1px solid #ccc;
 }
 
+
 .table-fixed tbody td{
 	padding:.5rem;	
 }
+*/
 
 .actif{
 	color:#9999ff;

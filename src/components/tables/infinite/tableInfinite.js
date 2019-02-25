@@ -28,11 +28,7 @@ const tableHead = [
     {
         row: 'Country',
         filter:true
-    },
-    {
-        row: 'Country',
-        filter:false
-    },
+    },    
     {
         row: 'City',
         filter:false
@@ -44,19 +40,58 @@ const tableHead = [
 ];
 
 
+const listFilterValue = [
+    {
+        value:'Egal'				
+    },
+    {
+        value:'Commence'				
+    },
+    {
+        value:'Contient'				
+    },
+];
+
 
 class TableInfinite extends React.Component{
     constructor(props) {
-        super(props);       
+        super(props);   
+        
+        this.state = {
+            order: {"champ":"Country", "tri":"ASC"}, 
+			filters:[],
+            selected:[],
+            enabledFilters:[]
+        }
     }
 
+    handleOrder = (filterKey, order) =>{
+        console.log("filter");
+    }
+
+    handleChangeFilter = (champ, filter, filterValue) =>{
+        
+        let filters = this.state.filters;
+
+        if (filterValue !== ''){
+            filters[champ] = filterValue;
+        }else{
+            delete filters[champ];
+        }
+        
+
+        this.setState({
+            filters:filters
+        });
+        
+    }
     
     
     render(){
         const { classes, tableHeaderColor } = this.props;
         return(
             <div className={classes.tableResponsive}>
-                <Table className={classes.table} className="table-fixed table-striped">
+                <Table className={classes.table} >
                     <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
                         <TableRow>
                         {
@@ -65,7 +100,14 @@ class TableInfinite extends React.Component{
                                         <TableCell>
                                             {
                                                 champ.filter === true ?(
-                                                    <IconFilter champ={champ.row} />
+                                                    <IconFilter 
+                                                        champ={champ.row} 
+                                                        order={this.state.order}
+                                                        listFilter = {listFilterValue}
+                                                        handleOrder = {this.handleOrder} 
+                                                        handleChangeFilter = {this.handleChangeFilter}
+                                                        defaultFilter = {"Contient"}
+                                                    />
                                                 ):(
                                                     champ.row
                                                 )

@@ -17,10 +17,14 @@ import CardFooter from "components/card/cardFooter";
 import CardAvatar from "components/card/cardAvatar";
 import TableCustom from "components/tables/tableCustom";
 import Slide from "components/media/slide";
-import TableInfinite from "components/tables/infinite/tableInfinite";
+import TableFilter from "components/tables/filter/tableFilter";
 
 import navire from "assets/img/test.jpg";
 import pavillon from "assets/img/pavillon_fr.png";
+
+//test 
+//import d'un fichier json
+import communes from "ressources/communes.js";
 
 const styles = {
     cardCategoryWhite: {
@@ -185,54 +189,45 @@ class Home extends React.Component {
                         <Card>
                             <CardHeader color="blue">
                                 <h4 className={classes.cardTitleWhite}>Table</h4>
-                                <p className={classes.cardCategoryWhite}>Exemple de table infinie</p>
+                                <p className={classes.cardCategoryWhite}>Exemple de table json filter</p>
                             </CardHeader>
                             <CardBody>
-                                <TableInfinite
+                                <TableFilter
                                     tableHeaderColor="danger"
-                                    defaultOrder ={{"champ":"Name", "tri":"ASC"}}
+                                    defaultOrder ={{"champ":"Nom_commune", "tri":"ASC"}}
                                     tableHead = {[
                                         {
-                                            row: 'ID',
+                                            row: 'Code_commune_INSEE',
+                                            visible:true,
                                             filter:true
                                         }, 
                                         {
-                                            row: 'Name',
+                                            row: 'Nom_commune',
+                                            visible:true,
                                             filter:true
                                         }, 
                                         {
-                                            row: 'Country',
+                                            row: 'Code_postal',
+                                            visible:true,
                                             filter:true
                                         },    
                                         {
-                                            row: 'City',
+                                            row: 'Libelle_acheminement',
+                                            visible:false,
                                             filter:false
                                         },
                                         {
-                                            row: 'Salary',
+                                            row: 'Ligne_5',
+                                            visible:false,
+                                            filter:false
+                                        },                                        
+                                        {
+                                            row: 'coordonnees_gps',
+                                            visible:true,
                                             filter:false
                                         } 
                                     ]} 
-                                    tableData={[
-                                        ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                                        ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                                        ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                                        [
-                                            "4",
-                                            "Philip Chaney",
-                                            "$38,735",
-                                            "Korea, South",
-                                            "Overland Park"
-                                        ],
-                                        [
-                                            "5",
-                                            "Doris Greene",
-                                            "$63,542",
-                                            "Malawi",
-                                            "Feldkirchen in Kärnten"
-                                        ],
-                                        ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
-                                    ]}                                                                 
+                                    tableData={communes}                                                                 
                                 />                                
                             </CardBody>
                         </Card>

@@ -11,12 +11,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 //components
-import IconFilter from "components/tables/infinite/iconFilter";
+import IconFilter from "components/tables/filter/iconFilter";
 
 import tableCustomStyle from "assets/components/tableCustomStyle";
 
 //css
-import "components/tables/infinite/tableInfinite.css";
+import "components/tables/filter/tableFilter.css";
 
 
 
@@ -34,7 +34,7 @@ const listFilterValue = [
 ];
 
 
-class TableInfinite extends React.Component{
+class TableFilter extends React.Component{
     constructor(props) {
         super(props);   
         
@@ -83,6 +83,29 @@ class TableInfinite extends React.Component{
         
     }
     
+    createCell(champ){
+        if (champ.visible === true){
+            return (
+                <TableCell> 
+                    {    
+                        champ.filter === true ?(
+                            <IconFilter 
+                                        champ={champ.row} 
+                                        order={this.state.order}
+                                        listFilter = {listFilterValue}
+                                        handleOrder = {this.handleOrder} 
+                                        handleChangeFilter = {this.handleChangeFilter}
+                                        defaultFilter = {"Contient"}
+                                    />
+                        ):(
+                            champ.row
+                        )              
+                        
+                    }
+                </TableCell>
+            )
+        }
+    }
     
     render(){
         const { classes, tableHeaderColor } = this.props;
@@ -92,43 +115,31 @@ class TableInfinite extends React.Component{
                     <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
                         <TableRow>
                         {
-                            this.props.tableHead.map((champ, key) => {  
-                                    return(
-                                        <TableCell>
-                                            {
-                                                champ.filter === true ?(
-                                                    <IconFilter 
-                                                        champ={champ.row} 
-                                                        order={this.state.order}
-                                                        listFilter = {listFilterValue}
-                                                        handleOrder = {this.handleOrder} 
-                                                        handleChangeFilter = {this.handleChangeFilter}
-                                                        defaultFilter = {"Contient"}
-                                                    />
-                                                ):(
-                                                    champ.row
-                                                )
-                                            }
-                                        </TableCell>     
-                                    )
-                                }
-                                                  
-                            )
+                            this.props.tableHead.map((champ, key) => {
+                                    return this.createCell(champ)
+                            })
                         }
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {this.props.tableData.map((prop, key) => {
                             return (
-                            <TableRow key={key}>
-                                {prop.map((prop, key) => {
-                                return (
-                                    <TableCell className={classes.tableCell} key={key}>
-                                    {prop}
-                                    </TableCell>
-                                );
-                                })}
-                            </TableRow>
+                                <TableRow key={key}>
+                                    {
+                                        this.props.tableHead.map((champ, key) => {
+                                            
+                                                return (
+                                                    champ.visible === true &&(
+                                                        <TableCell className={classes.tableCell} key={key}>
+                                                            {prop[champ.row]}
+                                                        </TableCell>
+                                                    )
+                                                )                                           
+                                            
+                                        })
+                                    }                  
+                                    
+                                </TableRow>
                             );
                         })}
                     </TableBody>
@@ -139,4 +150,4 @@ class TableInfinite extends React.Component{
     }
 }
 
-export default withStyles(tableCustomStyle)(TableInfinite);
+export default withStyles(tableCustomStyle)(TableFilter);

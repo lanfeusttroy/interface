@@ -45,6 +45,9 @@ class TableInfinite extends React.Component{
             enabledFilters:[]
         }
     }
+    componentWillMount() {
+        this.state.order = this.props.defaultOrder;
+    }
 
     handleOrder = (filterKey) =>{
         

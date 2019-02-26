@@ -7,6 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
+import TextField from '@material-ui/core/TextField';
 
 //components
 import Card from "components/card/card";
@@ -19,6 +20,7 @@ import Slide from "components/media/slide";
 import TableInfinite from "components/tables/infinite/tableInfinite";
 
 import navire from "assets/img/test.jpg";
+import pavillon from "assets/img/pavillon_fr.png";
 
 const styles = {
     cardCategoryWhite: {
@@ -40,8 +42,12 @@ const styles = {
     iconButton:{
         float:"right",
         padding:"0px",
-        color:"#fff"      
+        color:"#000"      
     },
+    iconPavillon:{
+        width:"80px",
+        height:"auto"
+    }
   };
 
 
@@ -51,13 +57,13 @@ class Home extends React.Component {
         super(props);
 
         this.state = {
-            isFull: false,
+            isFullNavire: false
         };
         
     }
 
-    goFull = () => {
-        this.setState({ isFull: true });
+    goFull = (name) => {
+        this.setState({ [name]: true });
     }
 
     render(){
@@ -68,26 +74,26 @@ class Home extends React.Component {
                 <Grid container className={classes.root} spacing={16}>
                     <Grid item xs={12}>
                         <Fullscreen
-                            enabled={this.state.isFull}
-                            onChange={isFull => this.setState({isFull})}
+                            enabled={this.state.isFullNavire}
+                            onChange={isFullNavire => this.setState({["isFullNavire"]:isFullNavire})}
                         >
                             <Card>
                                 <CardHeader color="blue">
-                                <Grid container className={classes.root} spacing={16}>
-                                    <Grid item xs={11}>
-                                        <h4 className={classes.cardTitleWhite}>Navires</h4>
+                                    <Grid container className={classes.root} spacing={16}>
+                                        <Grid item xs={11}>
+                                            <h4 className={classes.cardTitleWhite}>Navires</h4>
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                        {
+                                            this.state.isFullNavire === false &&(
+                                                <IconButton  className={classes.iconButton} onClick={()=>this.goFull("isFullNavire")}>
+                                                    <Icon>fullscreen</Icon>
+                                                </IconButton>
+                                                
+                                            )
+                                        }
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={1}>
-                                    {
-                                        this.state.isFull === false &&(
-                                            <IconButton  className={classes.iconButton} onClick={this.goFull}>
-                                                <Icon>fullscreen</Icon>
-                                            </IconButton>
-                                            
-                                        )
-                                    }
-                                    </Grid>
-                                </Grid>
 
                                     
                                     <p className={classes.cardCategoryWhite}>Liste des navires civils</p>
@@ -126,21 +132,52 @@ class Home extends React.Component {
                 </Grid>    
                 <Grid container className={classes.root} spacing={16}>
                     <Grid item xs={8}>
-                        <Card navire>
+                        <Card >
                             <CardAvatar navire>                            
                                 <img src={navire} alt="..." />                            
                             </CardAvatar>
                             <CardBody>
+                            <Grid container className={classes.root} spacing={16}>
+                                <Grid item xs={12}>
+                                    <img src={pavillon} className={classes.iconPavillon} alt="..." />      
+                                </Grid>
+                            </Grid>
+                            <Grid container className={classes.root} spacing={16}>
+                                <Grid item xs={4}>
+                                    <TextField                                                        
+                                            label="IMO"
+                                            className={classes.textField}                
+                                            fullWidth                                            
+                                            margin="normal"
+                                        />   
+                                    <TextField                                                        
+                                            label="Nom"
+                                            className={classes.textField}                
+                                            fullWidth                                            
+                                            margin="normal"
+                                        /> 
+                                    <TextField                                                        
+                                            label="MMSI"
+                                            className={classes.textField}                
+                                            fullWidth                                            
+                                            margin="normal"
+                                        /> 
+                                </Grid>
+                                <Grid item xs={4}>
+                                </Grid>
+                            </Grid>
                                 
                             </CardBody>
                         </Card>     
                     </Grid>
                     <Grid item xs={4}>
-                        <Card>                            
-                            <CardBody>
-                                <Slide />
-                            </CardBody>
-                        </Card>     
+                                    
+                            <Card>                                                           
+                                <CardBody>                                        
+                                    <Slide />
+                                </CardBody>
+                            </Card> 
+                        
                     </Grid>
                 </Grid>
                 <Grid container className={classes.root} spacing={16}>
@@ -152,7 +189,8 @@ class Home extends React.Component {
                             </CardHeader>
                             <CardBody>
                                 <TableInfinite
-                                    tableHeaderColor="danger" 
+                                    tableHeaderColor="danger"
+                                    defaultOrder ={{"champ":"Name", "tri":"ASC"}}
                                     tableHead = {[
                                         {
                                             row: 'ID',

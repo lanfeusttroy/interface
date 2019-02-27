@@ -77,7 +77,7 @@ class Home extends React.Component {
     }
 
     render(){
-        const {classes} = this.props;
+        const {classes, color} = this.props;
         return(
             <div>
                
@@ -88,7 +88,7 @@ class Home extends React.Component {
                             onChange={isFullNavire => this.setState({["isFullNavire"]:isFullNavire})}
                         >
                             <Card>
-                                <CardHeader color="blue">
+                                <CardHeader color={classes[color]}>
                                     <Grid container className={classes.root} spacing={16}>
                                         <Grid item xs={11}>
                                             <h4 className={classes.cardTitleWhite}>Navires</h4>

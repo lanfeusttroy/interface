@@ -48,7 +48,7 @@ class DefaultLayout extends Component {
                 <Sidebar 
                         logoText={"Lanfeust"}
                         logo={logo} 
-                        color="blue"
+                        color="purple"
                         image={_.find(ressourcesBackground,{name: this.state.selected}).src}
                         open={this.props.openSidebar}    
                         handleSideBar = {this.props.handleOpenSidebar}
@@ -62,6 +62,7 @@ class DefaultLayout extends Component {
                         <div className={classes.container}>
                             <Component 
                                 route={route} 
+                                color="purple"
                                 images={ressourcesBackground}
                                 selectedBackground={this.state.selected}
                                 handleChangeBackgroundSidebar = {this.handleChangeBackgroundSidebar}

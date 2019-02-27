@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import _ from "lodash";
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Table from '@material-ui/core/Table';
@@ -39,18 +41,30 @@ class TableFilter extends React.Component{
         super(props);   
         
         this.state = {
-            order: {"champ":"Country", "tri":"ASC"}, 
+            order: {}, 
 			filters:[],
             selected:[],
-            enabledFilters:[]
+            enabledFilters:[],
+            data:[]
         }
     }
     componentWillMount() {
         this.state.order = this.props.defaultOrder;
+
+        //Gestion du tri
+
+        let results =  _.sortBy(this.props.tableData, [this.state.order.champ]);
+
+        if(this.state.order.tri === 'DESC'){
+            results = results.reverse(); 
+        }
+
+        this.state.data = results;
     }
 
     handleOrder = (filterKey) =>{
-        
+        const data = this.state.data;
+
         let tri = 'ASC';
 		
 		if(this.state.order.champ === filterKey){
@@ -58,15 +72,26 @@ class TableFilter extends React.Component{
 				tri = "DESC";
 			}		
         }
+
+      
+
+        let results =  _.sortBy(data, [filterKey]);
+
+        if(tri === 'DESC'){
+            results = results.reverse(); 
+        }
+       
         
         this.setState({           
-            order: {champ: filterKey, tri: tri},           
+            order: {champ: filterKey, tri: tri},      
+            data: results     
         })
 
        
     }
 
     handleChangeFilter = (champ, filter, filterValue) =>{
+        const data = this.props.tableData;
         
         let filters = this.state.filters;
 
@@ -75,10 +100,24 @@ class TableFilter extends React.Component{
         }else{
             delete filters[champ];
         }
-        
+
+             
+
+        const results = _.filter(data, function(obj) {
+            let strData = ((obj[champ]).toString()).toLowerCase();
+
+            if(strData.indexOf(filterValue) !== -1){
+                return obj;
+            }
+
+           
+        });
+
+                
 
         this.setState({
-            filters:filters
+            filters:filters,
+            data: results
         });
         
     }
@@ -122,7 +161,7 @@ class TableFilter extends React.Component{
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.props.tableData.map((prop, key) => {
+                        {this.state.data.map((prop, key) => {
                             return (
                                 <TableRow key={key}>
                                     {

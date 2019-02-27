@@ -80,10 +80,10 @@ class IconFilter extends React.Component{
                 {
                     this.props.champ === this.props.order.champ && [
                         this.props.order.tri === "ASC" ? (
-                            <Icon className={classes.icon}>keyboard_arrow_down</Icon>
+                            <Icon className={classes.icon}>keyboard_arrow_up</Icon>
                            
                         ):(
-                            <Icon className={classes.icon}>keyboard_arrow_up</Icon>
+                            <Icon className={classes.icon}>keyboard_arrow_down</Icon>                          
                             
                         )
                     ]

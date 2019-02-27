@@ -74,7 +74,8 @@ handleValidateLogin=()=>{
                                                   route={route} 
                                                   routes={defaultRoute}
                                                   handleOpenSidebar = {this.handleOpenSidebar}
-                                                  openSidebar = {this.state.openSidebar}                                                                                                                                                                    
+                                                  openSidebar = {this.state.openSidebar}  
+                                                  hist = {hist}                                                                                                                                                                  
                                               />
                           }
                       />

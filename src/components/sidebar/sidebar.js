@@ -1,7 +1,7 @@
 //components/sidebar.js
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import classNames from "classnames";
 
@@ -22,12 +22,27 @@ class Sidebar extends React.Component {
         super(props);
     }
 
+    isActive(route, location){
+        if(route.path === location)
+            return true;
+        else
+            return false;
+    }
+
     createLink(route){
-        const { classes } = this.props;
+        const { classes, color, location } = this.props;
+
+       
+
+        let listItemClasses = classNames({
+            [" " + classes[color]] : this.isActive(route, location)
+          });
+
+       
 
         return(
-            <ListItem button className={classes.itemLinks}>
-              <ListItemIcon className={classes.itemIcon}>
+            <ListItem button className={classes.itemLink + listItemClasses} component={Link} to={route.path}>
+              <ListItemIcon className={classes.itemIcon}  >
                 {typeof route.icon === "string" ? (
                   <Icon>{route.icon}</Icon>
                 ) : (
@@ -46,7 +61,7 @@ class Sidebar extends React.Component {
     render(){
 
         const { classes, color, logo, image, logoText, open } = this.props;
-
+        
         return(
            <Drawer
                 anchor="left"

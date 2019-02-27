@@ -163,11 +163,11 @@ const sidebarStyle = theme => ({
     itemLink: {
       width: "auto",
       transition: "all 300ms linear",
-      //margin: "10px 15px 0",
+      margin: "10px 4px 0",
       borderRadius: "3px",
       position: "relative",
       display: "block",
-      padding: "10px 15px",
+      padding: "10px 10px",
       backgroundColor: "transparent",
       ...defaultFont
     },
@@ -177,7 +177,7 @@ const sidebarStyle = theme => ({
       fontSize: "24px",
       lineHeight: "30px",
       float: "left",
-      marginRight: "15px",
+      marginRight: "5px",
       textAlign: "center",
       verticalAlign: "middle",
       color: "rgba(255, 255, 255, 0.8)"
@@ -187,7 +187,8 @@ const sidebarStyle = theme => ({
       margin: "0",
       lineHeight: "30px",
       fontSize: "14px",
-      color: "#FFFFFF"
+      color: "#FFFFFF",
+      padding: "0 40px"
     },
     whiteFont: {
       color: "#FFFFFF"
@@ -244,7 +245,7 @@ const sidebarStyle = theme => ({
       position: "relative",
       height: "calc(100vh - 75px)",
       overflow: "auto",
-      width: "260px",
+      width: "auto",
       zIndex: "4",
       overflowScrolling: "touch"
     }, 

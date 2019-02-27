@@ -38,18 +38,22 @@ class DefaultLayout extends Component {
     render(){
         
 
-        const { classes, routes, route } = this.props;
+        const { classes, routes, route, hist } = this.props;
         const Component = this.props.component;
+
+       
         
         return(
             <div  className={classes.root}>  
                 <Sidebar 
                         logoText={"Lanfeust"}
                         logo={logo} 
+                        color="blue"
                         image={_.find(ressourcesBackground,{name: this.state.selected}).src}
                         open={this.props.openSidebar}    
                         handleSideBar = {this.props.handleOpenSidebar}
                         routes = {routes}
+                        location = {hist.location.pathname}                        
                 />
 
                 <div className={classes.wrapper} ref="mainPanel">

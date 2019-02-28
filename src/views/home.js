@@ -78,6 +78,7 @@ class Home extends React.Component {
 
     render(){
         const {classes, color} = this.props;
+        console.log(color);
         return(
             <div>
                
@@ -140,19 +141,19 @@ class Home extends React.Component {
                         </Fullscreen>
                     </Grid>
                 </Grid>    
-                <Grid container className={classes.root} spacing={16}>
+                <Grid container  spacing={16}>
                     <Grid item xs={8}>
                         <Card >
                             <CardAvatar navire>                            
                                 <img src={navire} alt="..." />                            
                             </CardAvatar>
                             <CardBody>
-                            <Grid container className={classes.root} spacing={16}>
+                            <Grid container  spacing={16}>
                                 <Grid item xs={12}>
                                     <img src={pavillon} className={classes.iconPavillon} alt="..." />      
                                 </Grid>
                             </Grid>
-                            <Grid container className={classes.root} spacing={16}>
+                            <Grid container  spacing={16}>
                                 <Grid item xs={4} >
                                     <Paper className={classes.paper}>
                                         <TextField                                                        
@@ -237,7 +238,7 @@ class Home extends React.Component {
                         
                     </Grid>
                 </Grid>
-                <Grid container className={classes.root} spacing={16}>
+                <Grid container spacing={16}>
                     <Grid item xs={12}>
                         <Card>
                             <CardHeader color="blue">

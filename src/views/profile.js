@@ -15,6 +15,7 @@ import CardAvatar from "components/card/cardAvatar";
 import CustomButton from "components/customButton";
 
 import SidebarBackground  from "components/sidebarBackground";
+import SelectColor from "components/selectColor";
 
 
 import avatar from "assets/img/faces/inconnu.jpg";
@@ -44,24 +45,28 @@ class Profile extends React.Component {
     }
 
     render(){
-        const {classes} = this.props;
+        const {classes, color} = this.props;
         return(
             <div>
-                <Grid container className={classes.root} spacing={16}>
+                <Grid container  spacing={16}>
                     <Grid item xs={8}>
                         <Card>
-                            <CardHeader color="blue">
+                            <CardHeader color={color}>
                                 <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
                                 <p className={classes.cardCategoryWhite}>Complete your profile</p>
                             </CardHeader>
                             <CardBody>
-                                <Grid container className={classes.root} spacing={16}>
+                                <Grid container  spacing={16}>
                                     <Grid item xs={3}>
                                         <SidebarBackground 
                                             images = {this.props.images}
                                             handleChange = {this.props.handleChangeBackgroundSidebar}
                                             selected = {this.props.selectedBackground}
                                         />
+                                        <SelectColor 
+                                            handleChangeColor = {this.props.handleChangeColor}
+                                        />
+
                                     </Grid>
                                     <Grid item xs={9}>
                                          <form className={classes.container} noValidate autoComplete="off">

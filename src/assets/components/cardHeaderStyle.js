@@ -17,6 +17,8 @@ import {
     roseCardHeader,
     blueCardHeader,
     purpleCardHeader,
+    greenCardHeader,
+    orangeCardHeader
   } from "assets/default";
 
 
@@ -142,6 +144,18 @@ const cardHeaderStyle = {
       color: "#FFFFFF",
       "&:not($cardHeaderIcon)": {
         ...purpleCardHeader
+      }
+    },
+    greenCardHeader: {
+      color: "#FFFFFF",
+      "&:not($cardHeaderIcon)": {
+        ...greenCardHeader
+      }
+    },
+    orangeCardHeader: {
+      color: "#FFFFFF",
+      "&:not($cardHeaderIcon)": {
+        ...orangeCardHeader
       }
     }
   };

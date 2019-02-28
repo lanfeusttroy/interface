@@ -247,7 +247,8 @@ const sidebarStyle = theme => ({
       overflow: "auto",
       width: "auto",
       zIndex: "4",
-      overflowScrolling: "touch"
+      //overflowScrolling: "touch",
+      overflow:"hidden"
     }, 
     iconColorRed:{
       color: "#e7c809"

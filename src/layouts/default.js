@@ -26,13 +26,19 @@ class DefaultLayout extends Component {
         super(props);       
 
         this.state = {
-            selected:"sidebar-1",            
+            selected:"sidebar-1",    
+            color:"purple",        
         }        
         
     }
 
     handleChangeBackgroundSidebar = (name) =>{        
         this.setState({selected: name});        
+    }
+
+    handleChangeColor = (color) =>{
+        console.log(color);
+        this.setState({color: color});   
     }
 
     render(){
@@ -48,7 +54,7 @@ class DefaultLayout extends Component {
                 <Sidebar 
                         logoText={"Lanfeust"}
                         logo={logo} 
-                        color="purple"
+                        color={this.state.color}
                         image={_.find(ressourcesBackground,{name: this.state.selected}).src}
                         open={this.props.openSidebar}    
                         handleSideBar = {this.props.handleOpenSidebar}
@@ -62,10 +68,11 @@ class DefaultLayout extends Component {
                         <div className={classes.container}>
                             <Component 
                                 route={route} 
-                                color="purple"
+                                color={this.state.color}
                                 images={ressourcesBackground}
                                 selectedBackground={this.state.selected}
                                 handleChangeBackgroundSidebar = {this.handleChangeBackgroundSidebar}
+                                handleChangeColor = {this.handleChangeColor}
                             />
                         </div>
                     </div>

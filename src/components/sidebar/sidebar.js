@@ -1,6 +1,8 @@
 //components/sidebar.js
 
 import React from "react";
+import { connect } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import classNames from "classnames";
@@ -14,6 +16,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
+
+//ressources
+import ressourcesBackground  from "components/sidebar/ressourcesBackground";
 
 import sidebarStyle from "assets/components/sidebarStyle";
 
@@ -97,7 +102,7 @@ class Sidebar extends React.Component {
                 </div>
                 <div
                     className={classes.background}
-                    style={{ backgroundImage: "url(" + image + ")" }}
+                    style={{ backgroundImage: "url(" +  _.find(ressourcesBackground,{name: this.props.backgroundSidebar}).src + ")" }}
                 />
             </Drawer>
         )
@@ -105,4 +110,13 @@ class Sidebar extends React.Component {
 
 }
 
-export default withStyles(sidebarStyle)(Sidebar);
+const mapStateToProps = (state) => {
+    return {
+            color: state.storeProfile.color,
+            backgroundSidebar: state.storeProfile.backgroundSidebar,
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(sidebarStyle)(Sidebar));
+
+

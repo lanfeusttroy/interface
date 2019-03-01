@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import _ from 'lodash';
 
 // @material-ui/core
@@ -13,7 +15,11 @@ class SelectColor extends Component {
     }
 
     handleChangeColor=(ev)=>{        
-        this.props.handleChangeColor(ev.target.name);
+        //this.props.handleChangeColor(ev.target.name);
+
+        const action = { type: "CHANGE_COLOR", color: ev.target.name };
+		this.props.dispatch(action);
+
     }
 
     render(){
@@ -29,4 +35,11 @@ class SelectColor extends Component {
     }
 }
 
-export default withStyles(selectColorStyle)(SelectColor);
+const mapStateToProps = (state) => {
+    return {
+            color: state.storeProfile.color,
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(selectColorStyle)(SelectColor));
+

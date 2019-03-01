@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from 'react-redux';
+
 import Fullscreen from "react-full-screen";
 
 
@@ -82,7 +84,7 @@ class Home extends React.Component {
         return(
             <div>
                
-                <Grid container className={classes.root} spacing={16}>
+                <Grid container  spacing={16}>
                     <Grid item xs={12}>
                         <Fullscreen
                             enabled={this.state.isFullNavire}
@@ -90,7 +92,7 @@ class Home extends React.Component {
                         >
                             <Card>
                                 <CardHeader color={color}>
-                                    <Grid container className={classes.root} spacing={16}>
+                                    <Grid container  spacing={16}>
                                         <Grid item xs={11}>
                                             <h4 className={classes.cardTitleWhite}>Navires</h4>
                                         </Grid>
@@ -241,7 +243,7 @@ class Home extends React.Component {
                 <Grid container spacing={16}>
                     <Grid item xs={12}>
                         <Card>
-                            <CardHeader color="blue">
+                            <CardHeader color={color}>
                                 <h4 className={classes.cardTitleWhite}>Table</h4>
                                 <p className={classes.cardCategoryWhite}>Exemple de table json filter</p>
                             </CardHeader>
@@ -292,4 +294,11 @@ class Home extends React.Component {
     }
 }
 
-export default withStyles(styles)(Home);
+const mapStateToProps = (state) => {
+    return {
+            color: state.storeProfile.color,
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Home));
+

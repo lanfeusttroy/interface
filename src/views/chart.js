@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -50,8 +51,8 @@ class Chart extends React.Component {
                 <Grid container spacing={16}>
                     <Grid item xs={12}>
                         <Card>
-                            <CardHeader color="primary" stats icon>
-                                <CardIcon color="primary">
+                            <CardHeader stats icon>
+                                <CardIcon color={color}>
                                     <Icon>equalizer</Icon>
                                 </CardIcon>                                                
                             </CardHeader>
@@ -75,8 +76,8 @@ class Chart extends React.Component {
                 <Grid container spacing={16}>
                     <Grid item xs={6}>
                         <Card>
-                            <CardHeader color="primary" stats icon>
-                                <CardIcon color="primary">
+                            <CardHeader  stats icon>
+                                <CardIcon color={color}>
                                     <Icon>equalizer</Icon>
                                 </CardIcon>                                                
                             </CardHeader>
@@ -97,8 +98,8 @@ class Chart extends React.Component {
                     </Grid>
                     <Grid item xs={6}>
                         <Card>
-                            <CardHeader color="primary" stats icon>
-                                <CardIcon color="primary">
+                            <CardHeader  stats icon>
+                                <CardIcon color={color}>
                                     <Icon>equalizer</Icon>
                                 </CardIcon>                                                
                             </CardHeader>
@@ -123,4 +124,12 @@ class Chart extends React.Component {
     }
 };
 
-export default withStyles(styles)(Chart);
+const mapStateToProps = (state) => {
+    return {
+            color: state.storeProfile.color,
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Chart));
+
+

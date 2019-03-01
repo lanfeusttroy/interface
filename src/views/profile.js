@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -16,6 +17,7 @@ import CustomButton from "components/customButton";
 
 import SidebarBackground  from "components/sidebarBackground";
 import SelectColor from "components/selectColor";
+
 
 
 import avatar from "assets/img/faces/inconnu.jpg";
@@ -58,14 +60,8 @@ class Profile extends React.Component {
                             <CardBody>
                                 <Grid container  spacing={16}>
                                     <Grid item xs={3}>
-                                        <SidebarBackground 
-                                            images = {this.props.images}
-                                            handleChange = {this.props.handleChangeBackgroundSidebar}
-                                            selected = {this.props.selectedBackground}
-                                        />
-                                        <SelectColor 
-                                            handleChangeColor = {this.props.handleChangeColor}
-                                        />
+                                        <SidebarBackground />
+                                        <SelectColor />
 
                                     </Grid>
                                     <Grid item xs={9}>
@@ -158,4 +154,10 @@ class Profile extends React.Component {
     }
 }
 
-export default withStyles(styles)(Profile);
+const mapStateToProps = (state) => {
+    return {
+            color: state.storeProfile.color,
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Profile));

@@ -1,11 +1,14 @@
 //components/sidebarBackground.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import _ from 'lodash';
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-
+//ressources
+import ressourcesBackground  from "components/sidebar/ressourcesBackground";
 
 const styles = {
     img: {
@@ -32,7 +35,10 @@ class SidebarBackground extends Component {
     }
 
     handleSelect=(ev)=>{        
-        this.props.handleChange(ev.target.name);
+        //this.props.handleChange(ev.target.name);
+
+        const action = { type: "CHANGE_BACKGROUND", backgroundSidebar: ev.target.name };
+		this.props.dispatch(action);
     }
     
 
@@ -65,10 +71,16 @@ class SidebarBackground extends Component {
         
         return (
             <div> 
-                { _.map(this.props.images, image => this.createImage(image)) }                 
+                { _.map(ressourcesBackground, image => this.createImage(image)) }                 
             </div>
         )
     }
 }
 
-export default withStyles(styles)(SidebarBackground);
+const mapStateToProps = (state) => {
+    return {
+            selected: state.storeProfile.backgroundSidebar,
+    }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(SidebarBackground));

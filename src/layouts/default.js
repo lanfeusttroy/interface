@@ -18,28 +18,18 @@ import Header from "components/header/header";
 import logo from "assets/img/reactlogo.png";
 
 
-//ressources
-import ressourcesBackground  from "components/sidebar/ressourcesBackground";
+
 
 class DefaultLayout extends Component { 
     constructor(props){
         super(props);       
 
-        this.state = {
-            selected:"sidebar-1",    
-            color:"purple",        
-        }        
+            
         
     }
 
-    handleChangeBackgroundSidebar = (name) =>{        
-        this.setState({selected: name});        
-    }
-
-    handleChangeColor = (color) =>{
-        console.log(color);
-        this.setState({color: color});   
-    }
+   
+   
 
     render(){
         
@@ -53,9 +43,8 @@ class DefaultLayout extends Component {
             <div  className={classes.root}>  
                 <Sidebar 
                         logoText={"Lanfeust"}
-                        logo={logo} 
-                        color={this.state.color}
-                        image={_.find(ressourcesBackground,{name: this.state.selected}).src}
+                        logo={logo}                
+                        
                         open={this.props.openSidebar}    
                         handleSideBar = {this.props.handleOpenSidebar}
                         routes = {routes}
@@ -67,12 +56,7 @@ class DefaultLayout extends Component {
                     <div className={classes.content}>
                         <div className={classes.container}>
                             <Component 
-                                route={route} 
-                                color={this.state.color}
-                                images={ressourcesBackground}
-                                selectedBackground={this.state.selected}
-                                handleChangeBackgroundSidebar = {this.handleChangeBackgroundSidebar}
-                                handleChangeColor = {this.handleChangeColor}
+                                route={route}                                                                
                             />
                         </div>
                     </div>

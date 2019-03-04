@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 //components
 import FicheNavire from "components/metiers/ficheNavire/ficheNavire";
 import Slide from "components/media/slide";
+import OlMap from "components/maps/olMap";
 
 class Boat extends React.Component {
     constructor(props){
@@ -16,11 +17,18 @@ class Boat extends React.Component {
     render(){
         return(
             <Grid container  spacing={16}>
-                <Grid item xs={8}>
+                <Grid item xs={7}>
                     <FicheNavire xs={12}/>
                 </Grid>
-                <Grid item xs={4}>
-                    <Slide />
+                <Grid item xs={5}>
+                    <Grid container  spacing={16}>
+                        <Grid item xs={12}>
+                            <Slide />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <OlMap />
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
 

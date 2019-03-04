@@ -25,7 +25,7 @@ const cardStyle = {
     },
     cardNavire: {
       marginTop: "30px",
-      textAlign: "center"
+      //textAlign: "center"
     },
     cardChart: {
       "& p": {

@@ -2,7 +2,7 @@ const cardAvatarStyle = {
     cardAvatar: {
       "&$cardAvatarProfile img, &$cardAvatarNavire img": {
         width: "100%",
-        height: "auto"
+        height: "auto"        
       }
     },
     cardAvatarProfile: {

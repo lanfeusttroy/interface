@@ -29,6 +29,9 @@ const pictures = [
 
 
 const styles = {
+    card:{
+        marginTop:"0px"
+    },
     img: {
         width: "100%",
         height:"auto",

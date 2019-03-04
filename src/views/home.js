@@ -22,6 +22,8 @@ import CardAvatar from "components/card/cardAvatar";
 import TableCustom from "components/tables/tableCustom";
 import Slide from "components/media/slide";
 import TableFilter from "components/tables/filter/tableFilter";
+import FicheNavire from "components/metiers/ficheNavire/ficheNavire";
+
 
 import navire from "assets/img/test.jpg";
 import pavillon from "assets/img/pavillon_fr.png";
@@ -144,93 +146,10 @@ class Home extends React.Component {
                     </Grid>
                 </Grid>    
                 <Grid container  spacing={16}>
-                    <Grid item xs={8}>
-                        <Card >
-                            <CardAvatar navire>                            
-                                <img src={navire} alt="..." />                            
-                            </CardAvatar>
-                            <CardBody>
-                            <Grid container  spacing={16}>
-                                <Grid item xs={12}>
-                                    <img src={pavillon} className={classes.iconPavillon} alt="..." />      
-                                </Grid>
-                            </Grid>
-                            <Grid container  spacing={16}>
-                                <Grid item xs={4} >
-                                    <Paper className={classes.paper}>
-                                        <TextField                                                        
-                                                label="IMO"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            />   
-                                        <TextField                                                        
-                                                label="Nom"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            /> 
-                                        <TextField                                                        
-                                                label="MMSI"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            />
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={4} className={classes.gridBorder} >
-                                
-                                    <Paper className={classes.paper}>
-                                        <TextField                                                        
-                                                label="IMO"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            />   
-                                        <TextField                                                        
-                                                label="Nom"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            /> 
-                                        <TextField                                                        
-                                                label="MMSI"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            />
-                                    </Paper>
-                               
-                                </Grid>
-                                <Grid item xs={4} className={classes.gridBorder} >
-                                    <Paper className={classes.paper}>
-                                        <TextField                                                        
-                                                label="IMO"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            />   
-                                        <TextField                                                        
-                                                label="Nom"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            /> 
-                                        <TextField                                                        
-                                                label="MMSI"
-                                                className={classes.textField}                
-                                                fullWidth                                            
-                                                margin="normal"
-                                            />
-                                    </Paper>
-                               
-                                </Grid>
-                            </Grid>
-                                
-                            </CardBody>
-                        </Card>     
+                    <Grid item xs={6}>
+                        <FicheNavire xs={12}/>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6}>
                                     
                             <Card>                                                           
                                 <CardBody>                                        
@@ -251,6 +170,7 @@ class Home extends React.Component {
                                 <TableFilter
                                     tableHeaderColor="danger"
                                     defaultOrder ={{"champ":"Nom_commune", "tri":"DESC"}}
+                                    color={color}
                                     tableHead = {[
                                         {
                                             row: 'Code_commune_INSEE',

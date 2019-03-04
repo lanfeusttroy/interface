@@ -2,6 +2,7 @@
 
 import React from "react";
 import _ from 'lodash';
+
 import classNames from "classnames";
 
 // @material-ui/core components
@@ -21,15 +22,15 @@ class Header extends React.Component {
         super(props);
     }
     render(){
-        const { classes } = this.props;
+        const { classes, location, routes } = this.props;
 
         return(
             <AppBar className={classes.appBar}>
                 <Toolbar className={classes.container}>
                 <div className={classes.flex}>
                     {/* Here we create navbar brand, based on route name */}
-                    <CustomButton color="transparent" href="#" className={classes.title}>
-                       test
+                    <CustomButton color="transparent" href="#" className={classes.title}>                       
+                        
                     </CustomButton>
                 </div>
 

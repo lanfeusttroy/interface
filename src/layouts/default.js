@@ -22,14 +22,8 @@ import logo from "assets/img/reactlogo.png";
 
 class DefaultLayout extends Component { 
     constructor(props){
-        super(props);       
-
-            
-        
-    }
-
-   
-   
+        super(props);      
+    }   
 
     render(){
         
@@ -52,7 +46,10 @@ class DefaultLayout extends Component {
                 />
 
                 <div className={classes.wrapper} ref="mainPanel">
-                     <Header />
+                     <Header 
+                        routes = {routes}
+                        location = {hist.location.pathname} 
+                     />
                     <div className={classes.content}>
                         <div className={classes.container}>
                             <Component 

@@ -4,6 +4,12 @@ import React, { Component } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from '@material-ui/core/Typography';
 
+const styles = {
+    background:{
+        backgroundColor:"#fff"
+    }
+}
+
 class TabContainer extends React.Component {
     constructor(props){
         super(props);
@@ -11,13 +17,14 @@ class TabContainer extends React.Component {
    
 
     render(){
+        const {classes} = this.props;
 
         return(
-            <Typography component="div" style={{ padding: 8 * 3 }}>
+            <Typography component="div" className={classes.background} style={{ padding: 8 * 3 }}>
                 {this.props.children}
             </Typography>
         )
     }
 }
 
-export default TabContainer;
+export default withStyles(styles)(TabContainer);

@@ -1,6 +1,7 @@
 //components/tables/infiniteTable.js
 
 import React from "react";
+import classNames from "classnames";
 
 import _ from "lodash";
 
@@ -121,6 +122,21 @@ class TableFilter extends React.Component{
         });
         
     }
+
+    selectedItem = (id)=>{
+       
+
+        if(this.state.selected.includes(id)){
+            let selectedElement = this.state.selected;
+            let indexElement = selectedElement.indexOf(id);
+            		
+			selectedElement.splice(indexElement, 1);			
+            this.setState({selected: selectedElement });
+            
+        }else{
+            this.setState({selected: [...this.state.selected, id]});
+        }
+    }
     
     createCell(champ){
         if (champ.visible === true){
@@ -145,6 +161,49 @@ class TableFilter extends React.Component{
             )
         }
     }
+
+    isSelected(key){
+        const { classes, color } = this.props;
+
+        if( this.state.selected.includes(key) === true) {
+           return color;
+        }else{
+            return false;
+        }
+    }
+
+    createLine(prop, key){
+        const { classes, color } = this.props;
+
+           
+
+        const rowSelected = classNames({            
+            [classes[color + "RowSelected"]]: this.isSelected(key)
+        });
+        
+
+        return(
+
+            <TableRow key={key} onClick={()=>this.selectedItem(key)} className={rowSelected}>
+                {
+                    this.props.tableHead.map((champ, key) => {
+                        
+                            return (
+                                champ.visible === true &&(
+                                    <TableCell  key={key}>
+                                        {prop[champ.row]}
+                                    </TableCell>
+                                )
+                            )                                           
+                        
+                    })
+                }                  
+                
+            </TableRow>
+        )
+    }
+
+
     
     render(){
         const { classes, tableHeaderColor } = this.props;
@@ -162,24 +221,7 @@ class TableFilter extends React.Component{
                     </TableHead>
                     <TableBody>
                         {this.state.data.map((prop, key) => {
-                            return (
-                                <TableRow key={key}>
-                                    {
-                                        this.props.tableHead.map((champ, key) => {
-                                            
-                                                return (
-                                                    champ.visible === true &&(
-                                                        <TableCell className={classes.tableCell} key={key}>
-                                                            {prop[champ.row]}
-                                                        </TableCell>
-                                                    )
-                                                )                                           
-                                            
-                                        })
-                                    }                  
-                                    
-                                </TableRow>
-                            );
+                            return this.createLine(prop, key)
                         })}
                     </TableBody>
                 </Table>

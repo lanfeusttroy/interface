@@ -57,6 +57,18 @@ const tableCustomStyle = theme => ({
       width: "100%",
       marginTop: theme.spacing.unit * 3,
       overflowX: "auto"
+    },
+    purpleRowSelected:{
+      backgroundColor: primaryColor,
+    },
+    greenRowSelected:{
+      backgroundColor: successColor,
+    },
+    orangeRowSelected:{
+      backgroundColor: warningColor,
+    },
+    blueRowSelected:{
+      backgroundColor: infoColor,
     }
     
 });

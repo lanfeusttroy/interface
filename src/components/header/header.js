@@ -29,9 +29,7 @@ class Header extends React.Component {
                 <Toolbar className={classes.container}>
                 <div className={classes.flex}>
                     {/* Here we create navbar brand, based on route name */}
-                    <CustomButton color="transparent" href="#" className={classes.title}>                       
-                        
-                    </CustomButton>
+                    <CustomButton color="transparent" href="#" className={classes.title}>  </CustomButton>
                 </div>
 
                 <HeaderLinks />

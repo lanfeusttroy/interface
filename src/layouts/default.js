@@ -3,6 +3,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
+
+
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -23,7 +26,9 @@ import logo from "assets/img/reactlogo.png";
 class DefaultLayout extends Component { 
     constructor(props){
         super(props);      
-    }   
+    }  
+
+    
 
     render(){
         

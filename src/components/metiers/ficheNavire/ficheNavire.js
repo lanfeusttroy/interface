@@ -43,7 +43,7 @@ class FicheNavire extends React.Component {
                 <Grid container  spacing={16}>
                     <Grid item xs={xs}>
                         <AppBar position="static">
-                            <Tabs value={this.state.tab} className={[classes.tabs, tabClasses]} onChange={this.handleChange}>
+                            <Tabs value={this.state.tab} className={tabClasses} onChange={this.handleChange}>
                             <Tab className={classes.tab} label="Identification" />
                             <Tab className={classes.tab} label="Caractéristiques" />
                             <Tab className={classes.tab} label="Photos" />

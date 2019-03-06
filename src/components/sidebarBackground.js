@@ -42,12 +42,13 @@ class SidebarBackground extends Component {
     }
     
 
-    createImage(image) { 
+    createImage(image, key) { 
         
         return(
             
                 this.props.selected === image.name ? (
                     <img 
+                        key={key}
                         src= {image.src}
                         name={image.name}
                         alt={image.alt}
@@ -56,6 +57,7 @@ class SidebarBackground extends Component {
                     />
                 ):(
                     <img 
+                        key={key}
                         src= {image.src}
                         name={image.name}
                         alt={image.alt}
@@ -71,7 +73,7 @@ class SidebarBackground extends Component {
         
         return (
             <div> 
-                { _.map(ressourcesBackground, image => this.createImage(image)) }                 
+                { _.map(ressourcesBackground, (image, key) => this.createImage(image, key)) }                 
             </div>
         )
     }

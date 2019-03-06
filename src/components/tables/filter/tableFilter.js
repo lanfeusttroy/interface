@@ -138,20 +138,22 @@ class TableFilter extends React.Component{
         }
     }
     
-    createCell(champ){
+    createCell(champ, key){
         if (champ.visible === true){
             return (
-                <TableCell> 
+                <TableCell  key={key}> 
+                   
                     {    
                         champ.filter === true ?(
                             <IconFilter 
-                                        champ={champ.row} 
-                                        order={this.state.order}
-                                        listFilter = {listFilterValue}
-                                        handleOrder = {this.handleOrder} 
-                                        handleChangeFilter = {this.handleChangeFilter}
-                                        defaultFilter = {"Contient"}
-                                    />
+                                key={'icon_' + key}
+                                champ={champ.row} 
+                                order={this.state.order}
+                                listFilter = {listFilterValue}
+                                handleOrder = {this.handleOrder} 
+                                handleChangeFilter = {this.handleChangeFilter}
+                                defaultFilter = {"Contient"}
+                            />
                         ):(
                             champ.row
                         )              
@@ -214,7 +216,7 @@ class TableFilter extends React.Component{
                         <TableRow>
                         {
                             this.props.tableHead.map((champ, key) => {
-                                    return this.createCell(champ)
+                                    return this.createCell(champ, key)
                             })
                         }
                         </TableRow>

@@ -26,10 +26,10 @@ class SelectColor extends Component {
         const {classes} = this.props;
         return(
             <div>
-               <Fab name="blue"  className={classes.blue}  onClick={this.handleChangeColor} />              
-               <Fab name="purple"  className={classes.purple} onClick={this.handleChangeColor} />     
-               <Fab name="orange"  className={classes.orange} onClick={this.handleChangeColor} />
-               <Fab name="green"  className={classes.green} onClick={this.handleChangeColor} />
+               <Fab name="blue"  className={classes.blue}  onClick={this.handleChangeColor} > </Fab>        
+               <Fab name="purple"  className={classes.purple} onClick={this.handleChangeColor} > </Fab>        
+               <Fab name="orange"  className={classes.orange} onClick={this.handleChangeColor} > </Fab>    
+               <Fab name="green"  className={classes.green} onClick={this.handleChangeColor} > </Fab>    
             </div>
         )
     }

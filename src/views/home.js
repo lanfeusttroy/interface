@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 
+import axios from 'axios';
+
 import Fullscreen from "react-full-screen";
 
 
@@ -75,6 +77,21 @@ class Home extends React.Component {
         };
         
     }
+
+    componentWillMount(){
+        axios.get('/navire').then(response => {
+            if (response.data) {
+                console.log(response.data);             
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+
+    }
+
 
     goFull = (name) => {
         this.setState({ [name]: true });

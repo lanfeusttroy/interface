@@ -34,7 +34,7 @@ class Sidebar extends React.Component {
             return false;
     }
 
-    createLink(route){
+    createLink(route, key){
         const { classes, color, location } = this.props;
 
        
@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
        
 
         return(
-            <ListItem button className={classes.itemLink + listItemClasses} component={Link} to={route.path}>
+            <ListItem key={key} button className={classes.itemLink + listItemClasses} component={Link} to={route.path}>
               <ListItemIcon className={classes.itemIcon}  >
                 {typeof route.icon === "string" ? (
                   <Icon>{route.icon}</Icon>
@@ -98,7 +98,7 @@ class Sidebar extends React.Component {
                     </div>
                 </div>
                 <div className={classes.sidebarWrapper}>
-                      { _.map(this.props.routes, route => this.createLink(route)) }               
+                      { _.map(this.props.routes, (route, key) => this.createLink(route, key)) }               
                 </div>
                 <div
                     className={classes.background}

@@ -18,12 +18,64 @@ import tableCustomStyle from "assets/components/tableCustomStyle";
 
 class TableCustom extends React.Component {
     constructor(props) {
-        super(props);         
+        super(props);    
+        
+        this.state = {			
+            selected:"",            
+        }
     } 
+
+    componentWillMount(){
+        if(this.props.rowSelect !== ""){
+            this.setState({selected: this.props.rowSelect});  
+        }
+    }
+
+    
+
+    selectedItem = (id)=>{       
+        this.setState({selected: id});  
+        this.props.handleSelect(id);         
+    }
+
+    isSelected(key){
+        const { classes, color } = this.props;
+
+        if( this.state.selected === key) {
+           return color;
+        }else{
+            return false;
+        }
+    }
+
+    createLine(prop, key){    
+        const { classes, color } = this.props;          
+
+        const rowSelected = classNames({            
+            [classes[color + "RowSelected"]]: this.isSelected(prop["_id"])
+        });
+
+
+
+        return(
+            <TableRow key={key} onClick={()=>this.selectedItem(prop["_id"])} className={rowSelected} >
+                {
+                    this.props.tableHead.map((champ, key) => {                           
+                        return (                                
+                            <TableCell  key={key}>
+                                {prop[champ.row]}
+                            </TableCell>
+                        )   
+                    })
+                }  
+            </TableRow>
+        )
+    }
     
     render(){
         const { classes, tableHead, tableData, tableHeaderColor } = this.props;
-
+        
+        
         return(
             <div className={classes.tableResponsive}>
                 <Table className={classes.table}>
@@ -31,30 +83,20 @@ class TableCustom extends React.Component {
                         <TableRow>
                         {tableHead.map((prop, key) => {
                             return (
-                            <TableCell
-                                className={classes.tableCell + " " + classes.tableHeadCell}
-                                key={key}
-                            >
-                                {prop}
-                            </TableCell>
+                                <TableCell
+                                    className={classes.tableCell + " " + classes.tableHeadCell}
+                                    key={key}
+                                >
+                                    {prop.libelle}
+                                </TableCell>
                             );
                         })}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {tableData.map((prop, key) => {
-                            return (
-                            <TableRow key={key}>
-                                {prop.map((prop, key) => {
-                                return (
-                                    <TableCell className={classes.tableCell} key={key}>
-                                    {prop}
-                                    </TableCell>
-                                );
-                                })}
-                            </TableRow>
-                            );
-                        })}
+                            return this.createLine(prop, key)
+                        })}                        
                     </TableBody>
                 </Table>
             </div>

@@ -27,6 +27,12 @@ class FicheNavire extends React.Component {
             tab:0
         }
     }
+
+    componentDidUpdate(prevProps, prevState) {
+       
+    }
+
+
     handleChange = (event, newValue) =>{
         this.setState({tab:newValue});
     }
@@ -34,10 +40,11 @@ class FicheNavire extends React.Component {
     render(){
         const { classes, color, xs} = this.props;
 
+        
         const tabClasses = classNames({
             [classes[color + "Tabs"]]: color,
         });
-
+        
         return(
             <div>
                 <Grid container  spacing={16}>
@@ -53,14 +60,18 @@ class FicheNavire extends React.Component {
                         {
                             this.state.tab === 0 && (
                                 <TabContainer>
-                                    <NavireIdentification /> 
+                                    <NavireIdentification 
+                                        data={this.props.data}
+                                    /> 
                                 </TabContainer>
                             )
                         }
                         {
                             this.state.tab === 1 && (
                                 <TabContainer> 
-                                    <NavireCaracteristique /> 
+                                    <NavireCaracteristique 
+                                         data={this.props.data["caracteristiques"]}
+                                    /> 
                                 </TabContainer>
                             )
                         }

@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
+
 import axios from 'axios';
 
 import Fullscreen from "react-full-screen";
@@ -12,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import Paper from '@material-ui/core/Paper';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 
 //components
@@ -20,6 +22,7 @@ import Card from "components/card/card";
 import CardHeader from "components/card/cardHeader";
 import CardBody from "components/card/cardBody";
 import CardFooter from "components/card/cardFooter";
+import CardIcon from "components/card/cardIcon";
 import CardAvatar from "components/card/cardAvatar";
 import TableCustom from "components/tables/tableCustom";
 import Slide from "components/media/slide";
@@ -35,6 +38,12 @@ import pavillon from "assets/img/pavillon_fr.png";
 import communes from "ressources/communes.js";
 
 const styles = {
+    cssDivMiddle:{
+        height:'100%', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
     cardCategoryWhite: {
       color: "rgba(255,255,255,.62)",
       margin: "0",
@@ -73,33 +82,102 @@ class Home extends React.Component {
         super(props);
 
         this.state = {
-            isFullNavire: false
+            isFullNavire: false,
+            isLoading: false,
+            completed: 0
         };
+
+        this.timer = null;
+        this.listeNavire = [];
+        this.rowSelect= "";
         
     }
 
+    progress = () => {
+		const { completed } = this.state;
+		this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+	};
+
     componentWillMount(){
-        axios.get('/navire').then(response => {
-            if (response.data) {
-                console.log(response.data);             
-            }
-        }).catch(error => {
-            console.log(error)
-        })
+        if(this.props.ficheNavire["_id"] !== undefined){
+            this.rowSelect = this.props.ficheNavire["_id"];
+        }
+
+        this.timer = setInterval(this.progress, 20);
+
+       
+        //liste de navire
+        if( this.listeNavire.length == 0){
+            axios.get('/navire').then(response => {
+                if (response.data) {
+
+                    this.listeNavire = response.data;
+                    
+                    this.setState({						
+                        isLoading: true
+                    },()=>{
+                        console.log('chargement terminé');	
+                        clearInterval(this.timer);	           
+                                                
+                    });
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
     }
     
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) { 
 
+        
     }
 
-
+    componentWillUnmount() {
+		clearInterval(this.timer);
+    }
+    
     goFull = (name) => {
         this.setState({ [name]: true });
     }
 
+    handleSelectFicheNavire = (id)=>{
+        let fiche = _.find(this.listeNavire,{"_id":id});
+
+        const action = { type: "CHANGE_NAVIRE", ficheNavire: fiche };
+		this.props.dispatch(action);
+    }	
+
     render(){
+		if(this.state.isLoading === false){
+			return (
+				this.renderLoadingView()
+			)
+		}else{
+			return (
+				this.renderLoadedView()
+			)
+		}
+          
+    }
+
+
+    
+    renderLoadingView(){
+        const {classes} = this.props;
+		return (
+			<div className={classes.cssDivMiddle}>				
+				<CircularProgress					
+					variant="determinate"
+					value={this.state.completed}
+				/>				
+			</div>			
+		)
+	}
+
+    renderLoadedView(){
         const {classes, color} = this.props;
-        console.log(color);
+       
         return(
             <div>
                
@@ -134,28 +212,32 @@ class Home extends React.Component {
                                 <CardBody>
                                     <TableCustom 
                                         tableHeaderColor="danger"
-                                        tableHead={["ID", "Name", "Country", "City", "Salary"]}
-                                        tableData={[
-                                        ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                                        ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                                        ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                                        [
-                                            "4",
-                                            "Philip Chaney",
-                                            "$38,735",
-                                            "Korea, South",
-                                            "Overland Park"
-                                        ],
-                                        [
-                                            "5",
-                                            "Doris Greene",
-                                            "$63,542",
-                                            "Malawi",
-                                            "Feldkirchen in Kärnten"
-                                        ],
-                                        ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
+                                        tableHead = {[
+                                            {
+                                                row: 'imo',
+                                                libelle:'IMO'
+                                            }, 
+                                            {
+                                                row: 'nom',
+                                                libelle:'Nom'
+                                            }, 
+                                            {
+                                                row: 'pavillon',
+                                                libelle:'Pavillon'
+                                            },    
+                                            {
+                                                row: 'type_otan',
+                                                libelle:'Type Otan'
+                                            },
+                                            {
+                                                row: 'mmsi',
+                                                libelle:'MMSI'                                                
+                                            }
                                         ]} 
-                                    
+                                        handleSelect ={this.handleSelectFicheNavire}
+                                        color={color}
+                                        tableData={this.listeNavire}    
+                                        rowSelect={this.rowSelect}                             
                                     />                                
                                 </CardBody>
                             </Card>
@@ -164,11 +246,28 @@ class Home extends React.Component {
                 </Grid>    
                 <Grid container  spacing={16}>
                     <Grid item xs={6}>
-                        <FicheNavire xs={12}/>
+                        <Card>
+                            <CardHeader  stats icon>
+                                <CardIcon color={color}>
+                                    <Icon>directions_boat</Icon>
+                                </CardIcon>                                                
+                            </CardHeader>
+                            <CardBody>
+                                <FicheNavire 
+                                    xs={12} 
+                                    data={this.props.ficheNavire}
+                                />
+                             </CardBody>
+                        </Card> 
                     </Grid>
                     <Grid item xs={6}>
                                     
-                            <Card>                                                           
+                            <Card>  
+                                <CardHeader  stats icon>
+                                    <CardIcon color={color}>
+                                        <Icon>photo</Icon>
+                                    </CardIcon>                                                
+                                </CardHeader>                                                         
                                 <CardBody>                                        
                                     <Slide />
                                 </CardBody>
@@ -176,6 +275,7 @@ class Home extends React.Component {
                         
                     </Grid>
                 </Grid>
+                {/*
                 <Grid container spacing={16}>
                     <Grid item xs={12}>
                         <Card>
@@ -225,7 +325,8 @@ class Home extends React.Component {
                             </CardBody>
                         </Card>
                     </Grid>
-                </Grid>         
+                </Grid>  
+                 */}       
             </div>
         )
     }
@@ -234,6 +335,7 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
     return {
             color: state.storeProfile.color,
+            ficheNavire : state.storeNavire.ficheNavire
     }
 }
 

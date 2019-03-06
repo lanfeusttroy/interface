@@ -31,9 +31,10 @@ const styles = {
     
   };
 
-class NavireIdentification extends React.Component{
+class NavireIdentification extends React.Component{   
+
     render(){
-        const { classes } = this.props;
+        const { classes, data } = this.props;
         return (  
             <Card navire>
                 <CardAvatar navire>                            
@@ -51,42 +52,51 @@ class NavireIdentification extends React.Component{
                                 <TextField                                                        
                                         label="N° IMO"                                            
                                         fullWidth                                            
-                                        margin="normal"
+                                        margin="normal"                                        
+                                        value={data["imo"]}                                       
+
                                     />   
                                 <TextField                                                        
                                         label="MMSI"                                                
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["mmsi"]}     
                                     />
                                 <TextField                                                        
                                         label="Nom"                                                    
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["nom"]}     
                                     /> 
                                 <TextField                                                        
                                         label="Pavillon"                                                
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["pavillon"]}     
                                     />
                                 <TextField                                                        
                                         label="Type OTAN"                                                
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["type_otan"]}     
                                     />
                                 <TextField                                                        
                                         label="Séquence"                                                
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["sequence"]}     
                                     />
                                 <TextField                                                        
                                         label="Indicatif"                                                
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["indicatif"]}     
                                     />
                                 <TextField                                                        
                                         label="SCONUM"                                                
                                         fullWidth                                            
                                         margin="normal"
+                                        value={data["sconum"]}     
                                     />
                                 
                             </Paper>

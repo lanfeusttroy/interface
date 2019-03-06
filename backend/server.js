@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const app = express();
 
@@ -18,11 +19,14 @@ mongoose
 });
 
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+//routes
+const naviresRouter = require('./routes/navire.js');
 
-app.get('/', (req, res) => {
-    res.send("Hello World");
-});
+app.use('/navire', naviresRouter);
+
 
 const port = 4000
 app.listen(port, () => {

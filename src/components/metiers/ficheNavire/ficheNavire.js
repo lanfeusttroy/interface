@@ -17,6 +17,7 @@ import TabContainer from "components/metiers/ficheNavire/tabContainer";
 import Slide from "components/media/slide";
 import NavireCaracteristique from "components/metiers/ficheNavire/ficheNavireCaracteristique";
 import NavireIdentification from "components/metiers/ficheNavire/ficheNavireIdentification";
+import NavireHistorique from "components/metiers/ficheNavire/ficheNavireHistorique";
 
 
 class FicheNavire extends React.Component {
@@ -38,7 +39,8 @@ class FicheNavire extends React.Component {
     }
 
     render(){
-        const { classes, color, xs} = this.props;
+        const { classes,  xs} = this.props;
+        const color = "white";
 
         
         const tabClasses = classNames({
@@ -53,6 +55,7 @@ class FicheNavire extends React.Component {
                             <Tabs value={this.state.tab} className={tabClasses} onChange={this.handleChange}>
                             <Tab className={classes.tab} label="Identification" />
                             <Tab className={classes.tab} label="Caractéristiques" />
+                            <Tab className={classes.tab} label="Historiques" />
                             <Tab className={classes.tab} label="Photos" />
                             </Tabs>
                         </AppBar>
@@ -70,7 +73,7 @@ class FicheNavire extends React.Component {
                             this.state.tab === 1 && (
                                 <TabContainer> 
                                     <NavireCaracteristique 
-                                         data={this.props.data["caracteristiques"]}
+                                         data={this.props.data}
                                     /> 
                                 </TabContainer>
                             )
@@ -78,7 +81,18 @@ class FicheNavire extends React.Component {
                         {
                             this.state.tab === 2 && (
                                 <TabContainer>
-                                <Slide />
+                                    <NavireHistorique 
+                                        data={this.props.data}
+                                    />
+                                </TabContainer>
+                            )  
+                        }
+                        {
+                            this.state.tab === 3 && (
+                                <TabContainer>
+                                    <Slide 
+                                        data={this.props.data["photos"]}
+                                    />
                                 </TabContainer>
                             )  
                         }

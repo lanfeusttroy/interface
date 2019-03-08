@@ -18,14 +18,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import IconButton from '@material-ui/core/IconButton';
 
-import navire from "assets/img/test.jpg";
+//parametre
+import proxy_photo from "config/parametres";
 
-const pictures = [
-    {name:'1000021', src: require("assets/img/1000021.jpg"), alt:'...'},
-    {name:'1000021', src: require("assets/img/1000021-1.jpg"), alt:'...'},
-    {name:'1000021', src: require("assets/img/1000021-2.jpg"), alt:'...'},
-    {name:'1000021', src: require("assets/img/1000021-3.jpg"), alt:'...'},    
-];
+import navire from "assets/img/test.jpg";
 
 
 const styles = {
@@ -44,17 +40,31 @@ const styles = {
     }
 };
 
+
 class Slide extends React.Component {
     constructor(props){
         super(props);
 
         this.state = {			
-            medias: pictures,
             idmedia: 0,
 			play: false
-        }
+        };
         
         this.interval = null;
+       
+    }
+
+    componentWillMount(){
+        console.log(this.props.data);
+        /*
+        this.setState({
+            medias: this.props.data
+        })   
+        */
+    }
+
+    componentDidUpdate(prevProps, prevState) { 
+       
     }
 
     componentWillUnmount(){
@@ -70,7 +80,7 @@ class Slide extends React.Component {
 			this.interval = setInterval(() => {
 				
 				console.log (idimage);
-				if(this.state.idmedia  < (this.state.medias.length - 1)){
+				if(this.state.idmedia  < (this.props.data.length - 1)){
 					idimage = idimage + 1;
 				}else{
 					idimage = 0;
@@ -94,7 +104,7 @@ class Slide extends React.Component {
 
     nextImage =()=>{
 		if(this.state.play === false){
-			if(this.state.idmedia  < (this.state.medias.length - 1)){
+			if(this.state.idmedia  < (this.props.data.length - 1)){
 				this.setState({
 					idmedia : this.state.idmedia + 1
 				})
@@ -110,9 +120,24 @@ class Slide extends React.Component {
 				})
 			}
 		}
-	}
+    }
+    
+    generateSlide = () =>{
+        const { classes } = this.props;
+
+        if(this.props.data[this.state.idmedia] !== undefined){
+            return(
+                <img src={proxy_photo + this.props.data[this.state.idmedia].uri_file} className = {classes.img}/>
+            )
+        }else{
+            return(
+                <div></div>
+            )
+        }
+    }
 
     render(){
+        
         const { classes } = this.props;
         return(
             <div>
@@ -156,7 +181,9 @@ class Slide extends React.Component {
                         </Grid>
                     </CardActions>             
                     <CardBody>
-                        <img src={this.state.medias[this.state.idmedia].src} className = {classes.img}/>
+                        {
+                            this.generateSlide()
+                        }
                     </CardBody>
                 </Card>
             </div>

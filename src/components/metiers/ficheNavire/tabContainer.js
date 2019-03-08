@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from '@material-ui/core/Typography';
 
+
+import ficheNavireStyle from "assets/components/ficheNavireStyle";
+
 const styles = {
     background:{
         backgroundColor:"#fff"
@@ -20,11 +23,11 @@ class TabContainer extends React.Component {
         const {classes} = this.props;
 
         return(
-            <Typography component="div" className={classes.background} style={{ padding: 8 * 3 }}>
+            <Typography component="div" className={classes.tabBody} style={{ padding: 8 * 3 }}>
                 {this.props.children}
             </Typography>
         )
     }
 }
 
-export default withStyles(styles)(TabContainer);
+export default withStyles(ficheNavireStyle)(TabContainer);

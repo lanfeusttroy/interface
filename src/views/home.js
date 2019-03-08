@@ -89,7 +89,7 @@ class Home extends React.Component {
 
         this.timer = null;
         this.listeNavire = [];
-        this.rowSelect= "";
+        this.idFicheNavire= "";
         
     }
 
@@ -99,8 +99,9 @@ class Home extends React.Component {
 	};
 
     componentWillMount(){
+        //si une fiche est déja chargé
         if(this.props.ficheNavire["_id"] !== undefined){
-            this.rowSelect = this.props.ficheNavire["_id"];
+            this.idFicheNavire = this.props.ficheNavire["_id"];
         }
 
         this.timer = setInterval(this.progress, 20);
@@ -112,6 +113,10 @@ class Home extends React.Component {
                 if (response.data) {
 
                     this.listeNavire = response.data;
+                    this.idFicheNavire = response.data[0]["_id"];
+
+                    const action = { type: "CHANGE_NAVIRE", ficheNavire: response.data[0] };
+                    this.props.dispatch(action);
                     
                     this.setState({						
                         isLoading: true
@@ -236,8 +241,10 @@ class Home extends React.Component {
                                         ]} 
                                         handleSelect ={this.handleSelectFicheNavire}
                                         color={color}
+                                        enabledPicture = {true}
+                                        boolSelected = {true}
                                         tableData={this.listeNavire}    
-                                        rowSelect={this.rowSelect}                             
+                                        rowSelect={this.idFicheNavire}                             
                                     />                                
                                 </CardBody>
                             </Card>
@@ -269,7 +276,9 @@ class Home extends React.Component {
                                     </CardIcon>                                                
                                 </CardHeader>                                                         
                                 <CardBody>                                        
-                                    <Slide />
+                                    <Slide 
+                                        data={this.props.ficheNavire["photos"]}
+                                    />
                                 </CardBody>
                             </Card> 
                         

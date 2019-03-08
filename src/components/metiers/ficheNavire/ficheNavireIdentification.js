@@ -16,6 +16,9 @@ import CardBody from "components/card/cardBody";
 import CardFooter from "components/card/cardFooter";
 import CardAvatar from "components/card/cardAvatar";
 
+//parametre
+import proxy_photo from "config/parametres";
+
 import pavillon from "assets/img/pavillon_fr.png";
 import navire from "assets/img/test.jpg";
 
@@ -31,14 +34,22 @@ const styles = {
     
   };
 
+
 class NavireIdentification extends React.Component{   
 
     render(){
         const { classes, data } = this.props;
+
+        //selection de la premiere photo
+        let navirePhoto = proxy_photo + 'photos/boatDefault.jpg';
+        if(data["photos"][0] !== undefined){
+            navirePhoto = proxy_photo + data["photos"][0].uri_file;
+        }
+
         return (  
             <Card navire>
                 <CardAvatar navire>                            
-                    <img src={navire} alt="..." />                            
+                    <img src={navirePhoto} alt="..." />                            
                 </CardAvatar>
                 <CardBody>
                     <Grid container  spacing={16}>
@@ -74,6 +85,13 @@ class NavireIdentification extends React.Component{
                                         margin="normal"
                                         value={data["pavillon"]}     
                                     />
+                                
+                                
+                            </Paper>
+                        </Grid> 
+                        <Grid item xs={6} >
+                            <Paper className={classes.paper}>
+                                
                                 <TextField                                                        
                                         label="Type OTAN"                                                
                                         fullWidth                                            
@@ -100,8 +118,7 @@ class NavireIdentification extends React.Component{
                                     />
                                 
                             </Paper>
-                        </Grid> 
-                                 
+                        </Grid>         
                     </Grid>  
                 </CardBody>
             </Card>

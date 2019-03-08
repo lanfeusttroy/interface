@@ -12,6 +12,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
+//parametre
+import proxy_photo from "config/parametres";
 
 
 import tableCustomStyle from "assets/components/tableCustomStyle";
@@ -21,7 +27,8 @@ class TableCustom extends React.Component {
         super(props);    
         
         this.state = {			
-            selected:"",            
+            selected:"", 
+            boolPicture: false                
         }
     } 
 
@@ -29,9 +36,17 @@ class TableCustom extends React.Component {
         if(this.props.rowSelect !== ""){
             this.setState({selected: this.props.rowSelect});  
         }
+
+        if(this.props.boolPicture !== undefined){
+            this.setState({boolPicture: this.props.boolPicture});  
+        }
     }
 
+  
     
+    handleChange = (evt, name) =>{        
+        this.setState({ ...this.state, [name]: evt.target.checked });
+    }
 
     selectedItem = (id)=>{       
         this.setState({selected: id});  
@@ -48,49 +63,132 @@ class TableCustom extends React.Component {
         }
     }
 
-    createLine(prop, key){    
+    createLine(data, key){    
         const { classes, color } = this.props;          
 
         const rowSelected = classNames({            
-            [classes[color + "RowSelected"]]: this.isSelected(prop["_id"])
+            [classes[color + "RowSelected"]]: this.isSelected(data["_id"])
         });
 
+        //selection de la premiere photo
+        let navirePhoto;
+        if (this.props.enabledPicture === true){
+            navirePhoto = proxy_photo + 'photos/boatDefault.jpg';
+            if(data["photos"][0] !== undefined){
+                navirePhoto = proxy_photo + data["photos"][0].uri_file;
+            }       
+        } 
 
+        if(this.props.boolSelected === true){
+            return(                
+                <TableRow key={key} onClick={()=>this.selectedItem(data["_id"])} className={rowSelected} >
+                    {this.state.boolPicture === true &&(
+                        <TableCell  key={key}>
+                            <Avatar  src={ navirePhoto } />
+                        </TableCell>
+                    )}
+    
+                    {
+                        
+                        this.props.tableHead.map((champ, key) => {                           
+                            return (                                
+                                <TableCell  key={key}>
+                                    {data[champ.row]}
+                                </TableCell>
+                            )   
+                        })
+                    }  
+                </TableRow>
+            )
+            
+        }else{
+            return(                
+                <TableRow key={key} className={rowSelected} >
+                    {this.state.boolPicture === true &&(
+                        <TableCell  key={key}>
+                            <Avatar  src={ navirePhoto } />
+                        </TableCell>
+                    )}
+    
+                    {
+                        
+                        this.props.tableHead.map((champ, key) => {                           
+                            return (                                
+                                <TableCell  key={key}>
+                                    {data[champ.row]}
+                                </TableCell>
+                            )   
+                        })
+                    }  
+                </TableRow>
+            )
+        }
+        
+    }
 
-        return(
-            <TableRow key={key} onClick={()=>this.selectedItem(prop["_id"])} className={rowSelected} >
-                {
-                    this.props.tableHead.map((champ, key) => {                           
-                        return (                                
-                            <TableCell  key={key}>
-                                {prop[champ.row]}
-                            </TableCell>
-                        )   
-                    })
-                }  
-            </TableRow>
-        )
+    createHead(prop, key){
+        const { classes} = this.props;
+
+        if(prop.width !== undefined){
+            return (
+                <TableCell                                        
+                    className={classes.tableCell + " " + classes.tableHeadCell}
+                    style={{"width":prop.width}}
+                    key={key}
+                >
+                    {prop.libelle}
+                </TableCell>
+            )
+        }else{
+            return (
+                <TableCell                                        
+                    className={classes.tableCell + " " + classes.tableHeadCell}
+                    key={key}
+                >
+                    {prop.libelle}
+                </TableCell>
+            )
+        }
     }
     
     render(){
-        const { classes, tableHead, tableData, tableHeaderColor } = this.props;
+        const { classes, tableHead, tableData, tableHeaderColor} = this.props;
         
         
         return(
             <div className={classes.tableResponsive}>
+                {
+                    this.props.enabledPicture === true &&(
+                        <FormControlLabel
+                            control={
+                            <Switch
+                                checked={this.state.checkedA}
+                                onChange={(evt) => this.handleChange(evt, 'boolPicture')}                            
+                                value="boolPicture"
+                                color="primary"
+                            />
+                            }
+                            label="Miniatures"
+                        />
+                    )
+                }
+
+
                 <Table className={classes.table}>
                     <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
                         <TableRow>
-                        {tableHead.map((prop, key) => {
-                            return (
+                            {this.state.boolPicture === true &&(
                                 <TableCell
-                                    className={classes.tableCell + " " + classes.tableHeadCell}
-                                    key={key}
+                                    style={{width: '10em'}}                                                        
+                                    className={classes.tableCell + " " + classes.tableHeadCell}                                
                                 >
-                                    {prop.libelle}
                                 </TableCell>
-                            );
-                        })}
+                            )}
+
+                            {tableHead.map((prop, key) => {
+                                return this.createHead(prop, key)                 
+                            
+                            })}
                         </TableRow>
                     </TableHead>
                     <TableBody>

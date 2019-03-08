@@ -16,6 +16,9 @@ import CardBody from "components/card/cardBody";
 import CardFooter from "components/card/cardFooter";
 import CardAvatar from "components/card/cardAvatar";
 
+//parametre
+import proxy_photo from "config/parametres";
+
 import pavillon from "assets/img/pavillon_fr.png";
 import navire from "assets/img/test.jpg";
 
@@ -54,10 +57,20 @@ const styles = {
 class NavireCaracteristique extends React.Component{
     render(){
         const { classes, data } = this.props;
+
+       
+        //selection de la premiere photo
+        let navirePhoto = proxy_photo + 'photos/boatDefault.jpg';
+        if(data["photos"][0] !== undefined){
+            navirePhoto = proxy_photo + data["photos"][0].uri_file;
+        }
+
+        const caracteristiques = data["caracteristiques"];
+
         return (     
             <Card navire >
                 <CardAvatar navire>                            
-                    <img src={navire} alt="..." />                            
+                    <img src={navirePhoto} alt="..." />                            
                 </CardAvatar>
                 <CardBody> 
                     <Grid container  spacing={16}>
@@ -72,37 +85,37 @@ class NavireCaracteristique extends React.Component{
                                         label="Construction"                                            
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["construction"]}       
+                                        value={caracteristiques["construction"]}       
                                     />   
                                 <TextField                                                        
                                         label="Tonnage"                                                    
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["tonnage"]}  
+                                        value={caracteristiques["tonnage"]}  
                                     /> 
                                 <TextField                                                        
                                         label="Franc bord"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["franc_bord"]}  
+                                        value={caracteristiques["franc_bord"]}  
                                     />
                                 <TextField                                                        
                                         label="Tirant d'eau"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["tirant_eau"]}  
+                                        value={caracteristiques["tirant_eau"]}  
                                     />
                                 <TextField                                                        
                                         label="Nbre d'hélice"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["nbr_helice"]}  
+                                        value={caracteristiques["nbr_helice"]}  
                                     />
                                 <TextField                                                        
                                         label="Vitesse"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["vitesse"]}  
+                                        value={caracteristiques["vitesse"]}  
                                     />
                             </Paper>
                         </Grid>
@@ -112,31 +125,31 @@ class NavireCaracteristique extends React.Component{
                                         label="Nbr de pont"                                            
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["nbr_pont"]} 
+                                        value={caracteristiques["nbr_pont"]} 
                                     />   
                                 <TextField                                                        
                                         label="Tonnage net"                                                    
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["tonnage_net"]} 
+                                        value={caracteristiques["tonnage_net"]} 
                                     /> 
                                 <TextField                                                        
                                         label="Largeur"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["largeur"]} 
+                                        value={caracteristiques["largeur"]} 
                                     />
                                 <TextField                                                        
                                         label="Long hors tout"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["long_hors_tout"]} 
+                                        value={caracteristiques["long_hors_tout"]} 
                                     />
                                 <TextField                                                        
                                         label="Type d'hélice"                                                
                                         fullWidth                                            
                                         margin="normal"
-                                        value={data["type_helice"]} 
+                                        value={caracteristiques["type_helice"]} 
                                     />                            
                             </Paper>
                         </Grid>

@@ -8,6 +8,10 @@ import Map from "views/map";
 import Boat from "views/boat";
 import Notification from "views/notification";
 
+
+import AddUser from "views/addUser";
+
+
 export default {
     Home: {
         component: Home,
@@ -48,6 +52,13 @@ export default {
         component: Profile,
         path: '/profile',
         sidebarName: "Profile",        
+        icon: "person",
+        protected: false
+    },
+    AddUser: {
+        component: AddUser,
+        path: '/user/add',
+        sidebarName: "Administration",        
         icon: "person",
         protected: false
     }

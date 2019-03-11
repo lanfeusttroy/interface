@@ -19,7 +19,6 @@ import SidebarBackground  from "components/sidebarBackground";
 import SelectColor from "components/selectColor";
 
 
-
 import avatar from "assets/img/faces/inconnu.jpg";
 
 const styles = {
@@ -139,11 +138,11 @@ class Profile extends React.Component {
                             
                             </CardAvatar>
                             <CardBody profile>
-                            <h6 className={classes.cardCategory}>SERVICE INFORMATIQUE</h6>
-                            <h4 className={classes.cardTitle}>Lanfeust</h4>
-                            <p className={classes.description}>
-                                Exemple de présentation du poste ou de la fonction au sein de l'entreprise.
-                            </p>
+                                <h6 className={classes.cardCategory}>SERVICE INFORMATIQUE</h6>
+                                <h4 className={classes.cardTitle}>Lanfeust</h4>
+                                <p className={classes.description}>
+                                    Exemple de présentation du poste ou de la fonction au sein de l'entreprise.
+                                </p>
                             
                             </CardBody>
                         </Card>

@@ -109,7 +109,15 @@ class Home extends React.Component {
        
         //liste de navire
         if( this.listeNavire.length == 0){
-            axios.get('/navire').then(response => {
+            
+            axios.defaults.headers.common['Authorization'] = this.props.token;
+            axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+
+          
+            //console.log(axios.defaults.headers.common['Authorization']);
+
+
+            axios.get('/navire',).then(response => {
                 if (response.data) {
 
                     this.listeNavire = response.data;
@@ -344,7 +352,9 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
     return {
             color: state.storeProfile.color,
-            ficheNavire : state.storeNavire.ficheNavire
+            token: state.storeProfile.token,
+            ficheNavire : state.storeNavire.ficheNavire,
+
     }
 }
 

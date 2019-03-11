@@ -1,6 +1,7 @@
 const initialStateLayer = {
     color:'blue',
-    backgroundSidebar:'phare-1'
+		backgroundSidebar:'phare-1',
+		token:''
 };
 
 function profile(state = initialStateLayer, action) {
@@ -10,6 +11,14 @@ function profile(state = initialStateLayer, action) {
 	
 	
 	switch (action.type) {
+		case 'CHANGE_TOKEN':
+			
+			nextState = {
+			  ...state,
+			  token:  action.token
+			}			
+			
+		return nextState || state
 
 		
 		case 'CHANGE_COLOR':

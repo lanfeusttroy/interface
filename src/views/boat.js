@@ -69,6 +69,11 @@ class Boat extends React.Component {
         this.timer = null;
     }
 
+    progress = () => {
+		const { completed } = this.state;
+		this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+	};
+
     componentWillMount(){
         if(this.props.ficheNavire["_id"] === undefined){
             //chargement de la premiere fiche navire en base
@@ -90,7 +95,7 @@ class Boat extends React.Component {
                     });
                 }
             }).catch(error => {
-                console.log(error)
+                console.log(error)                
             })
         }else{
             this.setState({	isLoading: true});
@@ -102,6 +107,7 @@ class Boat extends React.Component {
     }
 
     render(){
+        
 		if(this.state.isLoading === false){
 			return (
 				this.renderLoadingView()

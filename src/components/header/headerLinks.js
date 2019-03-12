@@ -7,6 +7,8 @@ import _ from 'lodash';
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Icon from "@material-ui/core/Icon";
+
 
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
@@ -24,51 +26,56 @@ class HeaderLinks extends React.Component {
     constructor(props){
         super(props);
     }
+
+    createLink(route, key){
+        const { classes } = this.props;
+
+        if(route.header == true){
+            return(
+                <CustomButton
+                    key={key}
+                    component={Link} to={route.path}
+                    color={window.innerWidth > 959 ? "transparent" : "white"}
+                    justIcon={window.innerWidth > 959}
+                    simple={!(window.innerWidth > 959)}
+                    aria-label={route.sidebarName}
+                    className={classes.buttonLink}
+                >                    
+                    <Icon>{route.icon}</Icon>
+                </CustomButton>
+            )
+        }
+    }
+
     render(){
         const { classes } = this.props;
         return(
            <div>
-               <div className={classes.manager}>
+               { _.map(this.props.routes, (route, key) => {
+                    return this.createLink(route, key)         
+               })} 
 
-                    <CustomButton     
-                        component={Link} to="/notification"              
-                        color={window.innerWidth > 959 ? "transparent" : "white"}
-                        justIcon={window.innerWidth > 959}
-                        simple={!(window.innerWidth > 959)}
-                        
-                        aria-haspopup="true"                    
-                        className={classes.buttonLink}
-                    >
-                        <Notifications className={classes.icons} />
-                        <span className={classes.notifications}>5</span>
-                    </CustomButton>
-               </div>
-               
-                    <CustomButton
-                        component={Link} to="/home"
-                        color={window.innerWidth > 959 ? "transparent" : "white"}
-                        justIcon={window.innerWidth > 959}
-                        simple={!(window.innerWidth > 959)}
-                        aria-label="Home"
-                        className={classes.buttonLink}
-                    >
-                        <SvgIcon className={classes.icons}>
-                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-                        </SvgIcon>
-                        
-                    </CustomButton>
-                    <CustomButton
-                        component={Link} to="/profile"
-                        color={window.innerWidth > 959 ? "transparent" : "white"}
-                        justIcon={window.innerWidth > 959}
-                        simple={!(window.innerWidth > 959)}
-                        aria-label="Person"
-                        className={classes.buttonLink}
-                    >
-                        <Person className={classes.icons} />
-                        
-                    </CustomButton>
-               
+               <CustomButton
+                    component={Link} to="/home"
+                    color={window.innerWidth > 959 ? "transparent" : "white"}
+                    justIcon={window.innerWidth > 959}
+                    simple={!(window.innerWidth > 959)}
+                    aria-label="Home"
+                    className={classes.buttonLink}
+                >                    
+                    <Icon>{"home"}</Icon>
+                </CustomButton>   
+
+               <CustomButton
+                    component={Link} to="/useradd"
+                    color={window.innerWidth > 959 ? "transparent" : "white"}
+                    justIcon={window.innerWidth > 959}
+                    simple={!(window.innerWidth > 959)}
+                    aria-label="Administration"
+                    className={classes.buttonLink}
+                >                    
+                    <Icon>{"build"}</Icon>
+                </CustomButton>                            
 
            </div>
         )

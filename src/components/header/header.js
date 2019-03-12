@@ -21,18 +21,24 @@ class Header extends React.Component {
     constructor(props){
         super(props);
     }
+
+    getSidebarName(routes, location){
+        return _.find(routes,{path:location}).sidebarName;
+    }
+
     render(){
         const { classes, location, routes } = this.props;
-
+        
+        
         return(
             <AppBar className={classes.appBar}>
                 <Toolbar className={classes.container}>
                 <div className={classes.flex}>
                     {/* Here we create navbar brand, based on route name */}
-                    <CustomButton color="transparent" href="#" className={classes.title}>  </CustomButton>
+                    <CustomButton color="transparent" href="#" className={classes.title}>{this.getSidebarName(routes, location)}</CustomButton>
                 </div>
 
-                <HeaderLinks />
+                <HeaderLinks routes={routes} />
 
                 </Toolbar>            
             </AppBar>

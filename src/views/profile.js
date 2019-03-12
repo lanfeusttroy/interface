@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from 'react-redux';
 
+import axios from 'axios';
+
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //components
 import Card from "components/card/card";
@@ -18,8 +20,9 @@ import CustomButton from "components/customButton";
 import SidebarBackground  from "components/sidebarBackground";
 import SelectColor from "components/selectColor";
 
-
 import avatar from "assets/img/faces/inconnu.jpg";
+
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const styles = {
     cardCategoryWhite: {
@@ -43,10 +46,77 @@ const styles = {
 class Profile extends React.Component {
     constructor(props){
         super(props);
+
+        this.state = {           
+            isLoading: false,
+            completed: 0,
+            user: {
+                nom:'',
+                prenom:'',
+                username:'',
+                email: '',
+                presentation: '',
+            },
+        };
+
+        this.timer = null;
+    }
+
+    handleChange = (event) => {
+        const { user } = this.state;
+        user[event.target.name] = event.target.value;
+        this.setState({ user });
+    }
+
+    progress = () => {
+		const { completed } = this.state;
+		this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+	};
+
+    componentWillMount(){
+        //chargement de la fiche
+        this.timer = setInterval(this.progress, 20);
+        
+        axios.defaults.headers.common['Authorization'] = this.props.token;
+
+        
+
+        axios.get('/user/' + this.props.iduser).then(response => {
+            if (response.data) {
+                let user = {};
+                user["nom"] = response.data.nom;
+                user["prenom"] = response.data.prenom;
+                user["username"] = response.data.username;
+                user["email"] = response.data.email;
+                user["presentation"] = response.data.presentation;
+                
+                this.setState({
+                    user:user                  
+                })
+            }
+        });
+    }
+
+    componentWillUnmount() {
+		clearInterval(this.timer);
+    }
+
+    handleUpdateForm(user){
+        
+        axios.post('/user/update', user).then(response => {
+            if (response.data) {
+                console.log("ok");
+            }
+        }).catch(error => {
+            console.log(error)                
+        })
+  
     }
 
     render(){
         const {classes, color} = this.props;
+        const { user } = this.state;
+
         return(
             <div>
                 <Grid container  spacing={16}>
@@ -64,67 +134,81 @@ class Profile extends React.Component {
 
                                     </Grid>
                                     <Grid item xs={9}>
-                                         <form className={classes.container} noValidate autoComplete="off">
+                                        <ValidatorForm                        
+                                            className={classes.form}                        
+                                            onSubmit={()=>this.handleUpdateForm(user)}
+                                            onError={errors => console.log(errors)}
+                                        >
                                             <Grid container className={classes.root} spacing={16}>
                                                 <Grid item xs>                                                    
-                                                    <TextField                                                        
+                                                    <TextValidator
                                                         label="Nom"
-                                                        className={classes.textField}                
+                                                        onChange={this.handleChange}
                                                         fullWidth
                                                         required
-                                                        margin="normal"
-                                                    />                                                
+                                                        name="nom"
+                                                        value={user.nom}
+                                                        validators={['required']}
+                                                        errorMessages={['this field is required']}
+                                                    />                                               
                                                 </Grid>
                                                 <Grid item xs>                                                    
-                                                    <TextField                                                        
-                                                        label="Prénom"
-                                                        className={classes.textField}                
+                                                    <TextValidator
+                                                        label="Prenom"
+                                                        onChange={this.handleChange}
                                                         fullWidth
                                                         required
-                                                        margin="normal"
-                                                    />                                                
+                                                        name="prenom"
+                                                        value={user.prenom}
+                                                        validators={['required']}
+                                                        errorMessages={['this field is required']}
+                                                    />                                                 
                                                 </Grid>
                                                 <Grid item xs>                                                    
-                                                    <TextField                                                        
+                                                    <TextValidator
                                                         label="Username"
-                                                        className={classes.textField}                
+                                                        onChange={this.handleChange}
                                                         fullWidth
                                                         required
-                                                        margin="normal"
-                                                    />                                                
+                                                        name="username"
+                                                        value={user.username}
+                                                        validators={['required']}
+                                                        errorMessages={['this field is required']}
+                                                    />                                                 
                                                 </Grid>
                                             </Grid>
                                             <Grid container className={classes.root} spacing={16}>
                                                 <Grid item xs={8}>                                                    
-                                                    <TextField                                                        
+                                                    <TextValidator
                                                         label="Email"
-                                                        className={classes.textField}                
+                                                        onChange={this.handleChange}
                                                         fullWidth
                                                         required
-                                                        margin="normal"
-                                                    />                                                
+                                                        name="email"
+                                                        value={user.email}
+                                                        validators={['required', 'isEmail']}
+                                                        errorMessages={['this field is required', 'email is not valid']}
+                                                    />                                                 
                                                 </Grid>
                                             </Grid>
                                             <Grid container className={classes.root} spacing={16}>
                                                 <Grid item xs={12}>                                                    
-                                                    <TextField                                                        
-                                                        label="Présentation"
-                                                        className={classes.textField}                
-                                                        fullWidth
-                                                        multiline
-                                                        rows="4"
-                                                        margin="normal"
-                                                    />                                                
+                                                                                                    
                                                 </Grid>
                                             </Grid>
                                             <Grid container className={classes.root} spacing={16}>
                                                 <Grid item xs={12} >
-                                                    <CustomButton color="blue"  className={classes.title}>
+                                                    <Button
+                                                            type="submit"                                                            
+                                                            variant="contained"
+                                                            color="primary"
+                                                            className={classes.submit}
+                                                    >
                                                         Update
-                                                    </CustomButton>
+                                                    </Button>                                                   
                                                 </Grid>
                                             </Grid>
-                                        </form>
+                                        </ValidatorForm>
                                     </Grid>
                                 </Grid>
                             </CardBody>
@@ -156,6 +240,9 @@ class Profile extends React.Component {
 const mapStateToProps = (state) => {
     return {
             color: state.storeProfile.color,
+            iduser: state.storeLogin.iduser,
+            email: state.storeLogin.email,
+            token: state.storeLogin.token,
     }
 }
 

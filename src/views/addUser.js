@@ -58,6 +58,7 @@ class AddUser extends React.Component {
                 prenom:'',
                 username:'',
                 email: '',
+                presentation:'',
                 password: '',
             },
         }
@@ -151,6 +152,20 @@ class AddUser extends React.Component {
                                                 value={user.email}
                                                 validators={['required', 'isEmail']}
                                                 errorMessages={['this field is required', 'email is not valid']}
+                                            />
+                                        </Grid>                                    
+                                    </Grid>
+                                    <Grid container  spacing={16}>
+                                        <Grid item xs={12}>
+                                            <TextValidator
+                                                label="Présentation"
+                                                onChange={this.handleChange}
+                                                fullWidth
+                                                required
+                                                name="presentation"
+                                                value={user.presentation}
+                                                validators={['required']}
+                                                errorMessages={['this field is required']}
                                             />
                                         </Grid>                                    
                                     </Grid>

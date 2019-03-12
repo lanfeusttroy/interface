@@ -2,8 +2,10 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import _ from 'lodash';
+
+
+
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -22,15 +24,20 @@ import logo from "assets/img/reactlogo.png";
 
 
 
-class DefaultLayout extends Component { 
+class AdministrationLayout extends Component { 
     constructor(props){
         super(props);      
     }  
+
+    
+
+    render(){
         
-    render(){        
 
         const { classes, routes, route, hist } = this.props;
-        const Component = this.props.component;       
+        const Component = this.props.component;
+
+       
         
         return(
             <div  className={classes.root}>  
@@ -70,4 +77,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps)(withStyles(defaultLayoutStyle)(DefaultLayout));
+export default connect(mapStateToProps)(withStyles(defaultLayoutStyle)(AdministrationLayout));

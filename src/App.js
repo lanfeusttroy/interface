@@ -15,9 +15,11 @@ import axios from 'config/axios';
 
 //routes 
 import defaultRoute from "routes/default";
+import routeAdministration from "routes/administration";
 
 //layouts
 import DefaultLayout from "layouts/default";
+import AdministrationLayout from "layouts/administration";
 
 //pages
 import NotFound from 'pages/notFound';
@@ -31,92 +33,80 @@ class App extends Component {
   constructor(props) {
       super(props);          
       
-      this.state = {
-          openSidebar: true, //dashboard
-          isLogged: false, // login
-      }
-  }   
+  }  
+  
+  componentWillMount(){
+    //isLogged ?
+    console.log(this.props.isLogged);
+  }
 
  /*animate sidebar*/
   handleOpenSidebar=()=>{      
       let openSidebar = false;
 
-      if(this.state.openSidebar === true){
+      if(this.props.openSidebar === true){
           openSidebar = false;
       }else{
           openSidebar = true;
       }
 
-      this.setState({openSidebar: openSidebar});
+      const action = { type: "CHANGE_SIDEBAR", openSidebar:openSidebar };
+		  this.props.dispatch(action);
+      //this.setState({openSidebar: openSidebar});
       
   }
 
-/*validate login*/
-handleValidateLogin=(user)=>{
-    console.log(user);
+  /*validate login*/
+  handleValidateLogin=(user)=>{
     
-    axios.post('/user/register', user).then(response => {
-      if (response.data) {
-        
-        console.log(response.data);
-
-        const action = { type: "CHANGE_TOKEN", token: 'Bearer ' + response.data.token };
-		    this.props.dispatch(action);
-
-        //redirection vers la page principale
-        
-        this.setState({
-          isLogged:true
-        },()=>{
-            console.log('login');	
-            const location = {
-                pathname: '/home'
-            } 
       
-            
-            hist.push(location);
-            hist.replace(location);
-                                    
-        });
-
+      axios.post('/user/register', user).then(response => {
+        if (response.data) {
+          
         
+          //let action = { type: "CHANGE_TOKEN", token: 'Bearer ' + response.data.token };
+          //this.props.dispatch(action);
+
+          
+          
+          const action = { type: "CHANGE_LOGIN",  isLogged:true, iduser:response.data.user.iduser, token: 'Bearer ' + response.data.token, username:response.data.user.username, email: response.data.user.email };
+          this.props.dispatch(action);
+
+          //redirection vers la page principale
+          const location = {
+              pathname: '/map'
+          } 
 
 
-       
-        
-      }
-    }).catch(error => {
-        console.log(error)                
-    })
+          hist.push(location);
+          hist.replace(location); 
 
-    /*
-    this.setState({isLogged:true});
+        }
+      }).catch(error => {
+          console.log(error)                
+      })
 
-    
-    const location = {
-        pathname: '/home'
-    } 
+      
 
-    //redirection vers la page principale
-    hist.push(location);
-    hist.replace(location);
-    */
+  }
 
-}
+ 
+
   render() {
     return (
       <Router history={hist}>
         <Switch>
           <Route
-              exact
-              path={'/login'}
-              
-              render={ (route) => <Login 
-                                      component={Login}                                        
-                                      handleValidateLogin={this.handleValidateLogin}                                                       
-                                  />
-              }
-          />
+                exact
+                path={'/login'}
+                
+                render={ (route) => <Login 
+                                        component={Login}                                        
+                                        handleValidateLogin={this.handleValidateLogin}                                                       
+                                    />
+                }
+            />
+          
           { _.map(defaultRoute, (route, key) => {
               const { component, path } = route;
                   return (
@@ -127,13 +117,13 @@ handleValidateLogin=(user)=>{
                           render={ 
                               
                               (route) => 
-                                this.state.isLogged === true ?(
+                                this.props.isLogged === true ?(
                                               <DefaultLayout 
                                                   component={component} 
                                                   route={route} 
                                                   routes={defaultRoute}
                                                   handleOpenSidebar = {this.handleOpenSidebar}
-                                                  openSidebar = {this.state.openSidebar}  
+                                                  openSidebar = {this.props.openSidebar}  
                                                   hist = {hist}                                                                                                                                                                  
                                               />
                                 ):(
@@ -144,7 +134,36 @@ handleValidateLogin=(user)=>{
                   )
               }) 
           }
+
+          { _.map(routeAdministration, (route, key) => {
+              const { component, path } = route;
+                  return (
+                      <Route
+                          exact
+                          path={path}
+                          key={key}
+                          render={ 
+                              
+                              (route) => 
+                                this.props.isLogged === true ?(
+                                    <AdministrationLayout 
+                                        component={component} 
+                                        route={route} 
+                                        routes={routeAdministration}
+                                        handleOpenSidebar = {this.handleOpenSidebar}
+                                        openSidebar = {this.props.openSidebar}  
+                                        hist = {hist}                                                                                                                                                                  
+                                    />
+                                ):(
+                                  <Redirect to="/login"/>
+                                )                             
+                          }
+                      />
+                  )
+              }) 
+          }
           <Route component={ NotFound } />
+          
         </Switch>
       </Router>
     );
@@ -153,7 +172,9 @@ handleValidateLogin=(user)=>{
 
 const mapStateToProps = (state) => {
   return {
-    token: state.storeProfile.token,          
+    openSidebar: state.storeProfile.openSidebar,  
+    token: state.storeLogin.token,  
+    isLogged: state.storeLogin.isLogged        
   }
 }
 export default connect(mapStateToProps)(App);

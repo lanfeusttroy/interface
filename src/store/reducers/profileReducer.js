@@ -1,7 +1,7 @@
 const initialStateLayer = {
     color:'blue',
 		backgroundSidebar:'phare-1',
-		token:''
+		openSidebar:true
 };
 
 function profile(state = initialStateLayer, action) {
@@ -11,11 +11,11 @@ function profile(state = initialStateLayer, action) {
 	
 	
 	switch (action.type) {
-		case 'CHANGE_TOKEN':
+		case 'CHANGE_SIDEBAR':
 			
 			nextState = {
 			  ...state,
-			  token:  action.token
+			  openSidebar:  action.openSidebar
 			}			
 			
 		return nextState || state

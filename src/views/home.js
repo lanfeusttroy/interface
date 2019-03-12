@@ -111,20 +111,21 @@ class Home extends React.Component {
         if( this.listeNavire.length == 0){
             
             axios.defaults.headers.common['Authorization'] = this.props.token;
-            axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
-
-          
-            //console.log(axios.defaults.headers.common['Authorization']);
-
-
+                       
+            
             axios.get('/navire',).then(response => {
                 if (response.data) {
 
                     this.listeNavire = response.data;
-                    this.idFicheNavire = response.data[0]["_id"];
 
-                    const action = { type: "CHANGE_NAVIRE", ficheNavire: response.data[0] };
-                    this.props.dispatch(action);
+                    if(this.props.ficheNavire["_id"] === undefined){
+                        this.idFicheNavire = response.data[0]["_id"];
+
+                        const action = { type: "CHANGE_NAVIRE", ficheNavire: response.data[0] };
+                        this.props.dispatch(action);
+                    }        
+
+                    
                     
                     this.setState({						
                         isLoading: true
@@ -352,7 +353,8 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
     return {
             color: state.storeProfile.color,
-            token: state.storeProfile.token,
+            token: state.storeLogin.token,
+            username : state.storeLogin.username,
             ficheNavire : state.storeNavire.ficheNavire,
 
     }

@@ -9,8 +9,6 @@ import Boat from "views/boat";
 import Notification from "views/notification";
 
 
-import AddUser from "views/addUser";
-
 
 export default {
     Home: {
@@ -18,48 +16,41 @@ export default {
         path: '/home',
         sidebarName: "Home",        
         icon: "home",
-        protected: false
+        header:false,        
     },
     Map: {
         component: Map,
         path: '/map',
         sidebarName: "Map",        
         icon: "place",
-        protected: false
+        header:false,        
     },
     Chart: {
         component: Chart,
         path: '/chart',
         sidebarName: "Chart",        
         icon: "show_chart",
-        protected: false
+        header:false,       
     },
     Boat:{
         component: Boat,
         path: '/boat',
         sidebarName: "Navires",        
         icon: "directions_boat",
-        protected: false
+        header:true,        
     },
     Notification:{
         component: Notification,
         path: '/notification',
         sidebarName: "Notification",        
         icon: "notifications",
-        protected: false
+        header:true,
     },
     Profile: {
         component: Profile,
         path: '/profile',
         sidebarName: "Profile",        
         icon: "person",
-        protected: false
-    },
-    AddUser: {
-        component: AddUser,
-        path: '/user/add',
-        sidebarName: "Administration",        
-        icon: "person",
-        protected: false
+        header:true,
     }
 };

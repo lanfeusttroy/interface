@@ -59,7 +59,8 @@ router.post('/update', function(req, res, next) {
         nom: req.body.nom,
         prenom: req.body.prenom,
         username: req.body.username,
-        email: req.body.email,          
+        email: req.body.email,       
+        presentation: req.body.presentation,   
     };
     
     UserModel.findOneAndUpdate({email:req.body.email}, updateUser, function(err, user){

@@ -8,7 +8,7 @@ var NavireModel = require('../models/navire.js');
 router.get('/', function(req, res, next) {
     
     const query = NavireModel.find()
-                             .limit(10)
+                             .limit(50)
                              .sort({'nom': 'asc'});
 
     query.exec(function(err, navires){
@@ -21,10 +21,10 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/:limit/:champ/:order', function(req, res, next) {
+router.get('/:limit/:row/:order', function(req, res, next) {
     let limit = 10;
-    let champ = 'nom';
-    let order = 'asc';
+    let row = 'nom';
+    let order = 'ASC';
    
     
     if(req.params.limit != undefined){
@@ -92,6 +92,45 @@ router.get('/imo/:value', function(req, res, next) {
                 res.send(err);
             res.json(navire);
     });
+	
+});
+
+router.post('/filter', function(req, res, next) {
+    let limit = 10;
+
+    let params = req.body.params;
+    let order = params.order;
+    let page = params.page;
+    let filters = params.filters;
+    
+    console.log(filters);
+    
+    const sort = {};
+    sort[order.row] = order.tri; 
+   
+    //commence
+    // /^search/
+    const search = new RegExp('^lad', 'i');
+
+    //contient
+    // /search/i
+
+    //egal
+    // search
+    
+    const query = NavireModel.find({
+                                nom: search
+                            })
+                             .limit(limit)
+                             .sort(sort);
+
+    query.exec(function(err, navires){
+        if (err){
+            res.send(err); 
+        }
+        res.json(navires);  
+    });
+    
 	
 });
 

@@ -34,7 +34,10 @@ app.use(expressJwt({ secret: tokenkey }).unless(
                                           { 
                                             path: [ 
                                               '/user/register',  
-                                              '/navire/first' 
+                                              '/user/',
+                                              '/navire/first',
+                                              '/navire/filter',
+                                              '/navire'
                                             ]
                                           }
                                       )); 

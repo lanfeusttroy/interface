@@ -156,7 +156,7 @@ class TableCustom extends React.Component {
         
         
         return(
-            <div className={classes.tableResponsive}>
+            <div  >
                 {
                     this.props.enabledPicture === true &&(
                         <FormControlLabel
@@ -173,30 +173,31 @@ class TableCustom extends React.Component {
                     )
                 }
 
+                <div className={classes.tableResponsive} style={{ height: this.props.height }} >
+                    <Table className={classes.table} >
+                        <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
+                            <TableRow>
+                                {this.state.boolPicture === true &&(
+                                    <TableCell
+                                        style={{width: '10em'}}                                                        
+                                        className={classes.tableCell + " " + classes.tableHeadCell}                                
+                                    >
+                                    </TableCell>
+                                )}
 
-                <Table className={classes.table}>
-                    <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
-                        <TableRow>
-                            {this.state.boolPicture === true &&(
-                                <TableCell
-                                    style={{width: '10em'}}                                                        
-                                    className={classes.tableCell + " " + classes.tableHeadCell}                                
-                                >
-                                </TableCell>
-                            )}
-
-                            {tableHead.map((prop, key) => {
-                                return this.createHead(prop, key)                 
-                            
-                            })}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {tableData.map((prop, key) => {
-                            return this.createLine(prop, key)
-                        })}                        
-                    </TableBody>
-                </Table>
+                                {tableHead.map((prop, key) => {
+                                    return this.createHead(prop, key)                 
+                                
+                                })}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {tableData.map((prop, key) => {
+                                return this.createLine(prop, key)
+                            })}                        
+                        </TableBody>
+                    </Table>
+                </div>
             </div>
         )
     }

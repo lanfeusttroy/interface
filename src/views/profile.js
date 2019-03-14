@@ -9,6 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 //components
 import Card from "components/card/card";
 import CardHeader from "components/card/cardHeader";
@@ -50,6 +54,8 @@ class Profile extends React.Component {
         this.state = {           
             isLoading: false,
             completed: 0,
+            SnackbarOpen:false,
+            message:'',
             user: {
                 nom:'',
                 prenom:'',
@@ -60,6 +66,12 @@ class Profile extends React.Component {
         };
 
         this.timer = null;
+    }
+
+    handleCloseSnackbar=()=>{
+        this.setState({	            
+            SnackbarOpen:false,	           
+        })
     }
 
     handleChange = (event) => {
@@ -89,10 +101,16 @@ class Profile extends React.Component {
                 user["username"] = response.data.username;
                 user["email"] = response.data.email;
                 user["presentation"] = response.data.presentation;
+
+                this.setState({	
+                    user:user,	                    				
+                    isLoading: true
+                },()=>{
+                    console.log('chargement terminé');	
+                    clearInterval(this.timer);	           
+                                            
+                });                
                 
-                this.setState({
-                    user:user                  
-                })
             }
         });
     }
@@ -105,7 +123,12 @@ class Profile extends React.Component {
         
         axios.post('/user/update', user).then(response => {
             if (response.data) {
-                console.log("ok");
+                this.setState({	
+                    SnackbarOpen:true,
+                    message:'Votre profil a été actualisé.'
+                });
+               
+               
             }
         }).catch(error => {
             console.log(error)                
@@ -114,11 +137,62 @@ class Profile extends React.Component {
     }
 
     render(){
+        
+		if(this.state.isLoading === false){
+			return (
+				this.renderLoadingView()
+			)
+		}else{
+			return (
+				this.renderLoadedView()
+			)
+		}
+          
+    }
+
+
+    
+    renderLoadingView(){
+        const {classes} = this.props;
+		return (
+			<div className={classes.cssDivMiddle}>				
+				<CircularProgress					
+					variant="determinate"
+					value={this.state.completed}
+				/>				
+			</div>			
+		)
+	}
+
+    renderLoadedView(){
         const {classes, color} = this.props;
         const { user } = this.state;
 
         return(
             <div>
+                <Snackbar
+                    anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                    }}
+                    open={this.state.SnackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={this.handleCloseSnackbar}
+                   
+                    message={<span>{this.state.message}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                            className={classes.close}
+                            onClick={this.handleCloseSnackbar}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
+
                 <Grid container  spacing={16}>
                     <Grid item xs={8}>
                         <Card>
@@ -178,7 +252,7 @@ class Profile extends React.Component {
                                                 </Grid>
                                             </Grid>
                                             <Grid container className={classes.root} spacing={16}>
-                                                <Grid item xs={8}>                                                    
+                                                <Grid item xs={12}>                                                    
                                                     <TextValidator
                                                         label="Email"
                                                         onChange={this.handleChange}
@@ -193,7 +267,19 @@ class Profile extends React.Component {
                                             </Grid>
                                             <Grid container className={classes.root} spacing={16}>
                                                 <Grid item xs={12}>                                                    
-                                                                                                    
+                                                    <TextValidator
+                                                        label="Présentation"
+                                                        onChange={this.handleChange}
+                                                        fullWidth
+                                                        multiline
+                                                        variant="outlined"
+                                                        rows={5}
+                                                        required
+                                                        name="presentation"
+                                                        value={user.presentation}
+                                                        validators={['required']}
+                                                        errorMessages={['this field is required']}
+                                                    />                                                
                                                 </Grid>
                                             </Grid>
                                             <Grid container className={classes.root} spacing={16}>

@@ -58,6 +58,12 @@ const tableCustomStyle = theme => ({
       marginTop: theme.spacing.unit * 3,
       overflowX: "auto"
     },
+    cssDivMiddle:{
+      height:'100%', 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    },
     purpleRowSelected:{
       backgroundColor: primaryColor,
     },

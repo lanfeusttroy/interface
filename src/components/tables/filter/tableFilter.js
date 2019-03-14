@@ -1,236 +1,257 @@
-//components/tables/infiniteTable.js
-
 import React from "react";
 import classNames from "classnames";
 
 import _ from "lodash";
 
+import axios from 'axios';
+
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-//components
-import IconFilter from "components/tables/filter/iconFilter";
 
+//components
+import HeadFilter from "components/tables/filter/headFilter";
+
+//styles
 import tableCustomStyle from "assets/components/tableCustomStyle";
 
-//css
-import "components/tables/filter/tableFilter.css";
 
-
-
-
-const listFilterValue = [
-    {
-        value:'Egal'				
-    },
-    {
-        value:'Commence'				
-    },
-    {
-        value:'Contient'				
-    },
-];
 
 
 class TableFilter extends React.Component{
     constructor(props) {
         super(props);   
+
+        this.state ={
+            order: {},
+            filters:[],
+            isLoading: false,
+            page:0,
+            data:[],
+            completed: 0
+        }  
         
-        this.state = {
-            order: {}, 
-			filters:[],
-            selected:[],
-            enabledFilters:[],
-            data:[]
-        }
+        this.timer = null;
+       
     }
     componentWillMount() {
         this.state.order = this.props.defaultOrder;
-
-        //Gestion du tri
-
-        let results =  _.sortBy(this.props.tableData, [this.state.order.champ]);
-
-        if(this.state.order.tri === 'DESC'){
-            results = results.reverse(); 
-        }
-
-        this.state.data = results;
+        this.loadData();
     }
 
-    handleOrder = (filterKey) =>{
-        const data = this.state.data;
+    progress = () => {
+		const { completed } = this.state;
+		this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+    };
+    
+    componentWillUnmount() {
+		clearInterval(this.timer);
+    }
 
+    /* gestion des filtres */
+    handleUpdateFilter = (row, type, value) =>{
+       
+        let filter = {};
+        let filters =[];
+
+        if(value !== ""){
+            switch(type){
+				case "Contient":                    
+                    filter[row] = new RegExp( value , 'i');
+				break;
+				
+				case "Commence":
+                    filter[row] = new RegExp( '^' + value , 'i');
+				break;
+				
+				case "Egal":
+                    filter[row] = value;
+				break;
+            }
+
+            filters[row] = filter;
+
+            this.setState({
+				filters:filters, 
+				isLoading: false,
+                page:0,
+                data:[],
+                completed: 0			
+				
+				}, ()=>{
+					this.loadData();
+				}
+			);
+        }
+    }
+
+    /* gestion du tri */
+    handleOrder = (filterKey) =>{
+        
         let tri = 'ASC';
 		
-		if(this.state.order.champ === filterKey){
+		if(this.state.order.row === filterKey){
 			if(this.state.order.tri === "ASC"){
 				tri = "DESC";
 			}		
         }
 
-      
-
-        let results =  _.sortBy(data, [filterKey]);
-
-        if(tri === 'DESC'){
-            results = results.reverse(); 
-        }
-       
-        
-        this.setState({           
-            order: {champ: filterKey, tri: tri},      
-            data: results     
-        })
-
-       
-    }
-
-    handleChangeFilter = (champ, filter, filterValue) =>{
-        const data = this.props.tableData;
-        
-        let filters = this.state.filters;
-
-        if (filterValue !== ''){
-            filters[champ] = filterValue;
-        }else{
-            delete filters[champ];
-        }
-
-             
-
-        const results = _.filter(data, function(obj) {
-            let strData = ((obj[champ]).toString()).toLowerCase();
-
-            if(strData.indexOf(filterValue) !== -1){
-                return obj;
-            }
-
-           
-        });
-
-                
+        this.timer = setInterval(this.progress, 20);
 
         this.setState({
-            filters:filters,
-            data: results
-        });
+                data:[], 
+                page:0, 
+                order: {row: filterKey, tri: tri},            
+                isLoading: false
+            },
+            () => {	            
+                this.loadData();			
+            }
+        );
+
+    }
+
+    loadData(){
+        this.timer = setInterval(this.progress, 20);
+
+        axios.post('/navire/filter',{
+            params:{
+                order:this.state.order, 
+                filters:this.state.filters,                   
+                page:this.state.page                    
+            }
+        }).then(response => {
+            if (response.data) {                             
+                
+                const nextData = response.data;
+
+                this.setState({						
+                    isLoading: true,
+                    data: [
+                        ...this.state.data,
+                        ...nextData,
+                      ]
+                },()=>{
+                    console.log('chargement terminé');	
+                    clearInterval(this.timer);	           
+                                            
+                });
+            }
+        }).catch(error => {
+            console.log(error)
+        })       
         
     }
 
-    selectedItem = (id)=>{
-       
 
-        if(this.state.selected.includes(id)){
-            let selectedElement = this.state.selected;
-            let indexElement = selectedElement.indexOf(id);
-            		
-			selectedElement.splice(indexElement, 1);			
-            this.setState({selected: selectedElement });
-            
-        }else{
-            this.setState({selected: [...this.state.selected, id]});
-        }
-    }
-    
-    createCell(champ, key){
+    createHead(champ, key){
+        
         if (champ.visible === true){
-            return (
-                <TableCell  key={key}> 
-                   
+            return(
+                <TableCell  key={key}>
                     {    
                         champ.filter === true ?(
-                            <IconFilter 
-                                key={'icon_' + key}
-                                champ={champ.row} 
+                            <HeadFilter                                 
+                                champ={champ} 
                                 order={this.state.order}
-                                listFilter = {listFilterValue}
                                 handleOrder = {this.handleOrder} 
-                                handleChangeFilter = {this.handleChangeFilter}
-                                defaultFilter = {"Contient"}
+                                handleUpdateFilter = {this.handleUpdateFilter}
                             />
                         ):(
-                            champ.row
-                        )              
-                        
+                            champ.libelle
+                        )
                     }
-                </TableCell>
+                </TableCell> 
             )
         }
     }
 
-    isSelected(key){
-        const { classes, color } = this.props;
+    createLine(enreg, key){
+        const { classes, color } = this.props;    
 
-        if( this.state.selected.includes(key) === true) {
-           return color;
-        }else{
-            return false;
-        }
-    }
-
-    createLine(prop, key){
-        const { classes, color } = this.props;
-
-           
-
-        const rowSelected = classNames({            
-            [classes[color + "RowSelected"]]: this.isSelected(key)
-        });
         
-
         return(
-
-            <TableRow key={key} onClick={()=>this.selectedItem(key)} className={rowSelected}>
+            <TableRow key={key} >
                 {
-                    this.props.tableHead.map((champ, key) => {
-                        
-                            return (
-                                champ.visible === true &&(
-                                    <TableCell  key={key}>
-                                        {prop[champ.row]}
-                                    </TableCell>
-                                )
-                            )                                           
-                        
+                    this.props.tableHead.map((champ, key) => {                           
+                        return (                                
+                            <TableCell  key={key}>
+                                {enreg[champ.row]}
+                            </TableCell>
+                        )   
                     })
-                }                  
-                
+                }
             </TableRow>
         )
     }
 
+    render(){
+       
+		if(this.state.isLoading === false){
+			return (
+				this.renderLoadingView()
+			)
+		}else{
+			return (
+				this.renderLoadedView()
+			)
+		}
+          
+    }
+
 
     
-    render(){
-        const { classes, tableHeaderColor } = this.props;
-        return(
+    renderLoadingView(){
+        const {classes} = this.props;
+        
+
+		return (
+			<div className={classes.cssDivMiddle}>				
+				<CircularProgress					
+					variant="determinate"
+					value={this.state.completed}
+				/>				
+			</div>			
+		)
+	}
+
+
+    renderLoadedView(){
+        const {classes, tableHeaderColor} = this.props;
+
+        const {data} = this.state;
+
+
+        
+        return(            
             <div className={classes.tableResponsive}>
                 <Table className={classes.table} >
                     <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
                         <TableRow>
                         {
                             this.props.tableHead.map((champ, key) => {
-                                    return this.createCell(champ, key)
+                                    return this.createHead(champ, key)
                             })
                         }
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.data.map((prop, key) => {
-                            return this.createLine(prop, key)
-                        })}
+                        {data.map((enreg, key) => {
+                                return this.createLine(enreg, key)
+                        })}  
                     </TableBody>
                 </Table>
-
             </div>
         )
     }
+
 }
 
 export default withStyles(tableCustomStyle)(TableFilter);

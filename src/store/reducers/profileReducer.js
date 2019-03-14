@@ -20,7 +20,7 @@ function profile(state = initialStateLayer, action) {
 			
 		return nextState || state
 
-		
+			
 		case 'CHANGE_COLOR':
 			
 			nextState = {
@@ -30,7 +30,7 @@ function profile(state = initialStateLayer, action) {
 			
 		return nextState || state
 					
-        case 'CHANGE_BACKGROUND':
+    case 'CHANGE_BACKGROUND':
 			
 			nextState = {
 			  ...state,

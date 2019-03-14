@@ -8,6 +8,7 @@ import Map from "views/map";
 import Boat from "views/boat";
 import Notification from "views/notification";
 
+import ListeNavire from "views/listeNavire";
 
 
 export default {
@@ -38,6 +39,13 @@ export default {
         sidebarName: "Navires",        
         icon: "directions_boat",
         header:true,        
+    },
+    ListeNavire:{
+        component: ListeNavire,
+        path: '/listenavire',
+        sidebarName: "Navires",        
+        icon: "list",
+        header:false,
     },
     Notification:{
         component: Notification,

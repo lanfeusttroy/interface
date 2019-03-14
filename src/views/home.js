@@ -29,6 +29,9 @@ import Slide from "components/media/slide";
 import TableFilter from "components/tables/filter/tableFilter";
 import FicheNavire from "components/metiers/ficheNavire/ficheNavire";
 
+//style
+import defaultStyle from "assets/components/views/defaultStyle";
+
 
 import navire from "assets/img/test.jpg";
 import pavillon from "assets/img/pavillon_fr.png";
@@ -37,43 +40,6 @@ import pavillon from "assets/img/pavillon_fr.png";
 //import d'un fichier json
 import communes from "ressources/communes.js";
 
-const styles = {
-    cssDivMiddle:{
-        height:'100%', 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center'
-    },
-    cardCategoryWhite: {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    cardTitleWhite: {
-      color: "#FFFFFF",
-      marginTop: "0px",
-      minHeight: "auto",
-      fontWeight: "300",
-      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-      marginBottom: "3px",
-      textDecoration: "none"
-    },
-    iconButton:{
-        float:"right",
-        padding:"0px",
-        color:"#000"      
-    },
-    iconPavillon:{
-        width:"80px",
-        height:"auto"
-    },
-    paper:{
-        padding:"10px"
-    }
-    
-  };
 
 
 
@@ -191,7 +157,7 @@ class Home extends React.Component {
 
     renderLoadedView(){
         const {classes, color} = this.props;
-       
+        console.log('ok');
         return(
             <div>
                
@@ -250,6 +216,7 @@ class Home extends React.Component {
                                         ]} 
                                         handleSelect ={this.handleSelectFicheNavire}
                                         color={color}
+                                        height={250}
                                         enabledPicture = {true}
                                         boolSelected = {true}
                                         tableData={this.listeNavire}    
@@ -356,9 +323,10 @@ const mapStateToProps = (state) => {
             token: state.storeLogin.token,
             username : state.storeLogin.username,
             ficheNavire : state.storeNavire.ficheNavire,
+            
 
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Home));
+export default connect(mapStateToProps)(withStyles(defaultStyle)(Home));
 

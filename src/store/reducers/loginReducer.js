@@ -3,7 +3,7 @@ const initialStateLayer = {
 		token:'',
 		username:'',
 		email:'',
-    isLogged: false
+    isLogged: true
 };
 
 function login(state = initialStateLayer, action) {

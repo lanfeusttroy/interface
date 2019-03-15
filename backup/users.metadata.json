@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"photimo.users"},{"v":2,"unique":true,"key":{"email":1},"name":"email_1","ns":"photimo.users","background":true}],"uuid":"d9459fe5a95d46a4b73cc15defa13b75"}

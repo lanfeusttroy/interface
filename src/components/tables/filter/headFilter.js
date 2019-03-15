@@ -44,7 +44,7 @@ const styles = theme => ({
 class HeadFilter extends React.Component{
     constructor(props){
         super(props);
-
+        
         this.state = {	
             open:false, //gestion du popup
             anchorEl: null, //popup   
@@ -69,7 +69,7 @@ class HeadFilter extends React.Component{
                 anchorEl: null
             },()=>{
                 // mise en oeuvre du filtre
-                this.props.handleUpdateFilter(champ, typeFilter, filterValue);
+                this.props.handleUpdateFilter(champ.row, typeFilter, filterValue);
             });          
     } 
 

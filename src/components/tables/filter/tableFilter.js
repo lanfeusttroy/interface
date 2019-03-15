@@ -31,7 +31,7 @@ class TableFilter extends React.Component{
 
         this.state ={
             order: {},
-            filters:[],
+            filters:{},
             isLoading: false,
             page:0,
             data:[],
@@ -59,37 +59,29 @@ class TableFilter extends React.Component{
     handleUpdateFilter = (row, type, value) =>{
        
         let filter = {};
-        let filters =[];
+        let filters = this.state.filters;
 
         if(value !== ""){
-            switch(type){
-				case "Contient":                    
-                    filter[row] = new RegExp( value , 'i');
-				break;
-				
-				case "Commence":
-                    filter[row] = new RegExp( '^' + value , 'i');
-				break;
-				
-				case "Egal":
-                    filter[row] = value;
-				break;
-            }
 
-            filters[row] = filter;
-
-            this.setState({
-				filters:filters, 
-				isLoading: false,
-                page:0,
-                data:[],
-                completed: 0			
-				
-				}, ()=>{
-					this.loadData();
-				}
-			);
+            filter["type"] = type;
+            filter["value"] = value; 
+            
+            filters[row] = filter;           
+        }else{ 
+            delete filters[row];
         }
+
+        this.setState({
+            filters:filters, 
+            isLoading: false,
+            page:0,
+            data:[],
+            completed: 0			
+            
+            }, ()=>{
+                this.loadData();
+            }
+        );
     }
 
     /* gestion du tri */
@@ -121,10 +113,11 @@ class TableFilter extends React.Component{
     loadData(){
         this.timer = setInterval(this.progress, 20);
 
+        
         axios.post('/navire/filter',{
             params:{
                 order:this.state.order, 
-                filters:this.state.filters,                   
+                filters: JSON.stringify(this.state.filters),                   
                 page:this.state.page                    
             }
         }).then(response => {
@@ -192,6 +185,7 @@ class TableFilter extends React.Component{
         )
     }
 
+    /*
     render(){
        
 		if(this.state.isLoading === false){
@@ -206,11 +200,10 @@ class TableFilter extends React.Component{
           
     }
 
-
-    
+*/
+    /*
     renderLoadingView(){
-        const {classes} = this.props;
-        
+        const {classes} = this.props;        
 
 		return (
 			<div className={classes.cssDivMiddle}>				
@@ -221,9 +214,9 @@ class TableFilter extends React.Component{
 			</div>			
 		)
 	}
+*/
 
-
-    renderLoadedView(){
+    render(){
         const {classes, tableHeaderColor} = this.props;
 
         const {data} = this.state;
@@ -245,7 +238,7 @@ class TableFilter extends React.Component{
                     <TableBody>
                         {data.map((enreg, key) => {
                                 return this.createLine(enreg, key)
-                        })}  
+                        })}                         
                     </TableBody>
                 </Table>
             </div>

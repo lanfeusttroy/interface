@@ -101,26 +101,35 @@ router.post('/filter', function(req, res, next) {
     let params = req.body.params;
     let order = params.order;
     let page = params.page;
-    let filters = params.filters;
+    let filters = JSON.parse(params.filters);
     
-    console.log(filters);
+
+    let search = {};
+    
+
+    Object.keys(filters).forEach(function(key){
+        switch(filters[key].type){
+            case "Contient":
+                search[key] = new RegExp( (filters[key].value).toString(), 'i');
+            break;
+            case "Commence":
+                search[key] = new RegExp('^' + (filters[key].value).toString(), 'i');
+            break;
+            case "Egal":
+                search[key] = (filters[key].value).toString();
+            break;
+        }      
+       
+     });
+
+    console.log(search);
+    //search["nom"] = new RegExp('la', 'i');
     
     const sort = {};
     sort[order.row] = order.tri; 
    
-    //commence
-    // /^search/
-    const search = new RegExp('^lad', 'i');
-
-    //contient
-    // /search/i
-
-    //egal
-    // search
-    
-    const query = NavireModel.find({
-                                nom: search
-                            })
+        
+    const query = NavireModel.find(search)
                              .limit(limit)
                              .sort(sort);
 

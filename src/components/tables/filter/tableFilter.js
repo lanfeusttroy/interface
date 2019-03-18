@@ -14,6 +14,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Avatar from '@material-ui/core/Avatar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 
 //components
@@ -23,6 +26,8 @@ import HeadFilter from "components/tables/filter/headFilter";
 import tableCustomStyle from "assets/components/tableCustomStyle";
 
 
+//parametre
+import proxy_photo from "config/parametres";
 
 
 class TableFilter extends React.Component{
@@ -32,7 +37,10 @@ class TableFilter extends React.Component{
         this.state ={
             order: {},
             filters:{},
-            isLoading: false,
+            selected:"", //selection d'une ligne
+            isLoading: false, //chargement du composant  
+            infinite: false, //mode infinite   
+            enabledPicture: false, //mode miniature              
             page:0,
             data:[],
             completed: 0
@@ -48,11 +56,45 @@ class TableFilter extends React.Component{
 
     progress = () => {
 		const { completed } = this.state;
-		this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+        this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+        
     };
     
     componentWillUnmount() {
 		clearInterval(this.timer);
+    }
+
+    paneDidMount = (node) => {
+		if (node) {
+
+            node.addEventListener("scroll", () => {			
+				if (
+					node.scrollHeight - node.scrollTop === node.clientHeight && 
+					node.scrollTop !==0 
+					
+				) {
+                    console.log('update');
+
+                    this.setState({                        
+                        isLoading: false,
+                        page: this.state.page + 1,                        
+                        completed: 0			
+                        
+                        }, ()=>{
+                            this.loadData();
+                        }
+                    );
+
+                   
+				}
+			});
+        }
+    }
+
+    
+
+    handleChange = (evt, name) =>{        
+        this.setState({ ...this.state, [name]: evt.target.checked });
     }
 
     /* gestion des filtres */
@@ -60,6 +102,7 @@ class TableFilter extends React.Component{
        
         let filter = {};
         let filters = this.state.filters;
+        
 
         if(value !== ""){
 
@@ -74,6 +117,7 @@ class TableFilter extends React.Component{
         this.setState({
             filters:filters, 
             isLoading: false,
+            selected:"",
             page:0,
             data:[],
             completed: 0			
@@ -86,8 +130,11 @@ class TableFilter extends React.Component{
 
     /* gestion du tri */
     handleOrder = (filterKey) =>{
+
+        
         
         let tri = 'ASC';
+        
 		
 		if(this.state.order.row === filterKey){
 			if(this.state.order.tri === "ASC"){
@@ -95,7 +142,7 @@ class TableFilter extends React.Component{
 			}		
         }
 
-        this.timer = setInterval(this.progress, 20);
+        
 
         this.setState({
                 data:[], 
@@ -108,6 +155,23 @@ class TableFilter extends React.Component{
             }
         );
 
+    }
+
+    selectedItem = (id)=>{       
+        this.setState({selected: id});  
+        let fiche = _.find(this.state.data,{"_id":id});
+
+        this.props.handleSelect(fiche);         
+    }
+
+    isSelected(key){
+        const { classes, color } = this.props;
+
+        if( this.state.selected === key) {
+           return color;
+        }else{
+            return false;
+        }
     }
 
     loadData(){
@@ -124,6 +188,7 @@ class TableFilter extends React.Component{
             if (response.data) {                             
                 
                 const nextData = response.data;
+                clearInterval(this.timer);	           
 
                 this.setState({						
                     isLoading: true,
@@ -132,13 +197,12 @@ class TableFilter extends React.Component{
                         ...nextData,
                       ]
                 },()=>{
-                    console.log('chargement terminé');	
-                    clearInterval(this.timer);	           
-                                            
+                    console.log('chargement terminé');	                  
                 });
             }
         }).catch(error => {
-            console.log(error)
+            console.log(error);
+            clearInterval(this.timer);
         })       
         
     }
@@ -167,12 +231,36 @@ class TableFilter extends React.Component{
     }
 
     createLine(enreg, key){
-        const { classes, color } = this.props;    
+        const { classes, color } = this.props;  
+
+        const rowSelected = classNames({            
+            [classes[color + "RowSelected"]]: this.isSelected(enreg["_id"])
+        });
+
+        
+        //selection de la premiere photo
+        let navirePhoto;
+        if (this.state.enabledPicture === true){
+            navirePhoto = proxy_photo + 'photos/boatDefault.jpg';
+
+            
+            if(enreg["photos"][0] !== undefined){
+                navirePhoto = proxy_photo + enreg["photos"][0].uri_file;
+            }            
+           
+        } 
 
         
         return(
-            <TableRow key={key} >
+            <TableRow key={key} onClick={()=>this.selectedItem(enreg["_id"])} className={rowSelected} >
+                {this.state.enabledPicture === true &&(
+                    <TableCell  key={key}>
+                        <Avatar  src={ navirePhoto } />
+                    </TableCell>
+                )}
+                
                 {
+                    
                     this.props.tableHead.map((champ, key) => {                           
                         return (                                
                             <TableCell  key={key}>
@@ -185,62 +273,77 @@ class TableFilter extends React.Component{
         )
     }
 
-    /*
-    render(){
-       
-		if(this.state.isLoading === false){
-			return (
-				this.renderLoadingView()
-			)
-		}else{
-			return (
-				this.renderLoadedView()
-			)
-		}
-          
-    }
-
-*/
-    /*
-    renderLoadingView(){
-        const {classes} = this.props;        
-
-		return (
-			<div className={classes.cssDivMiddle}>				
-				<CircularProgress					
-					variant="determinate"
-					value={this.state.completed}
-				/>				
-			</div>			
-		)
-	}
-*/
+    
 
     render(){
         const {classes, tableHeaderColor} = this.props;
 
         const {data} = this.state;
 
-
+        console.log('render');
         
-        return(            
-            <div className={classes.tableResponsive}>
-                <Table className={classes.table} >
-                    <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
-                        <TableRow>
-                        {
-                            this.props.tableHead.map((champ, key) => {
-                                    return this.createHead(champ, key)
-                            })
-                        }
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map((enreg, key) => {
-                                return this.createLine(enreg, key)
-                        })}                         
-                    </TableBody>
-                </Table>
+        return( 
+            <div>         
+                                
+                <FormControlLabel
+                    control={
+                    <Switch
+                        checked={this.state.checkedA}
+                        onChange={(evt) => this.handleChange(evt, 'enabledPicture')}                            
+                        value="enabledPicture"
+                        color="primary"
+                    />
+                    }
+                    label="Miniatures"
+                />
+                
+                
+
+                <div className={classes.tableResponsive} style={{ height: this.props.height }} ref={this.paneDidMount}>
+                    <Table className={classes.table} >
+                        <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
+                            
+                            <TableRow>
+                            {this.state.enabledPicture === true &&(
+                                <TableCell
+                                    style={{width: '10em'}}                                                        
+                                    className={classes.tableCell + " " + classes.tableHeadCell}                                
+                                >
+                                </TableCell>
+                                    
+                            )}
+
+                            {
+                                this.props.tableHead.map((champ, key) => {
+                                        return this.createHead(champ, key)
+                                })
+                            }
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            
+                            {data.map((enreg, key) => {
+                                    return this.createLine(enreg, key)
+                            })}     
+
+                            {
+                                (this.state.isLoading === false)&&(
+                                    <TableRow >
+                                        <TableCell colSpan={(this.props.tableHead).length}>  
+                                                                            
+                                            <div className={classes.cssDivMiddle}>				
+                                                <CircularProgress					
+                                                    variant="determinate"
+                                                    value={this.state.completed}
+                                                />				
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            }                    
+                        </TableBody>
+                    </Table>
+                </div>
             </div>
         )
     }

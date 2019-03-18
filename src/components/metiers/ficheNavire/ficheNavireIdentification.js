@@ -40,11 +40,15 @@ class NavireIdentification extends React.Component{
     render(){
         const { classes, data } = this.props;
 
+        
+
         //selection de la premiere photo
         let navirePhoto = proxy_photo + 'photos/boatDefault.jpg';
+        
         if(data["photos"][0] !== undefined){
             navirePhoto = proxy_photo + data["photos"][0].uri_file;
         }
+        
 
         return (  
             <Card navire>

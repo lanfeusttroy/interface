@@ -9,6 +9,7 @@ import axios from 'axios';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Icon from '@material-ui/core/Icon';
 
 
 //components
@@ -18,6 +19,7 @@ import CardBody from "components/card/cardBody";
 import CardFooter from "components/card/cardFooter";
 import CardIcon from "components/card/cardIcon";
 import CardAvatar from "components/card/cardAvatar";
+import FicheNavire from "components/metiers/ficheNavire/ficheNavire";
 
 import TableFilter from "components/tables/filter/tableFilter";
 
@@ -31,9 +33,17 @@ class ListeNavire extends React.Component {
         
     }
 
+    handleSelectFicheNavire = (fiche)=>{
+       console.log(fiche);
+        const action = { type: "CHANGE_NAVIRE", ficheNavire: fiche };
+		this.props.dispatch(action);
+    }	
+
     render(){
         const {classes, color} = this.props;
         
+        console.log(Object.entries( this.props.ficheNavire).length);
+
         return(
             <Grid container  spacing={16}>
                 <Grid item xs={12}>
@@ -48,6 +58,8 @@ class ListeNavire extends React.Component {
                                 tableHeaderColor="danger"
                                 defaultOrder ={{"row":"imo", "tri":"ASC"}}
                                 color={color}
+                                height={350}
+                                handleSelect ={this.handleSelectFicheNavire}
                                 tableHead = {[
                                     {
                                         row: 'imo',
@@ -86,6 +98,25 @@ class ListeNavire extends React.Component {
                         </CardBody>
                     </Card>
                 </Grid>
+                <Grid container  spacing={16}>
+                    <Grid item xs={6}>
+                        <Card>
+                            <CardHeader  stats icon>
+                                <CardIcon color={color}>
+                                    <Icon>directions_boat</Icon>
+                                </CardIcon>                                                
+                            </CardHeader>
+                            <CardBody>
+                                { Object.entries( this.props.ficheNavire).length > 0  &&(
+                                    <FicheNavire 
+                                        xs={12} 
+                                        data={this.props.ficheNavire}
+                                    />
+                                )}
+                             </CardBody>
+                        </Card> 
+                    </Grid>                    
+                </Grid>
             </Grid>
         )
     }
@@ -97,6 +128,7 @@ const mapStateToProps = (state) => {
     return {
             color: state.storeProfile.color,
             token: state.storeLogin.token,
+            ficheNavire : state.storeNavire.ficheNavire,
     }
 }
 

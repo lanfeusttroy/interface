@@ -96,13 +96,14 @@ router.get('/imo/:value', function(req, res, next) {
 });
 
 router.post('/filter', function(req, res, next) {
-    let limit = 10;
+    let limit = 20;
 
     let params = req.body.params;
     let order = params.order;
     let page = params.page;
     let filters = JSON.parse(params.filters);
     
+    let skip = page * limit;
 
     let search = {};
     
@@ -122,15 +123,14 @@ router.post('/filter', function(req, res, next) {
        
      });
 
-    console.log(search);
-    //search["nom"] = new RegExp('la', 'i');
-    
+        
     const sort = {};
     sort[order.row] = order.tri; 
    
         
     const query = NavireModel.find(search)
                              .limit(limit)
+                             .skip(skip)
                              .sort(sort);
 
     query.exec(function(err, navires){

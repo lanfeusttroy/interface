@@ -132,7 +132,7 @@ class HeadFilter extends React.Component{
                 >
                     <Paper className={classes.paper}>
                         <Grid container spacing={8} alignItems="flex-end">
-                            <Grid item xs={6}>
+                            <Grid item xs={5}>
                                 <TextField   
                                     select                                                     
                                     label="Filtre"                                              
@@ -148,7 +148,7 @@ class HeadFilter extends React.Component{
 								))}
                                 </TextField>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <TextField                                                        
                                     label="Value"                                             
                                     fullWidth
@@ -157,6 +157,17 @@ class HeadFilter extends React.Component{
                                     onChange={this.handleChangeFilterValue}
                                 />
                             </Grid>
+                            <Grid item xs={3}>
+                                <Button                                                                                
+                                       
+                                    color="primary"
+                                    onClick={this.handleClose}
+                                >
+                                    <Icon>search</Icon>
+                                </Button>
+                            </Grid>
+
+                            
                         </Grid> 
                     </Paper>        
                     

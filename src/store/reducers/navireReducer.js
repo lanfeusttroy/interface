@@ -1,5 +1,5 @@
 const initialStateLayer = {
-    ficheNavire:[],
+    ficheNavire:{},
 };
 
 function navire(state = initialStateLayer, action) {

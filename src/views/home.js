@@ -123,7 +123,7 @@ class Home extends React.Component {
 
     handleSelectFicheNavire = (id)=>{
         let fiche = _.find(this.listeNavire,{"_id":id});
-
+        console.log(fiche);
         const action = { type: "CHANGE_NAVIRE", ficheNavire: fiche };
 		this.props.dispatch(action);
     }	
@@ -260,58 +260,7 @@ class Home extends React.Component {
                         
                     </Grid>
                 </Grid>
-                {/*
-                <Grid container spacing={16}>
-                    <Grid item xs={12}>
-                        <Card>
-                            <CardHeader color={color}>
-                                <h4 className={classes.cardTitleWhite}>Table</h4>
-                                <p className={classes.cardCategoryWhite}>Exemple de table json filter</p>
-                            </CardHeader>
-                            <CardBody>
-                                <TableFilter
-                                    tableHeaderColor="danger"
-                                    defaultOrder ={{"champ":"Nom_commune", "tri":"DESC"}}
-                                    color={color}
-                                    tableHead = {[
-                                        {
-                                            row: 'Code_commune_INSEE',
-                                            visible:true,
-                                            filter:true
-                                        }, 
-                                        {
-                                            row: 'Nom_commune',
-                                            visible:true,
-                                            filter:true
-                                        }, 
-                                        {
-                                            row: 'Code_postal',
-                                            visible:true,
-                                            filter:true
-                                        },    
-                                        {
-                                            row: 'Libelle_acheminement',
-                                            visible:true,
-                                            filter:true
-                                        },
-                                        {
-                                            row: 'Ligne_5',
-                                            visible:false,
-                                            filter:false
-                                        },                                        
-                                        {
-                                            row: 'coordonnees_gps',
-                                            visible:false,
-                                            filter:false
-                                        } 
-                                    ]} 
-                                    tableData={communes}                                                                 
-                                />                                
-                            </CardBody>
-                        </Card>
-                    </Grid>
-                </Grid>  
-                 */}       
+                   
             </div>
         )
     }

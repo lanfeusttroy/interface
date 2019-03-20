@@ -38,7 +38,7 @@ app.use(expressJwt({ secret: tokenkey }).unless(
                                               '/navire/first',
                                               '/navire/filter',
                                               '/navire',
-                                              '/positions'
+                                              '/api/positions/'
                                             ]
                                           }
                                       )); 
@@ -51,7 +51,7 @@ const positionsRouter = require('./routes/position.js');
 
 app.use('/navire', naviresRouter);
 app.use('/user', usersRouter);
-app.use('/positions', positionsRouter);
+app.use('/api/positions', positionsRouter);
 
 
 const port = 4000

@@ -4,17 +4,58 @@ var router = express.Router();
 //models
 var PositionModel = require('../models/position.js');
 
+
+// GeoJSON Feature Collection
+function FeatureCollection(){
+    this.type = 'FeatureCollection';
+    this.features = new Array();
+}
+
+
 router.get('/', function(req, res, next) {
     
     const query = PositionModel.find()
-                             .limit(2);
+                             .limit(40000);
                              
 
     query.exec(function(err, positions){
         if (err){
             res.send(err); 
         }
-        res.json(positions);  
+
+        var featureCollection = new FeatureCollection();
+        var i = 0;
+
+        
+        positions.forEach(element => {   
+            let jsonElement = JSON.parse(JSON.stringify(element));
+
+            
+
+            let feature = {};
+            let properties = {};
+
+            feature["type"] = "Feature";
+            feature["geometry"] = jsonElement.location;
+
+            properties ={ 
+                    ident: jsonElement.ident,
+                    pavillon: jsonElement.pavillon,
+                    mmsi: jsonElement.mmsi,
+                    rte: jsonElement.rte,
+                    vit: jsonElement.vit,
+                    date: jsonElement.date
+            };
+
+
+            feature["properties"] = properties;
+               
+
+            featureCollection.features[i] = feature;
+            i++;
+        });
+
+        res.json(featureCollection);  
     });
 	
 });

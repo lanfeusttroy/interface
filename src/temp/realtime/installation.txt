@@ -1,0 +1,99 @@
+echo "Installing OpenCV - 4.0"
+  
+
+mkdir /opt/OpenCV
+cwd=$(pwd)
+
+
+yum -y install epel-release
+yum -y install git gcc gcc-c++ cmake3
+yum -y install qt5-qtbase-devel
+yum install -y python34 python34-devel python34-pip
+yum install -y python python-devel python-pip
+ 
+yum -y install python-devel numpy python34-numpy
+yum -y install gtk2-devel
+ 
+yum install -y libpng-devel
+yum install -y jasper-devel
+yum install -y openexr-devel
+yum install -y libwebp-devel
+yum -y install libjpeg-turbo-devel 
+yum install -y freeglut-devel mesa-libGL mesa-libGL-devel
+yum -y install libtiff-devel 
+yum -y install libdc1394-devel
+yum -y install tbb-devel eigen3-devel
+yum -y install boost boost-thread boost-devel
+yum -y install libv4l-devel
+yum -y install gstreamer-plugins-base-devel
+
+pip3 install virtualenv virtualenvwrapper
+echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
+echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
+echo "source /usr/bin/virtualenvwrapper.sh" >> ~/.bashrc
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/bin/virtualenvwrapper.sh
+
+
+mkvirtualenv OpenCV-py3 -p python3
+workon OpenCV-py3
+pip install cmake 
+pip install "dask[complete]" #probleme scikit-image
+#pip install numpy scipy matplotlib scikit-image scikit-learn ipython dlib
+pip install numpy scipy matplotlib scikit-learn ipython dlib
+# quit virtual environment
+deactivate
+
+mkvirtualenv OpenCV-py2 -p python2
+workon OpenCV-py2
+pip install cmake
+pip install numpy scipy matplotlib scikit-image scikit-learn ipython dlib
+# quit virtual environment
+deactivate
+
+git clone https://github.com/opencv/opencv.git
+cd opencv
+git checkout master
+cd ..
+ 
+git clone https://github.com/opencv/opencv_contrib.git
+cd opencv_contrib
+git checkout master
+cd ..
+
+cmake3 -D CMAKE_BUILD_TYPE=RELEASE \
+            -D CMAKE_INSTALL_PREFIX=/opt/OpenCV \
+            -D INSTALL_C_EXAMPLES=ON \
+            -D INSTALL_PYTHON_EXAMPLES=ON \
+            -D WITH_TBB=ON \
+            -D WITH_V4L=ON \
+            -D OPENCV_SKIP_PYTHON_LOADER=ON \
+            -D OPENCV_GENERATE_PKGCONFIG=ON \
+            -D OPENCV_PYTHON3_INSTALL_PATH=$HOME/.virtualenvs/OpenCV-py3/lib/python3.4/site-packages \
+            -D OPENCV_PYTHON2_INSTALL_PATH=$HOME/.virtualenvs/OpenCV-py2/lib/python2.7/site-packages \
+        -D WITH_QT=ON \
+        -D WITH_OPENGL=ON \
+        -D PYTHON_DEFAULT_EXECUTABLE=/usr/bin/python3 \
+        -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+        -D ENABLE_CXX11=ON \
+        -D BUILD_EXAMPLES=ON ..
+ 
+make -j$(nproc)
+make install
+
+cd /opt/openCV
+
+#use python 3
+workon OpenCV-py3
+
+#use python 2
+workon OpenCV-py2
+
+#test
+ipyhton
+import cv2
+print(cv2.__version__)
+
+
+
+ 

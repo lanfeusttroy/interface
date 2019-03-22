@@ -15,7 +15,7 @@ function FeatureCollection(){
 router.get('/', function(req, res, next) {
     
     const query = PositionModel.find()
-                             .limit(200);
+                             .limit(40000);
                              
 
     query.exec(function(err, positions){

@@ -21,6 +21,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 
+//components
+import OlPopup from 'components/maps/olPopup';
+
 //styles ol
 import styleGeojson  from "components/maps/styles";
 
@@ -39,7 +42,9 @@ class OlMap extends React.Component{
 
         this.state = {           
             SnackbarOpen:false,
-            message:'Chargement de la carte position.',          
+            OlPopupOpen:false,
+            message:'Chargement de la carte position.', 
+            messageOlPopup:''         
         };
 
 
@@ -50,19 +55,7 @@ class OlMap extends React.Component{
 
     componentDidMount() {
       
-      //overlay
-      //popup
-      //var container = document.getElementById('popup');
-      
-      /*
-      const container = this.popup.current;     
-      
-      let overlayPopup = new Overlay({
-          element:container,
-          autoPan: true
-      });
-      */
-     
+         
       
      
       //map
@@ -101,18 +94,7 @@ class OlMap extends React.Component{
 
       this.map.on('singleclick', this.handleMap);
       
-      /*
-      this.map.on('singleclick', function(evt) {
-        let coordinate = evt.coordinate;
-        let hdms = toStringHDMS(toLonLat(coordinate));
-
-        console.log(hdms);
-
-              
-        //overlayPopup.setPosition(coordinate);
-      });
-      */
-      
+           
       this.setState({	
           SnackbarOpen:true,            
       });
@@ -152,12 +134,19 @@ class OlMap extends React.Component{
       const coordinate = evt.coordinate;
       const hdms = toStringHDMS(toLonLat(coordinate));
 
+      this.setState({
+          OlPopupOpen:true,
+          messageOlPopup:hdms
+      });
+
       const container = this.popup.current;     
       
       let overlayPopup = new Overlay({
           element:container,
           autoPan: true
       });
+
+      
 
       this.map.addOverlay(overlayPopup);
       overlayPopup.setPosition(coordinate);
@@ -170,27 +159,40 @@ class OlMap extends React.Component{
       })
   }
 
+  handleCloseOlPopup=()=>{
+    console.log("ok");
+    this.setState({	            
+        OlPopupOpen:false,	           
+    })
+  }
+
   
   
   render(){
       return(    
           <div>
             <Snackbar
-                    anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                    }}
-                    open={this.state.SnackbarOpen}
-                    //autoHideDuration={3000}
-                    onClose={this.handleCloseSnackbar}
-                   
-                    message={<span>{this.state.message}</span>}
+              anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+              }}
+              open={this.state.SnackbarOpen}
+              //autoHideDuration={3000}
+              onClose={this.handleCloseSnackbar}
+              
+              message={<span>{this.state.message}</span>}
                     
-                />
+            />
 
-            <div ref={this.popup}>exemple</div>
+            <OlPopup
+              refPopup={this.popup}
+              open={this.state.OlPopupOpen}              
+              message={<span>{this.state.messageOlPopup}</span>}
+            />
 
-            <div ref={this.ol4} style={{ "width":  "100%"}} />	     
+                        
+
+            <div ref={this.ol4} style={{ "width":  "100%"}} ></div>   
           </div>
                     
       )

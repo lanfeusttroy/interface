@@ -137,6 +137,7 @@ class Boat extends React.Component {
     renderLoadedView(){
         const {color} = this.props;
         return(
+        <div>
             <Grid container  spacing={16}>
                 <Grid item xs={7}>
                     <Card>
@@ -153,39 +154,41 @@ class Boat extends React.Component {
                             </CardBody>
                     </Card> 
                 </Grid>
-                <Grid item xs={5}>
-                    <Grid container  spacing={16}>
-                        <Grid item xs={12}>
-                            <Card>
-                                <CardHeader  stats icon>
-                                    <CardIcon color={color}>
-                                        <Icon>photo</Icon>
-                                    </CardIcon>                                                
-                                </CardHeader>
-                                <CardBody>
-                                    <Slide 
-                                        data={this.props.ficheNavire["photos"]}
-                                    />
-                                </CardBody>
-                            </Card> 
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Card>
-                                <CardHeader  stats icon>
-                                    <CardIcon color={color}>
-                                        <Icon>place</Icon>
-                                    </CardIcon>                                                
-                                </CardHeader>
-                                <CardBody>
-                                    <OlMap />
-                                </CardBody>
-                            </Card> 
-                           
-                        </Grid>
-                    </Grid>
-                </Grid>
+                <Grid item xs={5}>   
+                        
+                    <Card>
+                        <CardHeader  stats icon>
+                            <CardIcon color={color}>
+                                <Icon>photo</Icon>
+                            </CardIcon>                                                
+                        </CardHeader>
+                        <CardBody>
+                            <Slide 
+                                data={this.props.ficheNavire["photos"]}
+                            />
+                        </CardBody>
+                    </Card>                                        
+                    
+                </Grid>                        
             </Grid>
-
+            <Grid container  spacing={16}>
+                <Grid item xs={6}>
+                    <Card>
+                        <CardHeader  stats icon>
+                            <CardIcon color={color}>
+                                <Icon>place</Icon>
+                            </CardIcon>                                                
+                        </CardHeader>
+                        <CardBody>
+                            <OlMap />
+                        </CardBody>
+                    </Card> 
+                   
+                </Grid>
+                
+            </Grid>
+             
+        </div>
                
             
         )

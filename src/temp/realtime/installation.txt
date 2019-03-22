@@ -61,12 +61,24 @@ cd opencv_contrib
 git checkout master
 cd ..
 
+#ffmpeg
+rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+yum install ffmpeg ffmpeg-devel
+
+# A verifier
+yum install libavcodec-dev libavformat-dev libavdevice-dev
+yum install libv4l-dev
+
 cmake3 -D CMAKE_BUILD_TYPE=RELEASE \
             -D CMAKE_INSTALL_PREFIX=/opt/OpenCV \
             -D INSTALL_C_EXAMPLES=ON \
             -D INSTALL_PYTHON_EXAMPLES=ON \
             -D WITH_TBB=ON \
             -D WITH_V4L=ON \
+	    -D WITH_LIBV4L=ON
+	    -D WITH_FFMPEG=ON \
+	    -D WITH_GSTREAMER=ON \
             -D OPENCV_SKIP_PYTHON_LOADER=ON \
             -D OPENCV_GENERATE_PKGCONFIG=ON \
             -D OPENCV_PYTHON3_INSTALL_PATH=$HOME/.virtualenvs/OpenCV-py3/lib/python3.4/site-packages \
@@ -90,7 +102,7 @@ workon OpenCV-py3
 workon OpenCV-py2
 
 #test
-ipyhton
+ipython
 import cv2
 print(cv2.__version__)
 

@@ -186,6 +186,10 @@ const orangeCardHeader = {
     ...primaryBoxShadow
 };
 
+const blueBackground ={
+    background: "linear-gradient(60deg, #00004d, #0066cc)",
+}
+
 export {
     //variables
     drawerWidth,
@@ -222,5 +226,6 @@ export {
     blueCardHeader,
     purpleCardHeader,
     greenCardHeader,
-    orangeCardHeader
+    orangeCardHeader,
+    blueBackground
 };

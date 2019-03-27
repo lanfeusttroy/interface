@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -12,12 +13,25 @@ class Map extends React.Component {
     }
 
     render(){
+        const {color} = this.props;
+
+        console.log(color);
         return(
             <div>
-                <OlMap />
+                <OlMap 
+                    color={color}
+                />
             </div>
         )
     }
 };
 
-export default Map;
+
+
+const mapStateToProps = (state) => {
+    return {
+            color: state.storeProfile.color
+            
+    }
+}
+export default connect(mapStateToProps)(Map);

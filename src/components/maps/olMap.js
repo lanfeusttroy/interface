@@ -51,12 +51,11 @@ class OlMap extends React.Component{
         this.ol4 = React.createRef();
         this.popup = React.createRef();
         this.map = null;
+
+        this.overlayPopup=null;
     }
 
-    componentDidMount() {
-      
-         
-      
+    componentDidMount() {   
      
       //map
       this.map = new Map({
@@ -72,6 +71,17 @@ class OlMap extends React.Component{
           
 
       });
+
+      //popup
+      const container = this.popup.current;     
+      
+      this.overlayPopup = new Overlay({
+          element:container,
+          stopEvent:true,
+          autoPan: true
+      });     
+
+      this.map.addOverlay(this.overlayPopup);
 
         
       //layers  
@@ -134,41 +144,35 @@ class OlMap extends React.Component{
       const coordinate = evt.coordinate;
       const hdms = toStringHDMS(toLonLat(coordinate));
 
+          
       this.setState({
           OlPopupOpen:true,
           messageOlPopup:hdms
       });
 
-      const container = this.popup.current;     
       
-      let overlayPopup = new Overlay({
-          element:container,
-          autoPan: true
-      });
-
-      
-
-      this.map.addOverlay(overlayPopup);
-      overlayPopup.setPosition(coordinate);
-
+     this.overlayPopup.setPosition(coordinate);
   }
 
-  handleCloseSnackbar=()=>{
+  handleCloseSnackbar=()=>{      
       this.setState({	            
           SnackbarOpen:false,	           
       })
   }
 
-  handleCloseOlPopup=()=>{
-    console.log("ok");
-    this.setState({	            
+  handleCloseOlPopup=(ev)=>{   
+    
+     this.setState({	            
         OlPopupOpen:false,	           
-    })
+    })   
+    
   }
 
   
   
   render(){
+      const {color} = this.props;
+
       return(    
           <div>
             <Snackbar
@@ -185,8 +189,10 @@ class OlMap extends React.Component{
             />
 
             <OlPopup
+              color={color}
               refPopup={this.popup}
-              open={this.state.OlPopupOpen}              
+              open={this.state.OlPopupOpen}   
+              close={this.handleCloseOlPopup}           
               message={<span>{this.state.messageOlPopup}</span>}
             />
 

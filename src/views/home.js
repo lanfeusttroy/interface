@@ -157,7 +157,7 @@ class Home extends React.Component {
 
     renderLoadedView(){
         const {classes, color} = this.props;
-        console.log('ok');
+        
         return(
             <div>
                

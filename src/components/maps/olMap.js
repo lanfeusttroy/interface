@@ -44,7 +44,7 @@ class OlMap extends React.Component{
             SnackbarOpen:false,
             OlPopupOpen:false,
             message:'Chargement de la carte position.', 
-            messageOlPopup:''         
+            messageOlPopup:null         
         };
 
 
@@ -140,18 +140,37 @@ class OlMap extends React.Component{
 
   }
 
+  /* Gestion de l'envent click sur la map 
+  *  Popup
+  */
+
   handleMap=(evt)=>{
+
       const coordinate = evt.coordinate;
-      const hdms = toStringHDMS(toLonLat(coordinate));
+
+      let feature = this.map.forEachFeatureAtPixel(evt.pixel,
+                              function(feature, layer) {
+                                return feature;
+                              }
+                      );	
+
+      if (feature) {
+          const objProperties = feature.getProperties();
+
+          this.setState({
+              OlPopupOpen:true,
+              messageOlPopup:objProperties
+          });
+
+        
+          this.overlayPopup.setPosition(coordinate);
+      }
+
+
+      //const hdms = toStringHDMS(toLonLat(coordinate));
 
           
-      this.setState({
-          OlPopupOpen:true,
-          messageOlPopup:hdms
-      });
-
-      
-     this.overlayPopup.setPosition(coordinate);
+     
   }
 
   handleCloseSnackbar=()=>{      
@@ -193,7 +212,7 @@ class OlMap extends React.Component{
               refPopup={this.popup}
               open={this.state.OlPopupOpen}   
               close={this.handleCloseOlPopup}           
-              message={<span>{this.state.messageOlPopup}</span>}
+              messageOlPopup={this.state.messageOlPopup}
             />
 
                         

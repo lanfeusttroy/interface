@@ -190,6 +190,18 @@ const blueBackground ={
     background: "linear-gradient(60deg, #00004d, #0066cc)",
 }
 
+const purpleBackground ={
+    background: "linear-gradient(60deg, #9c27b0, #c34cd7)",
+}
+
+const greenBackground ={
+    background: "linear-gradient(60deg, #3c8c40 , #4caf50)",
+}
+
+const orangeBackground ={
+    background: "linear-gradient(60deg, #E58800, #ff9800)",
+}
+
 export {
     //variables
     drawerWidth,
@@ -227,5 +239,8 @@ export {
     purpleCardHeader,
     greenCardHeader,
     orangeCardHeader,
-    blueBackground
+    blueBackground,
+    purpleBackground,
+    greenBackground,
+    orangeBackground
 };

@@ -39,9 +39,11 @@ router.get('/', function(req, res, next) {
             feature["geometry"] = jsonElement.location;
 
             properties ={ 
+                    type: "marker",
                     ident: jsonElement.ident,
                     pavillon: jsonElement.pavillon,
                     mmsi: jsonElement.mmsi,
+                    type_otan: jsonElement.type_otan,
                     rte: jsonElement.rte,
                     vit: jsonElement.vit,
                     date: jsonElement.date

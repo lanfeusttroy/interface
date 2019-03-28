@@ -15,7 +15,6 @@ class Map extends React.Component {
     render(){
         const {color} = this.props;
 
-        console.log(color);
         return(
             <div>
                 <OlMap 

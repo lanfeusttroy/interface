@@ -32,18 +32,31 @@ const olPopupStyle = theme => ({
         lineHeight: "1.42857143",        
         verticalAlign: "middle"
     },
-    popup:{
-        position: "absolute",
-        minWidth:"250px",
-        border:"1px solid #CCC",
-        bottom:"12px",
-        left:"-50px",
-        borderRadius: "15px",        
-        opacity: ".9",       
-        
-        ...defaultBoxShadow
+    cardCategoryWhite: {
+        color: "rgba(255,255,255,.62)",
+        margin: "0",
+        fontSize: "14px",
+        marginTop: "0",
+        marginBottom: "0"
     },
-    
+    cardTitleWhite: {
+        color: "#FFFFFF",
+        marginTop: "0px",
+        minHeight: "auto",
+        fontWeight: "300",
+        fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+        marginBottom: "3px",
+        textDecoration: "none"
+    },
+    iconButton:{
+        float:"right",
+        padding:"0px",
+        color:"#000"      
+    },
+    iconPavillon:{
+        width:"30px",
+        height:"auto"
+    },    
     blueBackground:{
         color:"#fff",
         ...blueBackground,

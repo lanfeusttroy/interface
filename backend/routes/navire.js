@@ -84,10 +84,25 @@ router.get('/test', function(req, res, next) {
 	
 });
 
+router.get('/bdd/:value', function(req, res, next) {	
+    let id_bdd = req.params.value;
+
+    
+   
+    NavireModel.findOne({"id_bdd":id_bdd}, function(err, navire){
+        if (err)
+                res.send(err);
+            res.json(navire);
+    });
+	
+});
+
 router.get('/imo/:value', function(req, res, next) {	
     let imo = req.params.value;
 
-    NavireModel.find({"imo":imo}, function(err, navire){
+    imo = '5337862';
+
+    NavireModel.findOne({"imo":imo}, function(err, navire){
         if (err)
                 res.send(err);
             res.json(navire);

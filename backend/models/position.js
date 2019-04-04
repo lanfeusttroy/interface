@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var positionSchema = mongoose.Schema({
     ident: String, 
+    id_bdd: String,
     nom: String, 
     pavillon: String, 
     type_otan: String,

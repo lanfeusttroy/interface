@@ -3,6 +3,7 @@ var router = express.Router();
 
 //models
 var PositionModel = require('../models/position.js');
+var NavireModel = require('../models/navire.js');
 
 
 // GeoJSON Feature Collection
@@ -15,7 +16,7 @@ function FeatureCollection(){
 router.get('/', function(req, res, next) {
     
     const query = PositionModel.find()
-                             .limit(200);
+                             .limit(50);
                              
 
     query.exec(function(err, positions){
@@ -28,8 +29,11 @@ router.get('/', function(req, res, next) {
 
         
         positions.forEach(element => {   
+           
+
             let jsonElement = JSON.parse(JSON.stringify(element));
 
+            let navire = NavireModel.findOne( { "imo": jsonElement.ident } );
             
 
             let feature = {};
@@ -40,13 +44,17 @@ router.get('/', function(req, res, next) {
 
             properties ={ 
                     type: "marker",
+                    id_bdd: jsonElement.id_bdd,
                     ident: jsonElement.ident,
+                    nom: jsonElement.nom,
                     pavillon: jsonElement.pavillon,
                     mmsi: jsonElement.mmsi,
                     type_otan: jsonElement.type_otan,
                     rte: jsonElement.rte,
                     vit: jsonElement.vit,
-                    date: jsonElement.date
+                    lon: jsonElement.lon,
+                    lat: jsonElement.lat,
+                    date: jsonElement.date,                    
             };
 
 

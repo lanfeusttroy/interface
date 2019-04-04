@@ -22,13 +22,19 @@ import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 
 //components
-import OlPopup from 'components/maps/olPopup';
+
+//popup
+import Maker from "components/maps/popups/maker";
+
+//import OlPopup from 'components/maps/popups/olPopup';
 
 //styles ol
 import styleGeojson  from "components/maps/styles";
-
 import 'ol/ol.css';
  
+//styles
+import olMapStyle from "assets/components/olMapStyle";
+import 'assets/css/olPopup.css';
 
 const layers =[
     {'layer':'ne1', 'name': 'ne1', 'url':'https://ahocevar.com/geoserver/wms', 'param':{'LAYERS':'ne:NE1_HR_LC_SR_W_DR', 'TILED':true}},
@@ -41,15 +47,14 @@ class OlMap extends React.Component{
         super(props);
 
         this.state = {           
-            SnackbarOpen:false,
-            OlPopupOpen:false,
+            SnackbarOpen:false,            
             message:'Chargement de la carte position.', 
-            messageOlPopup:null         
+            olPopupObj:null         
         };
 
 
-        this.ol4 = React.createRef();
-        this.popup = React.createRef();
+        this.refOl4 = React.createRef();
+        this.refPopup = React.createRef();
         this.map = null;
 
         this.overlayPopup=null;
@@ -61,28 +66,23 @@ class OlMap extends React.Component{
       this.map = new Map({
           controls: defaultControls().extend([
           ]),			
-          target: this.ol4.current,
+          target: this.refOl4.current,
           view: new View({
             projection: 'EPSG:4326',
             center: [0, 0],
             zoom: 3,
             minZoom:2
           }),
-          
-
       });
 
-      //popup
-      const container = this.popup.current;     
-      
+      //overlay popup 
       this.overlayPopup = new Overlay({
-          element:container,
+          element:this.refPopup.current,
           stopEvent:true,
           autoPan: true
-      });     
-
+      }); 
       this.map.addOverlay(this.overlayPopup);
-
+      
         
       //layers  
       let newLayer = new TileLayer({
@@ -112,8 +112,6 @@ class OlMap extends React.Component{
       axios.get('/api/positions/').then(response => {
         if (response.data) {
 
-
-         
           let vectorSource = new VectorSource({
             features: (new GeoJSON()).readFeatures(response.data)
           });
@@ -148,6 +146,11 @@ class OlMap extends React.Component{
 
       const coordinate = evt.coordinate;
 
+      this.overlayPopup.setPosition(undefined);
+      this.setState({	            
+          olPopupObj:null,	           
+      })   
+
       let feature = this.map.forEachFeatureAtPixel(evt.pixel,
                               function(feature, layer) {
                                 return feature;
@@ -159,17 +162,14 @@ class OlMap extends React.Component{
 
           this.setState({
               OlPopupOpen:true,
-              messageOlPopup:objProperties
+              olPopupObj:objProperties
           });
 
         
           this.overlayPopup.setPosition(coordinate);
       }
 
-
-      //const hdms = toStringHDMS(toLonLat(coordinate));
-
-          
+      //const hdms = toStringHDMS(toLonLat(coordinate));         
      
   }
 
@@ -179,49 +179,80 @@ class OlMap extends React.Component{
       })
   }
 
-  handleCloseOlPopup=(ev)=>{   
+  /*permet de contourner la gestion des events pour la classe overlay de openlayer*/  
+  convertToClick = e => {        
+      const evt = new MouseEvent('click', { bubbles: true });
+      evt.stopPropagation = () => {};
+      e.target.dispatchEvent(evt);
+  }
+  
+
+  handleCloseOlPopup=(ev)=>{  
     
-     this.setState({	            
-        OlPopupOpen:false,	           
+    this.overlayPopup.setPosition(undefined);
+    this.setState({	            
+        olPopupObj:null,	           
     })   
     
   }
 
+  createPopup(){
+    const{olPopupObj} = this.state;
+    if(olPopupObj !== null){
+      switch(olPopupObj.type){
+          case "marker":
+              return (
+                  <Maker                    
+                      olPopup = {olPopupObj}
+                      onClose ={this.handleCloseOlPopup}
+                      picture={true}
+                      small={false}
+                  />
+              )
+          
+          default:
+              return (
+                <div></div>
+              )
+          
+      }
+    }
+  }
   
   
-  render(){
-      const {color} = this.props;
+  render(){      
+      const {classes} = this.props;
+      const{olPopupOpen} = this.state;
+
+      
 
       return(    
           <div>
             <Snackbar
               anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
+                vertical: 'top',
+                horizontal: 'center',
               }}
               open={this.state.SnackbarOpen}
               //autoHideDuration={3000}
               onClose={this.handleCloseSnackbar}
-              
-              message={<span>{this.state.message}</span>}
-                    
+              message={<span>{this.state.message}</span>}                    
             />
 
-            <OlPopup
-              color={color}
-              refPopup={this.popup}
-              open={this.state.OlPopupOpen}   
-              close={this.handleCloseOlPopup}           
-              messageOlPopup={this.state.messageOlPopup}
-            />
-
+            
                         
+            {/*Container map */}
+            <div ref={this.refOl4} style={{ "width":  "100%"}} ></div>   
 
-            <div ref={this.ol4} style={{ "width":  "100%"}} ></div>   
+            {/*Container popup */}
+            <div ref={this.refPopup} className={'ol-popup ' + classes.popup + ' ' } onMouseUp={this.convertToClick} >
+                {this.createPopup()}
+            </div>
+
           </div>
                     
       )
   }
 }
 
-export default OlMap;
+export default withStyles(olMapStyle)(OlMap);

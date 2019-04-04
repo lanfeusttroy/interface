@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 
 var navireSchema = mongoose.Schema({
     imo: String, 
-    nom: String, 
+    id_bdd: String,
+    nom: String,     
     pavillon: String, 
     type_otan: String,
     sequence: String, 

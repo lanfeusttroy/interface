@@ -30,6 +30,7 @@ mongoose
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+/*
 app.use(expressJwt({ secret: tokenkey }).unless(
                                           { 
                                             path: [ 
@@ -38,11 +39,12 @@ app.use(expressJwt({ secret: tokenkey }).unless(
                                               '/navire/first',
                                               '/navire/filter',
                                               '/navire',
+                                              '/navire/imo/*',
                                               '/api/positions/'
                                             ]
                                           }
                                       )); 
-
+*/
 
 //routes
 const naviresRouter = require('./routes/navire.js');

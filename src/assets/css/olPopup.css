@@ -1,9 +1,9 @@
 .ol-popup {
     position: absolute;
-    background-color: white;
+    /*background-color: #123456;*/
     -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
     filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-    padding: 15px;
+    /*padding: 15px;*/
     bottom: 12px;
     left: -50px;
     min-width: 280px;

@@ -26,7 +26,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 //popup
 import Maker from "components/maps/popups/maker";
 
-//import OlPopup from 'components/maps/popups/olPopup';
 
 //styles ol
 import styleGeojson  from "components/maps/styles";
@@ -53,11 +52,16 @@ class OlMap extends React.Component{
         };
 
 
+        //Creation des references
         this.refOl4 = React.createRef();
-        this.refPopup = React.createRef();
+        this.refPopup = React.createRef();        
+        this.refOlMenuContextuel = React.createRef();
+
+
         this.map = null;
 
-        this.overlayPopup=null;
+        this.overlayPopup = null;
+        this.overlayMenuContextuel = null;
     }
 
     componentDidMount() {   
@@ -82,6 +86,15 @@ class OlMap extends React.Component{
           autoPan: true
       }); 
       this.map.addOverlay(this.overlayPopup);
+
+      //overlay menu contextuel
+
+      this.overlayMenuContextuel = new Overlay({
+          element:this.refOlMenuContextuel.current,
+          stopEvent:true,
+          autoPan: true
+      }); 
+      this.map.addOverlay(this.overlayMenuContextuel);
       
         
       //layers  
@@ -143,8 +156,10 @@ class OlMap extends React.Component{
   */
 
   handleMap=(evt)=>{
-
       const coordinate = evt.coordinate;
+
+     
+      
 
       this.overlayPopup.setPosition(undefined);
       this.setState({	            
@@ -194,6 +209,10 @@ class OlMap extends React.Component{
         olPopupObj:null,	           
     })   
     
+  }
+
+  createMenuContextuel(){
+    console.log('ok');
   }
 
   createPopup(){
@@ -247,6 +266,11 @@ class OlMap extends React.Component{
             {/*Container popup */}
             <div ref={this.refPopup} className={'ol-popup ' + classes.popup + ' ' } onMouseUp={this.convertToClick} >
                 {this.createPopup()}
+            </div>
+
+             {/*Container menucontextuel */}
+            <div ref={this.refOlMenuContextuel} className={'ol-popup ' + classes.popup + ' ' } onMouseUp={this.convertToClick} >
+              {this.createMenuContextuel()}
             </div>
 
           </div>

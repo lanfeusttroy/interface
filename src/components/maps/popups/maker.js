@@ -1,5 +1,6 @@
 import React from "react";
-import classNames from "classnames";
+import { connect } from 'react-redux';
+
 
 import axios from 'axios';
 
@@ -113,7 +114,11 @@ class Maker extends React.Component{
         this.timer = setInterval(this.progress, 20);
 
         axios.get('/navire/bdd/' + id_bdd ).then(response => {
-            if (response.data) {                                    
+            if (response.data) {  
+                
+                
+                const action = { type: "CHANGE_NAVIRE", ficheNavire: response.data };
+		        this.props.dispatch(action);
                                 
                 this.setState({						
                     isLoading: true,
@@ -358,4 +363,10 @@ class Maker extends React.Component{
     }
 }
 
-export default withStyles(styles)(Maker);
+
+const mapStateToProps = (state) => {
+    return {
+            ficheNavire : state.storeNavire.ficheNavire
+    }
+}
+export default connect(mapStateToProps)(withStyles(styles)(Maker));

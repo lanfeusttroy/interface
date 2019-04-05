@@ -7,6 +7,8 @@ import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import GeoJSON from 'ol/format/GeoJSON.js';
 
+import ContextMenu from 'ol-contextmenu';
+
 import {defaults as defaultControls, ScaleLine} from 'ol/control.js';
 import TileLayer from 'ol/layer/Tile.js';
 import {Vector as VectorLayer} from 'ol/layer.js';
@@ -21,6 +23,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 
+
+
 //components
 
 //popup
@@ -30,10 +34,12 @@ import Maker from "components/maps/popups/maker";
 //styles ol
 import styleGeojson  from "components/maps/styles";
 import 'ol/ol.css';
+
  
 //styles
 import olMapStyle from "assets/components/olMapStyle";
 import 'assets/css/olPopup.css';
+import 'assets/css/olContextmenu.css';
 
 const layers =[
     {'layer':'ne1', 'name': 'ne1', 'url':'https://ahocevar.com/geoserver/wms', 'param':{'LAYERS':'ne:NE1_HR_LC_SR_W_DR', 'TILED':true}},
@@ -87,15 +93,15 @@ class OlMap extends React.Component{
       }); 
       this.map.addOverlay(this.overlayPopup);
 
+      /*
       //overlay menu contextuel
-
       this.overlayMenuContextuel = new Overlay({
           element:this.refOlMenuContextuel.current,
           stopEvent:true,
           autoPan: true
       }); 
       this.map.addOverlay(this.overlayMenuContextuel);
-      
+      */
         
       //layers  
       let newLayer = new TileLayer({
@@ -116,6 +122,20 @@ class OlMap extends React.Component{
       this.map.addControl(scaleline);	
 
       this.map.on('singleclick', this.handleMap);
+
+     
+      
+      let contextmenu = new ContextMenu({
+        width: 170,
+        defaultItems: false, // defaultItems are (for now) Zoom In/Zoom Out
+        items: []
+      });
+
+      this.map.addControl(contextmenu);
+
+      contextmenu.on('open', function(evt){
+        console.log("o");
+      });
       
            
       this.setState({	
@@ -268,11 +288,11 @@ class OlMap extends React.Component{
                 {this.createPopup()}
             </div>
 
-             {/*Container menucontextuel */}
+             {/*Container menucontextuel 
             <div ref={this.refOlMenuContextuel} className={'ol-popup ' + classes.popup + ' ' } onMouseUp={this.convertToClick} >
               {this.createMenuContextuel()}
             </div>
-
+             */}
           </div>
                     
       )

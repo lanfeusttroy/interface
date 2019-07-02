@@ -6,6 +6,7 @@ import Profile from "views/profile";
 import Chart from "views/chart";
 import Map from "views/map";
 import Boat from "views/boat";
+import BoatDetail from "views/boatDetail";
 import Notification from "views/notification";
 
 import ListeNavire from "views/listeNavire";
@@ -37,6 +38,13 @@ export default {
         component: Boat,
         path: '/boat',
         sidebarName: "Navires",        
+        icon: "directions_boat",
+        header:true,        
+    },
+    BoatDetail:{
+        component: BoatDetail,
+        path: '/boatDetail',
+        sidebarName: "Navires details",        
         icon: "directions_boat",
         header:true,        
     },

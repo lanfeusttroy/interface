@@ -38,7 +38,7 @@ class NavireHistorique extends React.Component{
 
 
     render(){
-        const { classes, data } = this.props;
+        const { classes, data, boolPhoto = true, boolPavillon = true, title='' } = this.props;
 
         const  historiques = data["historiques"];
 
@@ -50,9 +50,20 @@ class NavireHistorique extends React.Component{
 
         return (
             <Card navire>
-                <CardAvatar navire>                            
-                    <img src={navirePhoto} alt="..." />                            
-                </CardAvatar>
+                 {
+                    title !==''  && (
+                        <CardHeader>
+                            {title}
+                        </CardHeader>
+                    )
+                }
+                {
+                    boolPhoto === true && (
+                        <CardAvatar navire>                            
+                            <img src={navirePhoto} alt="..." />                            
+                        </CardAvatar>
+                    )
+                }
                 <CardBody>
                     <Grid container  spacing={16}>
                         <Grid item xs={12} >

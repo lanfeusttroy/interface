@@ -3,30 +3,83 @@
     /*background-color: #123456;*/
     -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
     filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-    /*padding: 15px;*/
-    bottom: 12px;
-    left: -50px;
-    min-width: 280px;
+    /*padding: 15px;*/   
   }
-  .ol-popup:after, .ol-popup:before {
-    top: 100%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-  .ol-popup:after {
-    border-top-color: white;
-    border-width: 10px;
-    left: 48px;
-    margin-left: -10px;
-  }
-  .ol-popup:before {
-    border-top-color: #cccccc;
-    border-width: 11px;
-    left: 48px;
-    margin-left: -11px;
-  }
+
+.ol-popup.hasclosebox .content {
+  margin-right: 0em;
+}
+
   
+/* popup White */
+.ol-popup.white .closeBox 
+{	background-color: rgba(0,0,0, 0.5);
+  border-radius: 5px;
+  color: #fff;
+  float:none;
+  margin-left:auto;
+  margin-right:5px;
+}
+
+.ol-popup.white .closeBox:hover
+{	background-color: rgba(0,0,0, 0.7);
+  color:#da2;
+}
+
+.ol-popup.white 
+{	
+  background-color: rgba(250, 246, 246, 0.6);
+  border-radius: 5px;
+  margin: 20px 0;
+  color: #000;
+}
+.ol-popup-left.white
+{	margin:20px 10px 20px -22px;
+}
+.ol-popup-right.white
+{	margin:20px -22px 20px 10px;
+}
+.ol-popup-middle.white 
+{	margin:0 11px;
+}
+
+.ol-popup.white .anchor {
+  margin: -20px 11px;
+} 
+.ol-popup.white .anchor:before 
+{	content:"";
+  border-color: rgba(0,0,0,0.6) transparent;
+  border-style: solid;
+  border-width: 20px 11px;
+}
+
+.ol-popup-top.white .anchor:before
+{	border-top:0;
+  top:0;
+}
+
+.ol-popup-bottom.white .anchor:before
+{	border-bottom:0;
+  bottom:0;
+}
+
+.ol-popup-middle.white .anchor:before
+{	margin: -20px -22px;
+  border-color: transparent rgba(0,0,0,0.6);
+}
+.ol-popup-middle.ol-popup-left.white .anchor:before
+{	border-left:0;
+}
+.ol-popup-middle.ol-popup-right.white .anchor:before {
+  border-right:0;
+}
+
+.ol-popup-center.white .anchor:before {
+  margin: 0 -10px;
+}
+
+
+.iconPavillon{
+  width:30px;
+  height:auto;
+}

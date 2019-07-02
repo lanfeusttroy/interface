@@ -56,7 +56,7 @@ const styles = {
 
 class NavireCaracteristique extends React.Component{
     render(){
-        const { classes, data } = this.props;
+        const { classes, data, boolPhoto = true, boolPavillon = true, title=''} = this.props;
 
        
         //selection de la premiere photo
@@ -69,15 +69,30 @@ class NavireCaracteristique extends React.Component{
 
         return (     
             <Card navire >
-                <CardAvatar navire>                            
-                    <img src={navirePhoto} alt="..." />                            
-                </CardAvatar>
+                {
+                    title !==''  && (
+                        <CardHeader>
+                            {title}
+                        </CardHeader>
+                    )
+                }
+                {
+                    boolPhoto === true && (
+                        <CardAvatar navire>                            
+                            <img src={navirePhoto} alt="..." />                            
+                        </CardAvatar>
+                    )
+                }
                 <CardBody> 
-                    <Grid container  spacing={16}>
-                        <Grid item xs={6} >
-                            <img src={pavillon} className={classes.iconPavillon} alt="..." /> 
-                        </Grid>
-                    </Grid>
+                    {
+                        boolPavillon === true && (
+                            <Grid container  spacing={16}>
+                                <Grid item xs={6} >
+                                    <img src={pavillon} className={classes.iconPavillon} alt="..." /> 
+                                </Grid>
+                            </Grid>
+                        )
+                    }
                     <Grid container  spacing={16}>
                         <Grid item xs={6} >
                             <Paper className={classes.paper}>

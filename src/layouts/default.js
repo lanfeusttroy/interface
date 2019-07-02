@@ -52,7 +52,8 @@ class DefaultLayout extends Component {
                     <div className={classes.content}>
                         <div className={classes.container}>
                             <Component 
-                                route={route}                                                                
+                                route={route}  
+                                                                                       
                             />
                         </div>
                     </div>

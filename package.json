@@ -5,9 +5,11 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "@types/react-dom": "^16.8.4",
     "axios": "^0.18.0",
     "ol": "^5.3.1",
     "ol-contextmenu": "^3.3.1",
+    "ol-ext": "^3.1.2",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-full-screen": "^0.2.3",
@@ -16,7 +18,9 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "recharts": "^1.5.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "save": "^2.3.3",
+    "typescript": "^3.4.4"
   },
   "scripts": {
     "start": "react-scripts start",

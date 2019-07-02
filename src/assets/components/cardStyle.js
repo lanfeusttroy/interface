@@ -24,7 +24,7 @@ const cardStyle = {
       textAlign: "center"
     },
     cardNavire: {
-      marginTop: "30px",
+      marginTop: "50px",
       //textAlign: "center"
     },
     cardChart: {

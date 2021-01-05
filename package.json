@@ -6,7 +6,7 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "@types/react-dom": "^16.8.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "ol": "^5.3.1",
     "ol-contextmenu": "^3.3.1",
     "ol-ext": "^3.1.2",
